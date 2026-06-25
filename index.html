@@ -96,6 +96,33 @@
     .stat b { display: block; font-size: 1.25rem; color: var(--accent); }
     .stat span { font-size: .75rem; color: var(--muted); display: block; line-height: 1.35; }
     .stat .stat-rank { font-size: .68rem; color: var(--muted); margin-bottom: .15rem; }
+    .stat-area-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .35rem;
+      margin-top: .1rem;
+    }
+    .loc-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: inherit;
+      border-bottom: 1px dashed rgba(13, 92, 99, .35);
+    }
+    .loc-link:hover { color: #094248; border-bottom-color: var(--accent); }
+    .map-btn {
+      flex-shrink: 0;
+      border: none;
+      background: rgba(13, 92, 99, .1);
+      color: var(--accent);
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      line-height: 1.3;
+    }
+    .map-btn:hover { background: var(--accent); color: #fff; }
     .curriculum-box {
       border: 1px solid var(--border);
       border-radius: 6px;
@@ -270,7 +297,7 @@
 
   <div class="wrap">
     <div class="stats-block">
-      <p class="stats-label">学校数量前五区域（随筛选实时更新，点击可筛选）</p>
+      <p class="stats-label">学校数量前五区域（点击框筛选 · 点击区域名或「地图」打开 Google 地图）</p>
       <div class="stats" id="topAreas"></div>
     </div>
     <div class="stats-block">
@@ -640,6 +667,31 @@
         : '未选择 = 全部体系';
     }
 
+    function escapeAttr(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;');
+    }
+
+    function areaMapUrl(locationName) {
+      const q = encodeURIComponent(
+        locationName ? `${locationName}, Dubai, UAE` : 'Dubai, UAE'
+      );
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    }
+
+    function openAreaInMaps(locationName) {
+      window.open(areaMapUrl(locationName), '_blank', 'noopener,noreferrer');
+    }
+
+    function locationLinkHtml(name) {
+      if (!name) return '—';
+      const url = areaMapUrl(name);
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="loc-link" title="在 Google 地图中查看 ${escapeAttr(name)}">${escapeAttr(name)}</a>`;
+    }
+
     function renderTopAreas(sourceList) {
       const areaCounts = {};
       sourceList.forEach((s) => {
@@ -656,10 +708,14 @@
       }
       el.innerHTML = topAreas.map(([name, count], i) => {
         const active = activeLoc === name ? ' active' : '';
-        return `<div class="stat stat-area${active}" data-location="${name}" title="点击筛选该区域">
+        const mapUrl = areaMapUrl(name);
+        return `<div class="stat stat-area${active}" data-location="${escapeAttr(name)}" title="点击筛选该区域">
           <span class="stat-rank">第 ${i + 1} 名</span>
           <b>${count}</b>
-          <span>${name}</span>
+          <div class="stat-area-name">
+            <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="loc-link" title="Google 地图：${escapeAttr(name)}" onclick="event.stopPropagation()">${escapeAttr(name)}</a>
+            <button type="button" class="map-btn" data-map-location="${escapeAttr(name)}" title="Google 地图">地图</button>
+          </div>
         </div>`;
       }).join('');
       el.querySelectorAll('.stat-area').forEach((box) => {
@@ -667,6 +723,12 @@
           const loc = document.getElementById('location');
           loc.value = loc.value === box.dataset.location ? '' : box.dataset.location;
           renderTable();
+        };
+      });
+      el.querySelectorAll('.map-btn').forEach((btn) => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          openAreaInMaps(btn.dataset.mapLocation);
         };
       });
     }
@@ -872,7 +934,7 @@
         return `<tr>
           <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="加入对比">${star}</button></td>
           <td><div class="school-name">${s.name}${s.nameAr ? `<small>${s.nameAr}</small>` : ''}</div></td>
-          <td>${s.location}</td>
+          <td>${locationLinkHtml(s.location)}</td>
           <td>${curriculumDisplayHtml(s.curriculum)}</td>
           <td>${gradesCellHtml(s.grades)}</td>
           <td><span class="rating ${ratingClass(s.rating)}">${ratingLabel(s.rating)}</span></td>
