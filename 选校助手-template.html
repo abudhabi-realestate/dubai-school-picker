@@ -282,9 +282,51 @@
     .faq-links a:hover { text-decoration: underline; }
     .faq-empty { padding: 1rem 0; color: var(--muted); font-size: .84rem; text-align: center; }
     .curriculum-zh { line-height: 1.4; }
+    .site-brand-bar {
+      background: #0a0a0a;
+      color: #e8d5a3;
+      padding: .55rem 1.25rem;
+      border-bottom: 1px solid rgba(232, 213, 163, .12);
+    }
+    .site-brand-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .site-logo {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+    .site-brand-meta {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-left: auto;
+      font-size: .84rem;
+    }
+    .site-team { font-weight: 600; letter-spacing: .02em; }
+    .site-phone {
+      color: #e8d5a3;
+      text-decoration: none;
+      font-variant-numeric: tabular-nums;
+    }
+    .site-phone:hover { color: #fff; text-decoration: underline; }
   </style>
 </head>
 <body>
+  <div class="site-brand-bar">
+    <div class="site-brand-inner">
+      <img src="Logo.png" alt="Logo" class="site-logo" />
+      <div class="site-brand-meta">
+        <span class="site-team">昝颜团队</span>
+        <a href="tel:+971565473192" class="site-phone">0565473192</a>
+      </div>
+    </div>
+  </div>
   <header>
     <h1>迪拜私立学校选校助手</h1>
     <p>
