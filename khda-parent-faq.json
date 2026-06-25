@@ -1,0 +1,109 @@
+{
+  "source": "KHDA Common Questions for Parents",
+  "sourceUrl": "https://web.khda.gov.ae/en/Guides/Parents/Common-Question-For-Parents/Common-Questions-for-Parents",
+  "lastUpdated": "2021-12-20",
+  "items": [
+    {
+      "id": "academic-year",
+      "qZh": "学年什么时候开始？",
+      "aZh": "印度、巴基斯坦、日本课程体系的学校：学年为 4 月至次年 3 月。其余课程体系：一般为 9 月开学，至次年 6 月或 7 月结束。"
+    },
+    {
+      "id": "certificates-language",
+      "qZh": "入学时，证明文件可以用什么语言提交？",
+      "aZh": "就读迪拜私立学校且高于一年级的入学，需提供孩子此前就读证明。所有证书（含境外证书）须为阿拉伯语或英语；若为其他语言，须由合法翻译员翻译并完成认证。"
+    },
+    {
+      "id": "12-to-13-curriculum",
+      "qZh": "从 12 年制转到 13 年制，孩子应读几年级？",
+      "aZh": "通常取决于转校时孩子的年龄及此前就读情况，应由接收学校给出具体年级建议。"
+    },
+    {
+      "id": "quranic-school",
+      "qZh": "古兰经学校就读能否等同于正规学校年级？",
+      "aZh": "不能。古兰经中心不被视为同等学历，其证书不能作为完成某一年级的证明。"
+    },
+    {
+      "id": "fees-regulation",
+      "qZh": "迪拜教育局是否监管学费？学校最多可预收多少？",
+      "aZh": "迪拜教育局（KHDA）依据年度教育成本指数及学校检查评级监管学费。关于定金与退款的细则见官方《学费框架》文件。",
+      "links": [
+        {
+          "label": "学费框架（PDF）",
+          "url": "https://web.khda.gov.ae/getattachment/Resources/Forms/FeeFramework-English.pdf.aspx?lang=en-GB"
+        },
+        {
+          "label": "学费说明与家长答疑",
+          "url": "https://web.khda.gov.ae/en/Guides/Parents/Schools-Fees-Fact-Sheet-FAQs"
+        }
+      ]
+    },
+    {
+      "id": "expulsion-fees",
+      "qZh": "学校能否因欠费等原因在学年中开除或停学？",
+      "aZh": "迪拜教育局协助学校与家长解决争议，不支持在学年中中断孩子学习。未经迪拜教育局授权，学校不得停学或开除学生。"
+    },
+    {
+      "id": "bullying",
+      "qZh": "孩子在学校被欺凌，该怎么办？",
+      "aZh": "迪拜教育局鼓励各校制定儿童保护政策。请先向学校反映；若无法解决，请联系迪拜教育局。",
+      "links": [
+        {
+          "label": "联系迪拜教育局",
+          "url": "https://web.khda.gov.ae/en/Contact-Us"
+        }
+      ]
+    },
+    {
+      "id": "transfer",
+      "qZh": "需要给孩子转校，要办什么手续？",
+      "aZh": "在迪拜市内转校：需转学证明。离开迪拜：可能需要离校证明，以证明在迪拜就读年限。两种情况下，均由现就读学校出具并由迪拜教育局核验。"
+    },
+    {
+      "id": "absence",
+      "qZh": "允许多少缺课？哪些属于合理缺勤？",
+      "aZh": "迪拜教育局要求学校上报学生出勤。具体缺勤政策请向就读学校查询。"
+    },
+    {
+      "id": "corporal-punishment",
+      "qZh": "学校可以使用体罚吗？",
+      "aZh": "不可以。阿联酋法律禁止任何形式的体罚。"
+    },
+    {
+      "id": "good-conduct",
+      "qZh": "什么是良好品行证明？",
+      "aZh": "阿联酋部分高校会要求提供该证明，由学校开具后提交迪拜教育局认证。"
+    },
+    {
+      "id": "student-continuity",
+      "qZh": "什么是在读连续性证明？",
+      "aZh": "部分阿联酋机构需证明孩子持续在读。由学校出具在读连续性证明，并经迪拜教育局认证；具体请联系学校行政。"
+    },
+    {
+      "id": "lost-certificate",
+      "qZh": "学年证书丢失了怎么办？",
+      "aZh": "可向迪拜教育局申请认证补办：填写申请表并联系官方。",
+      "links": [
+        {
+          "label": "补办申请表",
+          "url": "http://www.khda.gov.ae/CMS/WebParts/TextEditor/Documents/Replacement%20of%20Educational%20Certificate.docx"
+        },
+        {
+          "label": "联系迪拜教育局",
+          "url": "https://web.khda.gov.ae/en/Contact-Us"
+        }
+      ]
+    },
+    {
+      "id": "high-school-equivalency",
+      "qZh": "如何申请高中同等学历认证？",
+      "aZh": "具体要求以阿联酋教育部规定为准，详见迪拜教育局提供的说明文件。",
+      "links": [
+        {
+          "label": "高中同等学历要求说明（PDF）",
+          "url": "http://www.khda.gov.ae/CMS/WebParts/TextEditor/Documents/High_School_Equivalency_Requirement.pdf"
+        }
+      ]
+    }
+  ]
+}

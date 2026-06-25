@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>迪拜私立学校选校助手 · KHDA 官方数据</title>
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #fff;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --border: #e2e0db;
+      --accent: #0d5c63;
+      --accent-soft: #e8f3f4;
+      --outstanding: #1b5e20;
+      --very-good: #2e7d32;
+      --good: #558b2f;
+      --acceptable: #f9a825;
+      --weak: #e65100;
+      --none: #9e9e9e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 1.25rem 1.5rem 1rem;
+    }
+    header h1 { margin: 0 0 .35rem; font-size: 1.35rem; font-weight: 600; }
+    header p { margin: 0; font-size: .85rem; opacity: .9; max-width: 52rem; }
+    header a { color: #b8e6ea; }
+    .header-link-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      color: #b8e6ea;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .header-link-btn:hover { color: #fff; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 1rem 1.25rem 2.5rem; }
+    .layout { display: grid; grid-template-columns: 300px 1fr; gap: 1rem; align-items: start; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .panel h2 { margin: 0 0 .75rem; font-size: .95rem; font-weight: 600; }
+    label { display: block; font-size: .78rem; color: var(--muted); margin: .65rem 0 .25rem; }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: .45rem .55rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .85rem;
+      background: #fff;
+    }
+    input[type="range"] { width: 100%; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .stats {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+      margin-bottom: 1rem;
+    }
+    .stats-block { margin-bottom: 1rem; }
+    .stats-label {
+      font-size: .78rem;
+      color: var(--muted);
+      margin: 0 0 .5rem;
+      font-weight: 600;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .65rem .9rem;
+      min-width: 110px;
+    }
+    .stat.stat-area {
+      min-width: 130px;
+      max-width: 200px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .stat.stat-area:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .stat.stat-area.active { border-color: var(--accent); background: var(--accent-soft); }
+    .stat b { display: block; font-size: 1.25rem; color: var(--accent); }
+    .stat span { font-size: .75rem; color: var(--muted); display: block; line-height: 1.35; }
+    .stat .stat-rank { font-size: .68rem; color: var(--muted); margin-bottom: .15rem; }
+    .curriculum-box {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      max-height: 160px;
+      overflow-y: auto;
+      padding: .35rem .5rem;
+    }
+    .curriculum-box label {
+      display: flex;
+      align-items: flex-start;
+      gap: .4rem;
+      margin: .25rem 0;
+      font-size: .8rem;
+      color: var(--text);
+      cursor: pointer;
+      line-height: 1.35;
+    }
+    .curriculum-box input { margin-top: .2rem; flex-shrink: 0; }
+    .curriculum-actions { display: flex; gap: .35rem; margin-top: .35rem; }
+    .curriculum-actions button { padding: .2rem .45rem; font-size: .72rem; }
+    .curriculum-hint { font-size: .7rem; color: var(--muted); margin-top: .25rem; }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+      margin-bottom: .75rem;
+    }
+    .toolbar select { width: auto; min-width: 140px; }
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 6px;
+      padding: .4rem .75rem;
+      font-size: .82rem;
+    }
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .compare-bar {
+      background: var(--accent-soft);
+      border: 1px solid #c5dfe1;
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .compare-bar.visible { display: block; }
+    .compare-bar h3 { margin: 0 0 .5rem; font-size: .9rem; }
+    .compare-items { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .5rem; }
+    .chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .2rem .55rem .2rem .75rem;
+      font-size: .78rem;
+      display: inline-flex; align-items: center; gap: .35rem;
+    }
+    .chip button { border: none; background: none; padding: 0 .2rem; font-size: 1rem; line-height: 1; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: .82rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    th, td { padding: .55rem .6rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: #faf9f7; font-weight: 600; position: sticky; top: 0; z-index: 1; }
+    tr:hover td { background: #faf9f7; }
+    .rating {
+      display: inline-block;
+      padding: .12rem .45rem;
+      border-radius: 4px;
+      font-size: .72rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .rating-Outstanding { background: #e8f5e9; color: var(--outstanding); }
+    .rating-Very-good { background: #f1f8e9; color: var(--very-good); }
+    .rating-Good { background: #f9fbe7; color: var(--good); }
+    .rating-Acceptable { background: #fff8e1; color: #f57f17; }
+    .rating-Weak, .rating-Very-weak { background: #fbe9e7; color: var(--weak); }
+    .rating-none { background: #f5f5f5; color: var(--none); }
+    .school-name { font-weight: 600; }
+    .school-name small { display: block; font-weight: 400; color: var(--muted); font-size: .72rem; }
+    .fee { font-variant-numeric: tabular-nums; }
+    .grades-zh { line-height: 1.45; }
+    .grades-zh small { display: block; color: var(--muted); font-size: .68rem; margin-top: .1rem; }
+    .empty { text-align: center; padding: 2rem; color: var(--muted); }
+    .source-note { font-size: .72rem; color: var(--muted); margin-top: 1rem; }
+    #compareTable { margin-top: .75rem; overflow-x: auto; }
+    .star { color: var(--accent); }
+    .star.off { color: #ccc; }
+    .faq-section {
+      margin-top: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.15rem 1.15rem;
+      scroll-margin-top: 1rem;
+    }
+    .faq-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: .5rem;
+      margin-bottom: .75rem;
+    }
+    .faq-header h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+    .faq-meta { font-size: .72rem; color: var(--muted); margin: 0; }
+    .faq-meta a { color: var(--accent); }
+    .faq-toolbar { display: flex; gap: .5rem; margin-bottom: .65rem; flex-wrap: wrap; }
+    .faq-search {
+      flex: 1;
+      min-width: 180px;
+      padding: .45rem .55rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .85rem;
+    }
+    .faq-list { border-top: 1px solid var(--border); }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: none;
+      padding: .75rem 1.75rem .75rem 0;
+      font-size: .88rem;
+      font-weight: 600;
+      line-height: 1.45;
+      position: relative;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .faq-q::after {
+      content: '+';
+      position: absolute;
+      right: .15rem;
+      top: .75rem;
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a {
+      display: none;
+      padding: 0 0 .85rem;
+      font-size: .84rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-links { margin-top: .5rem; display: flex; flex-wrap: wrap; gap: .45rem; }
+    .faq-links a {
+      font-size: .76rem;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid #c5dfe1;
+      background: var(--accent-soft);
+      padding: .2rem .5rem;
+      border-radius: 4px;
+    }
+    .faq-links a:hover { text-decoration: underline; }
+    .faq-empty { padding: 1rem 0; color: var(--muted); font-size: .84rem; text-align: center; }
+    .curriculum-zh { line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>迪拜私立学校选校助手</h1>
+    <p>
+      数据来源：<a href="https://web.khda.gov.ae/en/Education-Directory/schools" target="_blank" rel="noopener">KHDA 教育目录</a>
+      · <button type="button" class="header-link-btn" id="btnScrollFaq">家长常见问题</button>
+      · 开放数据（<span id="metaYear"></span>）· 共 <span id="metaTotal"></span> 所运营中私立学校
+      · 更新于 <span id="metaDate"></span>
+    </p>
+  </header>
+
+  <div class="wrap">
+    <div class="stats-block">
+      <p class="stats-label">学校数量前五区域（随筛选实时更新，点击可筛选）</p>
+      <div class="stats" id="topAreas"></div>
+    </div>
+    <div class="stats-block">
+      <p class="stats-label">当前筛选结果 · 评级分布</p>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="compare-bar" id="compareBar">
+      <h3>对比清单（最多 4 所，与 KHDA 官网一致）</h3>
+      <div class="compare-items" id="compareItems"></div>
+      <button type="button" class="primary" id="btnShowCompare">查看对比表</button>
+      <button type="button" id="btnClearCompare">清空</button>
+      <div id="compareTable"></div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel" id="filters">
+        <h2>筛选条件</h2>
+        <label for="q">学校名称</label>
+        <input type="text" id="q" placeholder="英文或阿拉伯文校名…" />
+
+        <label for="childGrade">孩子目标年级</label>
+        <select id="childGrade">
+          <option value="">不限</option>
+          <option value="Pre primary">幼儿园小班（约3-4岁）</option>
+          <option value="KG 1">幼儿园中班（约4-5岁）</option>
+          <option value="KG 2">学前班（约5-6岁）</option>
+          <option value="GRADE 1">一年级（约6-7岁）</option>
+          <option value="GRADE 2">二年级（约7-8岁）</option>
+          <option value="GRADE 3">三年级（约8-9岁）</option>
+          <option value="GRADE 4">四年级（约9-10岁）</option>
+          <option value="GRADE 5">五年级（约10-11岁）</option>
+          <option value="GRADE 6">六年级（约11-12岁）</option>
+          <option value="GRADE 7">七年级 / 初一（约12-13岁）</option>
+          <option value="GRADE 8">八年级 / 初二（约13-14岁）</option>
+          <option value="GRADE 9">九年级 / 初三（约14-15岁）</option>
+          <option value="GRADE 10">十年级 / 高一（约15-16岁）</option>
+          <option value="GRADE 11">十一年级 / 高二（约16-17岁）</option>
+          <option value="GRADE 12">十二年级 / 高三（约17-18岁）</option>
+          <option value="GRADE 13">十三年级（约17-18岁，A-Level 等）</option>
+        </select>
+
+        <label>课程体系（可多选）</label>
+        <div class="curriculum-box" id="curriculumBox"></div>
+        <div class="curriculum-actions">
+          <button type="button" id="curriculumSelectAll">全选</button>
+          <button type="button" id="curriculumClearAll">清空</button>
+        </div>
+        <p class="curriculum-hint" id="curriculumHint">未选择 = 全部体系</p>
+
+        <label for="location">区域</label>
+        <select id="location"><option value="">全部</option></select>
+
+        <label for="rating">最新 DSIB 评级</label>
+        <select id="rating">
+          <option value="">全部</option>
+          <option value="Outstanding">Outstanding 卓越</option>
+          <option value="Very good">Very good 很好</option>
+          <option value="Good">Good 良好</option>
+          <option value="Acceptable">Acceptable 可接受</option>
+          <option value="__none__">暂无评级（新校等）</option>
+        </select>
+
+        <label>学费预算上限（AED/年，按该校任一年级最高值估算）</label>
+        <input type="range" id="feeMax" min="0" max="150000" step="1000" value="150000" />
+        <div class="row2">
+          <input type="number" id="feeMaxNum" min="0" max="200000" step="1000" value="150000" />
+          <span style="font-size:.78rem;color:var(--muted);align-self:center">AED</span>
+        </div>
+
+        <label for="minStudents">最少在校生（2024/25）</label>
+        <input type="number" id="minStudents" min="0" step="50" placeholder="不限" />
+
+        <button type="button" id="btnReset" style="margin-top:1rem;width:100%">重置筛选</button>
+      </aside>
+
+      <main>
+        <div class="toolbar">
+          <label style="margin:0">排序</label>
+          <select id="sort">
+            <option value="rating-desc">评级（高→低）</option>
+            <option value="students-desc">在校生数量（多→少）</option>
+            <option value="students-asc">在校生数量（少→多）</option>
+            <option value="fee-asc">学费（低→高）</option>
+            <option value="fee-desc">学费（高→低）</option>
+            <option value="name-asc">校名 A→Z</option>
+          </select>
+          <span id="resultCount" style="font-size:.82rem;color:var(--muted)"></span>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>学校</th>
+                <th>区域</th>
+                <th>课程体系</th>
+                <th>年级范围</th>
+                <th>DSIB 评级</th>
+                <th>学费区间 AED</th>
+                <th>在校生</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <p class="source-note" id="sourceNote"></p>
+      </main>
+    </div>
+
+    <section class="faq-section" id="faqSection">
+      <div class="faq-header">
+        <h2>家长常见问题</h2>
+        <p class="faq-meta">
+          来源：迪拜教育局（KHDA）
+          · <a id="faqSourceLink" href="#" target="_blank" rel="noopener">官网原文</a>
+          · 更新 <span id="faqUpdated"></span>
+        </p>
+      </div>
+      <div class="faq-toolbar">
+        <input type="search" class="faq-search" id="faqSearch" placeholder="搜索：学费、转校、欺凌…" />
+        <button type="button" id="faqExpandAll">全部展开</button>
+        <button type="button" id="faqCollapseAll">全部收起</button>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </section>
+  </div>
+
+  <script>
+    const DATA = __SCHOOL_DATA__;
+    const FAQ = __FAQ_DATA__;
+    const { meta, filters, schools } = DATA;
+
+    const RATING_ORDER = {
+      'Outstanding': 5,
+      'Very good': 4,
+      'Good': 3,
+      'Acceptable': 2,
+      'Weak': 1,
+      'Very weak': 0,
+    };
+
+    const CURRICULUM_ZH = {
+      'American': '美国课程',
+      'American - International Baccalaureate': '美国课程 + 国际文凭（IB）',
+      'Australian': '澳大利亚课程',
+      'Chinese': '中国课程',
+      'French': '法国课程',
+      'German': '德国课程',
+      'Indian': '印度课程',
+      'Indian - UK': '印度课程 + 英国课程',
+      'Indian/IB': '印度课程 + 国际文凭（IB）',
+      'International Baccalaureate': '国际文凭（IB）',
+      'International Baccalaureate (13Y)': '国际文凭（IB，13年制）',
+      'Iranian': '伊朗课程',
+      'Iranian - International Baccalaureate': '伊朗课程 + 国际文凭（IB）',
+      'Japanese': '日本课程',
+      'Ministry of Education': '阿联酋教育部课程',
+      'Ministry of Education - American': '阿联酋教育部 + 美国课程',
+      'Ministry of Education/BTEC': '阿联酋教育部 + BTEC',
+      'Pakistani': '巴基斯坦课程',
+      'Philippine': '菲律宾课程',
+      'Russian': '俄罗斯课程',
+      'SABIS (UK/US)': 'SABIS 课程（英/美）',
+      'UK': '英国课程',
+      'UK (12 Y - Grades)': '英国课程（12年制）',
+      'UK - International Baccalaureate': '英国课程 + 国际文凭（IB）',
+      'UK - UK/IB': '英国课程 + 国际文凭（IB）',
+      'UK/IB': '英国课程 + 国际文凭（IB）',
+      'US/IB': '美国课程 + 国际文凭（IB）',
+    };
+
+    const UK_IB_CURRICULA = [
+      'UK - International Baccalaureate',
+      'UK - UK/IB',
+      'UK/IB',
+    ];
+    const UK_IB_FILTER_KEY = '__UK_IB__';
+
+    function isUkIbCurriculum(name) {
+      return UK_IB_CURRICULA.includes(name);
+    }
+
+    function getCurriculumFilterOptions() {
+      const options = filters.curricula.filter((c) => !isUkIbCurriculum(c));
+      if (filters.curricula.some(isUkIbCurriculum)) options.push(UK_IB_FILTER_KEY);
+      return options.sort((a, b) =>
+        curriculumFilterLabel(a).localeCompare(curriculumFilterLabel(b), 'zh')
+      );
+    }
+
+    function curriculumFilterLabel(key) {
+      if (key === UK_IB_FILTER_KEY) return '英国课程 + 国际文凭（IB）';
+      return translateCurriculum(key);
+    }
+
+    function expandCurriculumFilter(selected) {
+      return selected.flatMap((v) => (v === UK_IB_FILTER_KEY ? UK_IB_CURRICULA : [v]));
+    }
+
+    function translateCurriculum(name) {
+      if (!name) return '—';
+      return CURRICULUM_ZH[name] || name;
+    }
+
+    function curriculumDisplayHtml(name) {
+      const zh = translateCurriculum(name);
+      if (!name || zh === '—') return '—';
+      return `<div class="curriculum-zh">${zh}</div>`;
+    }
+
+    const GRADE_ALIASES = {
+      'Pre primary': ['pre primary', 'pre-primary', 'fs1', 'preprimary'],
+      'KG 1': ['kg1', 'kg 1', 'fs2'],
+      'KG 2': ['kg2', 'kg 2', 'year 1'],
+      'GRADE 1': ['grade 1', 'year 2', 'g1'],
+      'GRADE 2': ['grade 2', 'year 3', 'g2'],
+      'GRADE 3': ['grade 3', 'year 4', 'g3'],
+      'GRADE 4': ['grade 4', 'year 5', 'g4'],
+      'GRADE 5': ['grade 5', 'year 6', 'g5'],
+      'GRADE 6': ['grade 6', 'year 7', 'g6'],
+      'GRADE 7': ['grade 7', 'year 8', 'g7'],
+      'GRADE 8': ['grade 8', 'year 9', 'g8'],
+      'GRADE 9': ['grade 9', 'year 10', 'g9'],
+      'GRADE 10': ['grade 10', 'year 11', 'g10'],
+      'GRADE 11': ['grade 11', 'year 12', 'g11'],
+      'GRADE 12': ['grade 12', 'year 13', 'g12'],
+      'GRADE 13': ['grade 13', 'y13'],
+    };
+
+    const CN_GRADE = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三'];
+
+    function cnGrade(n) {
+      if (n >= 1 && n <= 13) return CN_GRADE[n] + '年级';
+      return n + '年级';
+    }
+
+    function translateGradeToken(raw) {
+      const t = String(raw || '').trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!t) return '';
+      if (/^ecc/.test(t)) return '幼儿阶段（2-3岁）';
+      if (/pre\s*primary|preprimary|pre\s*kg|pre-kg/.test(t)) return '学前（约3-4岁）';
+      if (/^fs\s*1|^fs1/.test(t)) return '幼儿园小班（约3-4岁）';
+      if (/^fs\s*2|^fs2/.test(t)) return '幼儿园中班（约4-5岁）';
+      if (/^kg\s*1|^kg1/.test(t)) return '幼儿园大班（约4-5岁）';
+      if (/^kg\s*2|^kg2/.test(t)) return '学前班（约5-6岁）';
+      const ym = t.match(/^(?:year|y)\s*(\d+)$/);
+      if (ym) {
+        const n = Number(ym[1]);
+        if (n === 13) return '十三年级（约17-18岁）';
+        if (n <= 6) return '小学' + cnGrade(n) + '（约' + (n + 4) + '-' + (n + 5) + '岁）';
+        return cnGrade(n) + '（约' + (n + 4) + '-' + (n + 5) + '岁）';
+      }
+      const gm = t.match(/^g\s*(\d+)$/);
+      if (gm) {
+        const n = Number(gm[1]);
+        return cnGrade(n) + '（约' + (n + 5) + '-' + (n + 6) + '岁）';
+      }
+      const grm = t.match(/^grade\s*(\d+)$/);
+      if (grm) {
+        const n = Number(grm[1]);
+        if (n === 13) return '十三年级（约17-18岁）';
+        return cnGrade(n) + '（约' + (n + 5) + '-' + (n + 6) + '岁）';
+      }
+      return raw.trim();
+    }
+
+    function translateGrades(gradesStr) {
+      const raw = String(gradesStr || '').trim();
+      if (!raw) return { zh: '—', raw: '' };
+      const parts = raw.split(/\s*[-–—]\s*/);
+      if (parts.length >= 2) {
+        const from = translateGradeToken(parts[0]);
+        const to = translateGradeToken(parts[parts.length - 1]);
+        return { zh: from + ' 至 ' + to, raw };
+      }
+      return { zh: translateGradeToken(raw), raw };
+    }
+
+    function gradesCellHtml(gradesStr) {
+      const g = translateGrades(gradesStr);
+      if (g.zh === '—') return '—';
+      if (g.raw && g.zh !== g.raw) {
+        return `<div class="grades-zh">${g.zh}<small>${g.raw}</small></div>`;
+      }
+      return `<div class="grades-zh">${g.zh}</div>`;
+    }
+
+    function parseGradeRange(gradesStr) {
+      const g = String(gradesStr || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      if (!g) return { min: 0, max: 99 };
+      const tokens = [];
+      const parts = g.split('-');
+      const mapToken = (t) => {
+        t = t.trim();
+        if (/pre\s*primary|fs\s*1/.test(t)) return 0;
+        if (/kg\s*1|fs\s*2/.test(t)) return 1;
+        if (/kg\s*2|year\s*1(?!\d)/.test(t)) return 2;
+        const ym = t.match(/year\s*(\d+)/);
+        if (ym) return Number(ym[1]) + 1;
+        const gm = t.match(/g\s*(\d+)/);
+        if (gm) return Number(gm[1]) + 2;
+        const grm = t.match(/grade\s*(\d+)/);
+        if (grm) return Number(grm[1]) + 2;
+        if (/y\s*13/.test(t)) return 15;
+        return null;
+      };
+      if (parts.length >= 2) {
+        const a = mapToken(parts[0]);
+        const b = mapToken(parts[parts.length - 1]);
+        if (a != null && b != null) return { min: Math.min(a, b), max: Math.max(a, b) };
+      }
+      return { min: 0, max: 99 };
+    }
+
+    function targetGradeIndex(gradeKey) {
+      const keys = Object.keys(GRADE_ALIASES);
+      return keys.indexOf(gradeKey);
+    }
+
+    function schoolCoversGrade(school, gradeKey) {
+      if (!gradeKey) return true;
+      const idx = targetGradeIndex(gradeKey);
+      if (idx < 0) return true;
+      const range = parseGradeRange(school.grades);
+      return idx >= range.min && idx <= range.max;
+    }
+
+    function formatFee(n) {
+      if (n == null) return '—';
+      return n.toLocaleString('en-AE');
+    }
+
+    function formatFeeRange(s) {
+      if (s.feeMin == null && s.feeMax == null) return '—';
+      if (s.feeMin === s.feeMax) return formatFee(s.feeMin);
+      return `${formatFee(s.feeMin)} – ${formatFee(s.feeMax)}`;
+    }
+
+    function ratingClass(r) {
+      if (!r) return 'rating-none';
+      return 'rating-' + r.replace(/\s+/g, '-');
+    }
+
+    function ratingLabel(r) {
+      if (!r) return '暂无';
+      const map = {
+        'Outstanding': 'Outstanding 卓越',
+        'Very good': 'Very good 很好',
+        'Good': 'Good 良好',
+        'Acceptable': 'Acceptable 可接受',
+      };
+      return map[r] || r;
+    }
+
+    let compareIds = [];
+
+    function getSelectedCurricula() {
+      return [...document.querySelectorAll('#curriculumBox input:checked')].map((el) => el.value);
+    }
+
+    function updateCurriculumHint() {
+      const sel = getSelectedCurricula();
+      const el = document.getElementById('curriculumHint');
+      el.textContent = sel.length
+        ? `已选 ${sel.length} 种体系`
+        : '未选择 = 全部体系';
+    }
+
+    function renderTopAreas(sourceList) {
+      const areaCounts = {};
+      sourceList.forEach((s) => {
+        if (s.location) areaCounts[s.location] = (areaCounts[s.location] || 0) + 1;
+      });
+      const topAreas = Object.entries(areaCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+      const activeLoc = document.getElementById('location').value;
+      const el = document.getElementById('topAreas');
+      if (!topAreas.length) {
+        el.innerHTML = '<div class="stat"><b>0</b><span>当前筛选下无学校</span></div>';
+        return;
+      }
+      el.innerHTML = topAreas.map(([name, count], i) => {
+        const active = activeLoc === name ? ' active' : '';
+        return `<div class="stat stat-area${active}" data-location="${name}" title="点击筛选该区域">
+          <span class="stat-rank">第 ${i + 1} 名</span>
+          <b>${count}</b>
+          <span>${name}</span>
+        </div>`;
+      }).join('');
+      el.querySelectorAll('.stat-area').forEach((box) => {
+        box.onclick = () => {
+          const loc = document.getElementById('location');
+          loc.value = loc.value === box.dataset.location ? '' : box.dataset.location;
+          renderTable();
+        };
+      });
+    }
+
+    function initMeta() {
+      document.getElementById('metaYear').textContent = meta.academicYear;
+      document.getElementById('metaTotal').textContent = meta.totalSchools;
+      document.getElementById('metaDate').textContent = meta.extractedAt;
+      document.getElementById('sourceNote').textContent = meta.note + ' 官方目录：' + meta.sourceUrl;
+
+      const box = document.getElementById('curriculumBox');
+      getCurriculumFilterOptions().forEach((c) => {
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.value = c;
+        label.appendChild(input);
+        const text = document.createElement('span');
+        text.innerHTML = `<div class="curriculum-zh">${curriculumFilterLabel(c)}</div>`;
+        label.appendChild(text);
+        box.appendChild(label);
+      });
+      box.addEventListener('change', () => {
+        updateCurriculumHint();
+        renderTable();
+      });
+      document.getElementById('curriculumSelectAll').onclick = () => {
+        box.querySelectorAll('input').forEach((cb) => { cb.checked = true; });
+        updateCurriculumHint();
+        renderTable();
+      };
+      document.getElementById('curriculumClearAll').onclick = () => {
+        box.querySelectorAll('input').forEach((cb) => { cb.checked = false; });
+        updateCurriculumHint();
+        renderTable();
+      };
+
+      const loc = document.getElementById('location');
+      filters.locations.forEach((l) => {
+        const o = document.createElement('option');
+        o.value = l;
+        o.textContent = l;
+        loc.appendChild(o);
+      });
+      loc.addEventListener('change', renderTable);
+
+      updateCurriculumHint();
+
+      const fees = schools.map((s) => s.feeMax).filter(Boolean);
+      const maxFee = Math.ceil(Math.max(...fees, 120000) / 5000) * 5000;
+      const slider = document.getElementById('feeMax');
+      const num = document.getElementById('feeMaxNum');
+      slider.max = maxFee;
+      slider.value = maxFee;
+      num.max = maxFee;
+      num.value = maxFee;
+    }
+
+    function getFilters() {
+      return {
+        q: document.getElementById('q').value.trim().toLowerCase(),
+        childGrade: document.getElementById('childGrade').value,
+        curricula: getSelectedCurricula(),
+        location: document.getElementById('location').value,
+        rating: document.getElementById('rating').value,
+        feeMax: Number(document.getElementById('feeMaxNum').value) || Infinity,
+        minStudents: document.getElementById('minStudents').value
+          ? Number(document.getElementById('minStudents').value)
+          : 0,
+        sort: document.getElementById('sort').value,
+      };
+    }
+
+    function filterSchools(opts) {
+      const skipLocation = opts && opts.skipLocation;
+      const f = getFilters();
+      let list = schools.filter((s) => {
+        if (f.q) {
+          const hay = (s.name + ' ' + s.nameAr + ' ' + s.location + ' ' + translateCurriculum(s.curriculum)).toLowerCase();
+          if (!hay.includes(f.q)) return false;
+        }
+        if (f.curricula.length && !expandCurriculumFilter(f.curricula).includes(s.curriculum)) return false;
+        if (!skipLocation && f.location && s.location !== f.location) return false;
+        if (f.rating === '__none__') {
+          if (s.rating) return false;
+        } else if (f.rating && s.rating !== f.rating) return false;
+        if (!schoolCoversGrade(s, f.childGrade)) return false;
+        if (s.feeMax != null && s.feeMax > f.feeMax) return false;
+        if (f.minStudents && (s.students == null || s.students < f.minStudents)) return false;
+        return true;
+      });
+
+      list.sort((a, b) => {
+        switch (f.sort) {
+          case 'rating-desc':
+            return (RATING_ORDER[b.rating] ?? -1) - (RATING_ORDER[a.rating] ?? -1)
+              || a.name.localeCompare(b.name);
+          case 'fee-asc':
+            return (a.feeMin ?? 1e9) - (b.feeMin ?? 1e9);
+          case 'fee-desc':
+            return (b.feeMax ?? -1) - (a.feeMax ?? -1);
+          case 'students-desc':
+            return (b.students ?? -1) - (a.students ?? -1) || a.name.localeCompare(b.name);
+          case 'students-asc':
+            return (a.students ?? 1e9) - (b.students ?? 1e9) || a.name.localeCompare(b.name);
+          default:
+            return a.name.localeCompare(b.name);
+        }
+      });
+      return list;
+    }
+
+    function renderStats(list) {
+      const byRating = {};
+      list.forEach((s) => {
+        const k = s.rating || '暂无';
+        byRating[k] = (byRating[k] || 0) + 1;
+      });
+      const el = document.getElementById('stats');
+      el.innerHTML = `
+        <div class="stat"><b>${list.length}</b><span>符合筛选</span></div>
+        <div class="stat"><b>${byRating['Outstanding'] || 0}</b><span>Outstanding</span></div>
+        <div class="stat"><b>${byRating['Very good'] || 0}</b><span>Very good</span></div>
+        <div class="stat"><b>${byRating['Good'] || 0}</b><span>Good</span></div>
+        <div class="stat"><b>${byRating['Acceptable'] || 0}</b><span>Acceptable</span></div>
+      `;
+    }
+
+    function websiteHref(url) {
+      if (!url) return '';
+      const u = String(url).trim();
+      if (/^https?:\/\//i.test(u)) return u;
+      return 'https://' + u.replace(/^\/\//, '');
+    }
+
+    function toggleCompare(id) {
+      const idx = compareIds.indexOf(id);
+      if (idx >= 0) {
+        compareIds.splice(idx, 1);
+      } else {
+        if (compareIds.length >= 4) {
+          alert('最多对比 4 所学校（与 KHDA 官网规则一致）');
+          return;
+        }
+        compareIds.push(id);
+      }
+      renderCompareBar();
+      renderTable();
+    }
+
+    function renderCompareBar() {
+      const bar = document.getElementById('compareBar');
+      const items = document.getElementById('compareItems');
+      if (!compareIds.length) {
+        bar.classList.remove('visible');
+        document.getElementById('compareTable').innerHTML = '';
+        return;
+      }
+      bar.classList.add('visible');
+      items.innerHTML = compareIds.map((id) => {
+        const s = schools.find((x) => x.id === id);
+        return `<span class="chip">${s.name}<button type="button" data-rm="${id}" title="移除">×</button></span>`;
+      }).join('');
+      items.querySelectorAll('button[data-rm]').forEach((btn) => {
+        btn.onclick = () => toggleCompare(Number(btn.dataset.rm));
+      });
+    }
+
+    function renderCompareTable() {
+      const selected = compareIds.map((id) => schools.find((s) => s.id === id)).filter(Boolean);
+      if (!selected.length) return;
+      const rows = [
+        ['学校', ...selected.map((s) => s.name)],
+        ['区域', ...selected.map((s) => s.location)],
+        ['课程体系', ...selected.map((s) => translateCurriculum(s.curriculum))],
+        ['年级', ...selected.map((s) => translateGrades(s.grades).zh)],
+        ['DSIB 评级', ...selected.map((s) => ratingLabel(s.rating))],
+        ['学费 AED', ...selected.map((s) => formatFeeRange(s))],
+        ['在校生', ...selected.map((s) => s.students ?? '—')],
+        ['建校', ...selected.map((s) => s.established ?? '—')],
+        ['电话', ...selected.map((s) => s.phone || '—')],
+        ['网站', ...selected.map((s) => s.website ? `<a href="${websiteHref(s.website)}" target="_blank" rel="noopener">${s.website}</a>` : '—')],
+      ];
+      document.getElementById('compareTable').innerHTML = `
+        <table><tbody>
+          ${rows.map((r) => `<tr>${r.map((c, i) => i === 0 ? `<th>${c}</th>` : `<td>${c}</td>`).join('')}</tr>`).join('')}
+        </tbody></table>`;
+    }
+
+    function renderTable() {
+      renderTopAreas(filterSchools({ skipLocation: true }));
+      const list = filterSchools();
+      renderStats(list);
+      document.getElementById('resultCount').textContent = `显示 ${list.length} 所`;
+      const tbody = document.getElementById('tbody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty">没有符合条件的学校，请放宽筛选</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map((s) => {
+        const inCompare = compareIds.includes(s.id);
+        const star = inCompare ? '★' : '☆';
+        return `<tr>
+          <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="加入对比">${star}</button></td>
+          <td><div class="school-name">${s.name}${s.nameAr ? `<small>${s.nameAr}</small>` : ''}</div></td>
+          <td>${s.location}</td>
+          <td>${curriculumDisplayHtml(s.curriculum)}</td>
+          <td>${gradesCellHtml(s.grades)}</td>
+          <td><span class="rating ${ratingClass(s.rating)}">${ratingLabel(s.rating)}</span></td>
+          <td class="fee">${formatFeeRange(s)}</td>
+          <td>${s.students != null ? s.students.toLocaleString() : '—'}</td>
+        </tr>`;
+      }).join('');
+      tbody.querySelectorAll('button[data-cmp]').forEach((btn) => {
+        btn.onclick = () => toggleCompare(Number(btn.dataset.cmp));
+      });
+    }
+
+    function bindEvents() {
+      ['q', 'childGrade', 'location', 'rating', 'sort', 'minStudents'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', renderTable);
+        document.getElementById(id).addEventListener('change', renderTable);
+      });
+      const slider = document.getElementById('feeMax');
+      const num = document.getElementById('feeMaxNum');
+      slider.addEventListener('input', () => { num.value = slider.value; renderTable(); });
+      num.addEventListener('input', () => { slider.value = num.value; renderTable(); });
+      document.getElementById('btnReset').onclick = () => {
+        document.getElementById('filters').querySelectorAll('input[type="text"], input[type="number"], select').forEach((el) => {
+          if (el.id === 'feeMax' || el.id === 'feeMaxNum') return;
+          if (el.type === 'number') el.value = '';
+          else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+          else el.value = '';
+        });
+        document.querySelectorAll('#curriculumBox input').forEach((cb) => { cb.checked = false; });
+        updateCurriculumHint();
+        const max = slider.max;
+        slider.value = max;
+        num.value = max;
+        renderTable();
+      };
+      document.getElementById('btnShowCompare').onclick = renderCompareTable;
+      document.getElementById('btnClearCompare').onclick = () => {
+        compareIds = [];
+        renderCompareBar();
+        renderTable();
+      };
+    }
+
+    function renderFaq(filterText) {
+      const q = (filterText || '').trim().toLowerCase();
+      const list = document.getElementById('faqList');
+      const items = FAQ.items.filter((item) => {
+        if (!q) return true;
+        const hay = (item.qZh + ' ' + item.aZh).toLowerCase();
+        return hay.includes(q);
+      });
+      if (!items.length) {
+        list.innerHTML = '<div class="faq-empty">没有匹配的问题</div>';
+        return;
+      }
+      list.innerHTML = items.map((item) => {
+        const links = (item.links || []).map((l) =>
+          `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
+        ).join('');
+        return `<div class="faq-item" data-id="${item.id}">
+          <button type="button" class="faq-q" aria-expanded="false">${item.qZh}</button>
+          <div class="faq-a">
+            <p>${item.aZh}</p>
+            ${links ? `<div class="faq-links">${links}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+      list.querySelectorAll('.faq-q').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          const open = item.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      });
+    }
+
+    function initFaq() {
+      document.getElementById('faqSourceLink').href = FAQ.sourceUrl;
+      document.getElementById('faqUpdated').textContent = FAQ.lastUpdated;
+      renderFaq('');
+      document.getElementById('btnScrollFaq').addEventListener('click', () => {
+        document.getElementById('faqSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      document.getElementById('faqSearch').addEventListener('input', (e) => renderFaq(e.target.value));
+      document.getElementById('faqExpandAll').onclick = () => {
+        document.querySelectorAll('.faq-item').forEach((el) => {
+          el.classList.add('open');
+          el.querySelector('.faq-q').setAttribute('aria-expanded', 'true');
+        });
+      };
+      document.getElementById('faqCollapseAll').onclick = () => {
+        document.querySelectorAll('.faq-item').forEach((el) => {
+          el.classList.remove('open');
+          el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+        });
+      };
+    }
+
+    try {
+      initMeta();
+      initFaq();
+      bindEvents();
+      renderTable();
+    } catch (err) {
+      console.error(err);
+      document.getElementById('tbody').innerHTML =
+        '<tr><td colspan="8" class="empty">页面加载出错，请刷新或重新生成 HTML 文件</td></tr>';
+    }
+  </script>
+</body>
+</html>
