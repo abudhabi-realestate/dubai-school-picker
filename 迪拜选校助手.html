@@ -315,117 +315,140 @@
       font-variant-numeric: tabular-nums;
     }
     .site-phone:hover { color: #fff; text-decoration: underline; }
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid rgba(232, 213, 163, .5);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-left: .35rem;
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: #e8d5a3;
+      font-size: .74rem;
+      padding: .15rem .55rem;
+      border-radius: 0;
+    }
+    .lang-btn.active {
+      background: #e8d5a3;
+      color: #0a0a0a;
+    }
   </style>
 </head>
-<body>
+<body data-i18n-title="page.title">
   <div class="site-brand-bar">
     <div class="site-brand-inner">
       <img src="Logo.png" alt="Logo" class="site-logo" />
       <div class="site-brand-meta">
-        <span class="site-team">昝颜团队</span>
+        <span class="site-team" data-i18n="brand.team">昝颜团队</span>
         <a href="tel:+971565473192" class="site-phone">0565473192</a>
+        <div class="lang-switch" role="group" aria-label="language">
+          <button type="button" class="lang-btn" data-lang="zh" data-i18n="lang.zh">中文</button>
+          <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+        </div>
       </div>
     </div>
   </div>
   <header>
-    <h1>迪拜私立学校选校助手</h1>
+    <h1 data-i18n="header.title">迪拜私立学校选校助手</h1>
     <p>
-      数据来源：<a href="https://web.khda.gov.ae/en/Education-Directory/schools" target="_blank" rel="noopener">KHDA 教育目录</a>
-      · <button type="button" class="header-link-btn" id="btnScrollFaq">家长常见问题</button>
-      · 开放数据（<span id="metaYear"></span>）· 共 <span id="metaTotal"></span> 所运营中私立学校
-      · 更新于 <span id="metaDate"></span>
+      <span data-i18n="header.sourceLabel">数据来源：</span><a href="https://web.khda.gov.ae/en/Education-Directory/schools" target="_blank" rel="noopener" data-i18n="header.sourceLink">KHDA 教育目录</a>
+      · <button type="button" class="header-link-btn" id="btnScrollFaq" data-i18n="header.faqBtn">家长常见问题</button>
+      · <span data-i18n="header.openData">开放数据</span>（<span id="metaYear"></span>）· <span id="metaTotalText">共 <span id="metaTotal"></span> 所运营中私立学校</span>
+      · <span id="metaDateText">更新于 <span id="metaDate"></span></span>
     </p>
   </header>
 
   <div class="wrap">
     <div class="stats-block">
-      <p class="stats-label">学校数量前五区域（点击框筛选 · 点击区域名或「地图」打开 Google 地图）</p>
+      <p class="stats-label" data-i18n="stats.topAreasLabel">学校数量前五区域（点击框筛选 · 点击区域名或「地图」打开 Google 地图）</p>
       <div class="stats" id="topAreas"></div>
     </div>
     <div class="stats-block">
-      <p class="stats-label">当前筛选结果 · 评级分布</p>
+      <p class="stats-label" data-i18n="stats.ratingDistribution">当前筛选结果 · 评级分布</p>
       <div class="stats" id="stats"></div>
     </div>
 
     <div class="compare-bar" id="compareBar">
-      <h3>对比清单（最多 4 所，与 KHDA 官网一致）</h3>
+      <h3 data-i18n="compare.title">对比清单（最多 4 所，与 KHDA 官网一致）</h3>
       <div class="compare-items" id="compareItems"></div>
-      <button type="button" class="primary" id="btnShowCompare">查看对比表</button>
-      <button type="button" id="btnClearCompare">清空</button>
+      <button type="button" class="primary" id="btnShowCompare" data-i18n="compare.show">查看对比表</button>
+      <button type="button" id="btnClearCompare" data-i18n="compare.clear">清空</button>
       <div id="compareTable"></div>
     </div>
 
     <div class="layout">
       <aside class="panel" id="filters">
-        <h2>筛选条件</h2>
-        <label for="q">学校名称</label>
-        <input type="text" id="q" placeholder="英文或阿拉伯文校名…" />
+        <h2 data-i18n="filters.title">筛选条件</h2>
+        <label for="q" data-i18n="filters.schoolName">学校名称</label>
+        <input type="text" id="q" placeholder="英文或阿拉伯文校名…" data-i18n-placeholder="filters.schoolNamePlaceholder" />
 
-        <label for="childGrade">孩子目标年级</label>
+        <label for="childGrade" data-i18n="filters.childGrade">孩子目标年级</label>
         <select id="childGrade">
-          <option value="">不限</option>
-          <option value="Pre primary">幼儿园小班（约3-4岁）</option>
-          <option value="KG 1">幼儿园中班（约4-5岁）</option>
-          <option value="KG 2">学前班（约5-6岁）</option>
-          <option value="GRADE 1">一年级（约6-7岁）</option>
-          <option value="GRADE 2">二年级（约7-8岁）</option>
-          <option value="GRADE 3">三年级（约8-9岁）</option>
-          <option value="GRADE 4">四年级（约9-10岁）</option>
-          <option value="GRADE 5">五年级（约10-11岁）</option>
-          <option value="GRADE 6">六年级（约11-12岁）</option>
-          <option value="GRADE 7">七年级 / 初一（约12-13岁）</option>
-          <option value="GRADE 8">八年级 / 初二（约13-14岁）</option>
-          <option value="GRADE 9">九年级 / 初三（约14-15岁）</option>
-          <option value="GRADE 10">十年级 / 高一（约15-16岁）</option>
-          <option value="GRADE 11">十一年级 / 高二（约16-17岁）</option>
-          <option value="GRADE 12">十二年级 / 高三（约17-18岁）</option>
-          <option value="GRADE 13">十三年级（约17-18岁，A-Level 等）</option>
+          <option value="" data-i18n="filters.all">不限</option>
+          <option value="Pre primary" data-i18n="filters.grade.pre">幼儿园小班（约3-4岁）</option>
+          <option value="KG 1" data-i18n="filters.grade.kg1">幼儿园中班（约4-5岁）</option>
+          <option value="KG 2" data-i18n="filters.grade.kg2">学前班（约5-6岁）</option>
+          <option value="GRADE 1" data-i18n="filters.grade.g1">一年级（约6-7岁）</option>
+          <option value="GRADE 2" data-i18n="filters.grade.g2">二年级（约7-8岁）</option>
+          <option value="GRADE 3" data-i18n="filters.grade.g3">三年级（约8-9岁）</option>
+          <option value="GRADE 4" data-i18n="filters.grade.g4">四年级（约9-10岁）</option>
+          <option value="GRADE 5" data-i18n="filters.grade.g5">五年级（约10-11岁）</option>
+          <option value="GRADE 6" data-i18n="filters.grade.g6">六年级（约11-12岁）</option>
+          <option value="GRADE 7" data-i18n="filters.grade.g7">七年级 / 初一（约12-13岁）</option>
+          <option value="GRADE 8" data-i18n="filters.grade.g8">八年级 / 初二（约13-14岁）</option>
+          <option value="GRADE 9" data-i18n="filters.grade.g9">九年级 / 初三（约14-15岁）</option>
+          <option value="GRADE 10" data-i18n="filters.grade.g10">十年级 / 高一（约15-16岁）</option>
+          <option value="GRADE 11" data-i18n="filters.grade.g11">十一年级 / 高二（约16-17岁）</option>
+          <option value="GRADE 12" data-i18n="filters.grade.g12">十二年级 / 高三（约17-18岁）</option>
+          <option value="GRADE 13" data-i18n="filters.grade.g13">十三年级（约17-18岁，A-Level 等）</option>
         </select>
 
-        <label>课程体系（可多选）</label>
+        <label data-i18n="filters.curriculum">课程体系（可多选）</label>
         <div class="curriculum-box" id="curriculumBox"></div>
         <div class="curriculum-actions">
-          <button type="button" id="curriculumSelectAll">全选</button>
-          <button type="button" id="curriculumClearAll">清空</button>
+          <button type="button" id="curriculumSelectAll" data-i18n="filters.curriculumSelectAll">全选</button>
+          <button type="button" id="curriculumClearAll" data-i18n="filters.curriculumClearAll">清空</button>
         </div>
-        <p class="curriculum-hint" id="curriculumHint">未选择 = 全部体系</p>
+        <p class="curriculum-hint" id="curriculumHint" data-i18n="filters.curriculumHintAll">未选择 = 全部体系</p>
 
-        <label for="location">区域</label>
-        <select id="location"><option value="">全部</option></select>
+        <label for="location" data-i18n="filters.location">区域</label>
+        <select id="location"><option value="" data-i18n="filters.all">全部</option></select>
 
-        <label for="rating">最新 DSIB 评级</label>
+        <label for="rating" data-i18n="filters.rating">最新 DSIB 评级</label>
         <select id="rating">
-          <option value="">全部</option>
-          <option value="Outstanding">Outstanding 卓越</option>
-          <option value="Very good">Very good 很好</option>
-          <option value="Good">Good 良好</option>
-          <option value="Acceptable">Acceptable 可接受</option>
-          <option value="__none__">暂无评级（新校等）</option>
+          <option value="" data-i18n="filters.all">全部</option>
+          <option value="Outstanding" data-i18n="rating.outstanding">Outstanding 卓越</option>
+          <option value="Very good" data-i18n="rating.veryGood">Very good 很好</option>
+          <option value="Good" data-i18n="rating.good">Good 良好</option>
+          <option value="Acceptable" data-i18n="rating.acceptable">Acceptable 可接受</option>
+          <option value="__none__" data-i18n="rating.noneOption">暂无评级（新校等）</option>
         </select>
 
-        <label>学费预算上限（AED/年，按该校任一年级最高值估算）</label>
+        <label data-i18n="filters.feeMax">学费预算上限（AED/年，按该校任一年级最高值估算）</label>
         <input type="range" id="feeMax" min="0" max="150000" step="1000" value="150000" />
         <div class="row2">
           <input type="number" id="feeMaxNum" min="0" max="200000" step="1000" value="150000" />
-          <span style="font-size:.78rem;color:var(--muted);align-self:center">AED</span>
+          <span style="font-size:.78rem;color:var(--muted);align-self:center" data-i18n="currency.aed">AED</span>
         </div>
 
-        <label for="minStudents">最少在校生（2024/25）</label>
-        <input type="number" id="minStudents" min="0" step="50" placeholder="不限" />
+        <label for="minStudents" data-i18n="filters.minStudents">最少在校生（2024/25）</label>
+        <input type="number" id="minStudents" min="0" step="50" placeholder="不限" data-i18n-placeholder="filters.minStudentsPlaceholder" />
 
-        <button type="button" id="btnReset" style="margin-top:1rem;width:100%">重置筛选</button>
+        <button type="button" id="btnReset" style="margin-top:1rem;width:100%" data-i18n="filters.reset">重置筛选</button>
       </aside>
 
       <main>
         <div class="toolbar">
-          <label style="margin:0">排序</label>
+          <label style="margin:0" data-i18n="toolbar.sort">排序</label>
           <select id="sort">
-            <option value="rating-desc">评级（高→低）</option>
-            <option value="students-desc">在校生数量（多→少）</option>
-            <option value="students-asc">在校生数量（少→多）</option>
-            <option value="fee-asc">学费（低→高）</option>
-            <option value="fee-desc">学费（高→低）</option>
-            <option value="name-asc">校名 A→Z</option>
+            <option value="rating-desc" data-i18n="sort.rating-desc">评级（高→低）</option>
+            <option value="students-desc" data-i18n="sort.students-desc">在校生数量（多→少）</option>
+            <option value="students-asc" data-i18n="sort.students-asc">在校生数量（少→多）</option>
+            <option value="fee-asc" data-i18n="sort.fee-asc">学费（低→高）</option>
+            <option value="fee-desc" data-i18n="sort.fee-desc">学费（高→低）</option>
+            <option value="name-asc" data-i18n="sort.name-asc">校名 A→Z</option>
           </select>
           <span id="resultCount" style="font-size:.82rem;color:var(--muted)"></span>
         </div>
@@ -434,13 +457,13 @@
             <thead>
               <tr>
                 <th></th>
-                <th>学校</th>
-                <th>区域</th>
-                <th>课程体系</th>
-                <th>年级范围</th>
-                <th>DSIB 评级</th>
-                <th>学费区间 AED</th>
-                <th>在校生</th>
+                <th data-i18n="table.school">学校</th>
+                <th data-i18n="table.area">区域</th>
+                <th data-i18n="table.curriculum">课程体系</th>
+                <th data-i18n="table.gradeRange">年级范围</th>
+                <th data-i18n="table.rating">DSIB 评级</th>
+                <th data-i18n="table.fee">学费区间 AED</th>
+                <th data-i18n="table.students">在校生</th>
               </tr>
             </thead>
             <tbody id="tbody"></tbody>
@@ -452,26 +475,31 @@
 
     <section class="faq-section" id="faqSection">
       <div class="faq-header">
-        <h2>家长常见问题</h2>
+        <h2 data-i18n="faq.title">家长常见问题</h2>
         <p class="faq-meta">
-          来源：迪拜教育局（KHDA）
-          · <a id="faqSourceLink" href="#" target="_blank" rel="noopener">官网原文</a>
-          · 更新 <span id="faqUpdated"></span>
+          <span data-i18n="faq.sourcePrefix">来源：迪拜教育局（KHDA）</span>
+          · <a id="faqSourceLink" href="#" target="_blank" rel="noopener" data-i18n="faq.sourceLink">官网原文</a>
+          · <span data-i18n="faq.updatedPrefix">更新</span> <span id="faqUpdated"></span>
         </p>
       </div>
       <div class="faq-toolbar">
-        <input type="search" class="faq-search" id="faqSearch" placeholder="搜索：学费、转校、欺凌…" />
-        <button type="button" id="faqExpandAll">全部展开</button>
-        <button type="button" id="faqCollapseAll">全部收起</button>
+        <input type="search" class="faq-search" id="faqSearch" placeholder="搜索：学费、转校、欺凌…" data-i18n-placeholder="faq.searchPlaceholder" />
+        <button type="button" id="faqExpandAll" data-i18n="faq.expandAll">全部展开</button>
+        <button type="button" id="faqCollapseAll" data-i18n="faq.collapseAll">全部收起</button>
       </div>
       <div class="faq-list" id="faqList"></div>
     </section>
   </div>
 
+  <script src="scripts/site-i18n-core.js"></script>
+  <script src="scripts/i18n-page.js"></script>
   <script>
     const DATA = {"meta":{"source":"KHDA Dubai Private Schools Open Data","sourceUrl":"https://web.khda.gov.ae/en/Education-Directory/schools","dataDownloadUrl":"https://web.khda.gov.ae/KHDA/media/KHDA/DubaiPrivateSchoolsOpenData.xlsx","academicYear":"2024-2025","extractedAt":"2026-06-25","totalSchools":226,"note":"DSIB ratings and fees from KHDA open data. Verify on KHDA website before enrollment decisions."},"filters":{"curricula":["American","American - International Baccalaureate","Australian","Chinese","French","German","Indian","Indian - UK","Indian/IB","International Baccalaureate","International Baccalaureate (13Y)","Iranian","Iranian - International Baccalaureate","Japanese","Ministry of Education","Ministry of Education - American","Ministry of Education/BTEC","Pakistani","Philippine","Russian","SABIS (UK/US)","UK","UK (12 Y - Grades)","UK - International Baccalaureate","UK - UK/IB","UK/IB","US/IB"],"locations":["ABU HAIL","AL BARSHA FIRST","AL BARSHA SECOND","AL BARSHA SOUTH FIRST","AL GARHOUD","AL HUDAIBA","AL KARAMA","AL KHWANEEJ FIRST","AL MAMZAR","AL MIZHAR FIRST","AL NAHDA SECOND","AL QOUZ FIRST","AL QOUZ FOURTH","AL QOUZ SECOND","AL QUSAIS FIRST","AL RAFFA","AL RASHIDIYA","AL ROWAIYAH FIRST","AL SAFA FIRST","AL SAFOUH FIRST","AL SATWA","AL TWAR FIRST","AL TWAR SECOND","AL TWAR THIRD","AL WARQA FIRST","AL WARQA FOURTH","AL WARQA THIRD","AL WASL","Academic City","Al Awir First","Al Barari","Al Barsha South","Al Furjan","Al Khail","Al Quoz 3","Arabian Ranches","DUBAI INVESTMENT PARK FIRST","Deira","Dubai Festival City","Dubai Healthcare City","Dubai Knowledge Park","Dubai Land","Dubai Silicon Oasis","Dubai South HQ","Dubai Sports City","Emirates Hills","Emirates Road","HATTA","HOR AL ANZ","JABAL ALI FIRST","JUMEIRA FIRST","JUMEIRA THIRD","Jumeira Second","Jumeirah Park","Jumeirah Village Circle (South)","Jumeirah Village Triangle","MANKHOOL","MIRDIF","MUHAISANAH FOURTH","MUHAISANAH SECOND","MUHAISNAH FIRST","MUHAISNAH FOURTH","Meadows","Meydan City","Motor City","NADD AL HAMAR","NADD AL SHIBA FIRST","NADD AL SHIBA FOURTH","NADD AL SHIBA SECOND","NADD AL SHIBA THIRD","OUD METHA","Oud Metha","RAS AL KHOR","The greens","UMM AL SHEIF","UMM HURAIR FIRST","UMM SUQEIM FIRST","UMM SUQEIM SECOND","UMM SUQEIM THIRD"],"ratings":["Acceptable","Good","Outstanding","Very good"]},"schools":[{"id":1,"name":"Al Adab Iranian Private School for Boys","nameAr":"مدرسة الاداب الايرانية الخاصة للبنين","location":"AL QUSAIS FIRST","curriculum":"Iranian - International Baccalaureate","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":272,"phone":"97142633405","website":"www.adabschool.org","email":"principal@adabschool.org","established":1989,"feeMin":9469,"feeMax":20287,"lat":25.276381,"lng":55.368653},{"id":2,"name":"Al Adab Iranian Private School for Girls","nameAr":"مدرسة الآداب الايرانية الخاصة للبنات","location":"AL QUSAIS FIRST","curriculum":"Iranian","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":259,"phone":"97142633405","website":"www.adabschool.org","email":"schooladab@gmail.com","established":1989,"feeMin":9276,"feeMax":19876,"lat":25.276431,"lng":55.369036},{"id":3,"name":"Al Arqm Private School","nameAr":"مدرسة الارقم الخاصة","location":"AL BARSHA FIRST","curriculum":"Ministry of Education","grades":"Pre Primary-G12","rating":"Acceptable","rating2022":"Acceptable","students":1050,"phone":"97143400888","website":"www.alarqam.ae","email":"alarqam@emirates.net.ae","established":1990,"feeMin":8404,"feeMax":17925,"lat":25.108514,"lng":55.189206},{"id":4,"name":"Al Basateen Private Nursery","nameAr":"روضة البساتين الخاصة","location":"AL KHWANEEJ FIRST","curriculum":"Ministry of Education","grades":"KG1-KG2","rating":"Good","rating2022":"Good","students":126,"phone":"97142892261","website":"http://albasateenkindergarten.ae","email":"Dwa-khawanij@hotmail.com","established":2003,"feeMin":8009,"feeMax":8009,"lat":25.231106,"lng":55.522533},{"id":5,"name":"Al Basateen Private Nursery - Hatta Branch","nameAr":"روضة البساتين الخاصة - فرع حتا","location":"HATTA","curriculum":"Ministry of Education","grades":"KG1-KG2","rating":"Good","rating2022":"Good","students":104,"phone":"97148523151","website":"http://albasateenkindergarten.ae","email":"albasateen95@hotmail.com","established":2004,"feeMin":5540,"feeMax":5540,"lat":24.798719,"lng":56.124897},{"id":6,"name":"Al Diyafah High School L.L.C","nameAr":"مدرسة الضيافه الثانوية ش.ذ.م.م","location":"AL NAHDA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":1964,"phone":"97142671115","website":"www.diyafah.com","email":"principal@diyafahschool.com","established":1982,"feeMin":9288,"feeMax":20005,"lat":25.290128,"lng":55.374764},{"id":7,"name":"Al Eman Educational EST","nameAr":"مؤسسة الايمان التعليمية","location":"AL RASHIDIYA","curriculum":"Ministry of Education","grades":"KG1-G9","rating":"Acceptable","rating2022":"Acceptable","students":371,"phone":"97142858589","website":"www.alemanprivateschool.com","email":"emanschooldubai@gmail.com","established":1973,"feeMin":6156,"feeMax":9171,"lat":25.230481,"lng":55.389272},{"id":8,"name":"Al Ghaf Private School L.L.C","nameAr":"مدرسة الغاف الخاصة ذ.م.م","location":"JABAL ALI FIRST","curriculum":"UK","grades":"FS1- Y8","rating":"Acceptable","rating2022":"Weak","students":55,"phone":"97148522295","website":"www.ghafschool.com","email":"info@ghafschool.com","established":2020,"feeMin":35000,"feeMax":51000,"lat":25.0299205780029,"lng":55.1135711669922},{"id":9,"name":"Al Ittihad Private School","nameAr":"مدرسة الاتحاد الخاصة","location":"AL MAMZAR","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1434,"phone":"97142966314","website":"www.ipsmamzar.com","email":"Director@ipsmamzar.com","established":1975,"feeMin":18207,"feeMax":41460,"lat":25.2998886108398,"lng":55.344352722168},{"id":10,"name":"Al Ittihad Private School (Br)","nameAr":"مدرسة الاتحاد الخاصة (فرع)","location":"AL SAFA FIRST","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":2535,"phone":"97143945111","website":"www.ipsjumeira.com","email":"principal@ipsjumeira.com","established":1998,"feeMin":21709,"feeMax":42278,"lat":25.1807136535645,"lng":55.2410316467285},{"id":11,"name":"Al Maaref American School L.L.C","nameAr":"مدرسة المعارف الخاصة (ش.ذ.م.م)","location":"AL QUSAIS FIRST","curriculum":"American","grades":"Pre Primary-G12","rating":"Acceptable","rating2022":"Acceptable","students":1422,"phone":"97142988881","website":"www.almaarefps.com","email":"director@almaaref.ae","established":1987,"feeMin":null,"feeMax":null,"lat":25.2861919403076,"lng":55.3678588867188},{"id":12,"name":"Al Mawakeb School Al Barsha L.L.C","nameAr":"مدرسة المواكب البرشاء ذ.م.م","location":"AL BARSHA SECOND","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":3340,"phone":"97143478288","website":"www.almawakeb.sch.ae","email":"micheline.eid@almawakeb.sch.ae","established":1998,"feeMin":15365,"feeMax":24908,"lat":25.104503,"lng":55.201706},{"id":13,"name":"Al Mawakeb School Al Garhoud L.L.C","nameAr":"مدرسة المواكب القرهود ذ.م.م","location":"AL GARHOUD","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":2345,"phone":"97142851415","website":"www.almawakeb.sch.ae","email":"omar.hatoum@amsi.ae","established":1995,"feeMin":15365,"feeMax":24908,"lat":25.234675,"lng":55.358314},{"id":14,"name":"Al Mawakeb School Al Khawaneej L.L.C","nameAr":"مدرسة المواكب الخوانيج ش.ذ.م.م","location":"AL MIZHAR FIRST","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1277,"phone":"97142514433","website":"www.almawakeb.sch.ae","email":"amk@almawakeb.sch.ae","established":2018,"feeMin":35350,"feeMax":68004,"lat":25.2357597351074,"lng":55.4393081665039},{"id":15,"name":"Al Nibras International Private School","nameAr":"مدرسة النبراس الدولية الخاصة","location":"DUBAI INVESTMENT PARK FIRST","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Acceptable","students":1665,"phone":"97148853330","website":"www.nisdubai.ae","email":"principal@nisdubai.ae","established":2005,"feeMin":24735,"feeMax":49166,"lat":25.000017,"lng":55.171757},{"id":16,"name":"Al Rashid Al Saleh Private School","nameAr":"مدرسة الراشد الصالح الخاصة","location":"OUD METHA","curriculum":"Ministry of Education","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":2746,"phone":"97143376126","website":"www.alrashed-alsaleh.com","email":"principal@alrashed-alsaleh.com","established":1983,"feeMin":8783,"feeMax":18847,"lat":25.2369525,"lng":55.3180053},{"id":17,"name":"Al Sadiq Islamic English School","nameAr":"مدرسة الصادق الاسلامية الانجليزية ش.ذ.م.م","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"FS2-Y11","rating":"Acceptable","rating2022":"Acceptable","students":2213,"phone":"97142634083","website":"www.alsadiqschool.com/","email":"principal@alsadiqschool.com","established":1989,"feeMin":4579,"feeMax":9281,"lat":25.265897,"lng":55.385764},{"id":18,"name":"Al Salam Community School L.L.C","nameAr":"مدرسة السلام كوميونيتي ش.ذ.م.م","location":"AL TWAR SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":1993,"phone":"97142215554","website":"www.alsalamcommunity.ae","email":"registrar@alsalamcommunity.ae","established":2019,"feeMin":23249,"feeMax":40158,"lat":25.2595195770264,"lng":55.3815994262695},{"id":19,"name":"Al Salam Private School","nameAr":"مدرسة السلام الخاصة","location":"AL NAHDA SECOND","curriculum":"UK","grades":"FS1-Y9","rating":"Good","rating2022":"Good","students":1267,"phone":"97142679594","website":"www.alsalamschool.ae","email":"principal@alsalamschool.ae","established":1989,"feeMin":13948,"feeMax":27881,"lat":25.2886753082275,"lng":55.3694801330566},{"id":20,"name":"Al Shurooq Private School","nameAr":"مدرسة الشروق الخاصة","location":"JUMEIRA FIRST","curriculum":"Ministry of Education","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":1856,"phone":"97143442026","website":"www.shoruq.sch.ae/","email":"aps@shoruq.sch.ae","established":1986,"feeMin":7648,"feeMax":12718,"lat":25.213097,"lng":55.2553},{"id":21,"name":"Ambassador International Academy L.L.C","nameAr":"اكاديمية امباسادور الدولية ذ.م.م","location":"AL QOUZ SECOND","curriculum":"International Baccalaureate","grades":"Pre primary-G10","rating":"Good","rating2022":"Good","students":1518,"phone":"97145806999","website":"www.aiadubai.com","email":"principalaia@aiadubai.com","established":2019,"feeMin":48454,"feeMax":91155,"lat":25.1445903778076,"lng":55.2481803894043},{"id":22,"name":"Ambassador School","nameAr":"مدرسة امباسادور","location":"MANKHOOL","curriculum":"Indian","grades":"Pre primary-G12","rating":"Very good","rating2022":"Very good","students":1382,"phone":"97143983535","website":"www.ambassadorschool.com","email":"principalasd@ambassadorschool.com","established":2010,"feeMin":22323,"feeMax":44700,"lat":25.245899,"lng":55.288406},{"id":23,"name":"American Academy for Girls","nameAr":"الاكاديمية الأمريكية للبنات","location":"AL MIZHAR FIRST","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":569,"phone":"97142887250","website":"www.americanacademy.ae/","email":"principal@americanacademy.ae","established":2005,"feeMin":44571,"feeMax":69480,"lat":25.238386,"lng":55.428675},{"id":24,"name":"American International School","nameAr":"المدرسة الامريكية الدولية ش.ذ.م.م","location":"AL QUSAIS FIRST","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Acceptable","students":2809,"phone":"97142988666","website":"www.aisch.ae","email":"principal@aisschool.net","established":2003,"feeMin":13097,"feeMax":21233,"lat":25.283458,"lng":55.368764},{"id":25,"name":"American School Dubai","nameAr":"المدرسة الامريكية بدبي","location":"AL BARSHA SECOND","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":2058,"phone":"97143950005","website":"www.asdubai.org","email":"superintendent@asdubai.org","established":1973,"feeMin":59180,"feeMax":87268,"lat":25.10029,"lng":55.182186},{"id":26,"name":"American School of Creative Science L.L.C","nameAr":"المدرسة الامريكية للابداع العلمي ش.ذ.م.م","location":"NADD AL SHIBA THIRD","curriculum":"American","grades":"KG1-G9","rating":"Good","rating2022":"Good","students":1050,"phone":"8002326","website":"https://ascs.sch.ae/nad-al-sheba/","email":"Linaa@nas.iscs.sch.ae","established":2016,"feeMin":35000,"feeMax":65000,"lat":25.1490518550239,"lng":55.3776984441616},{"id":27,"name":"Amity English School","nameAr":"مدرسة اميتي الإنجليزية","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"","rating":"","rating2022":"","students":44,"phone":"97142041000","website":"","email":"","established":2024,"feeMin":null,"feeMax":null,"lat":25.2797908782959,"lng":55.3665313720703},{"id":28,"name":"Amity School L.L.C","nameAr":"مدرسة اميتي ش.ذ.م.م","location":"AL QUSAIS FIRST","curriculum":"Indian","grades":"Pre-primary-G9","rating":"Good","rating2022":"Good","students":1483,"phone":"97142041000","website":"www.amityschooldubai.com","email":"principal@amitydubai.ae","established":2017,"feeMin":16313,"feeMax":32627,"lat":25.2797908782959,"lng":55.3665313720703},{"id":29,"name":"Apple International School","nameAr":"مدرسة التفاحة العالمية","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":5363,"phone":"97142638989","website":"www.apple.sch.ae","email":"Principal@apple.sch.ae","established":1994,"feeMin":6832,"feeMax":27318,"lat":25.2791503584097,"lng":55.3750207775604},{"id":30,"name":"Arab Unity School L.L.C","nameAr":"مدرسة الوحدة العربية ش.ذ.م.م","location":"AL MIZHAR FIRST","curriculum":"UK","grades":"FS2-Y13","rating":"Acceptable","rating2022":"Acceptable","students":3615,"phone":"97142886226","website":"www.arabunityschool.ae","email":"principal@arabunityschool.ae","established":1975,"feeMin":6314,"feeMax":10560,"lat":25.236325,"lng":55.429928},{"id":31,"name":"Arcadia British School","nameAr":"مدرسة أركاديا البريطانية","location":"JABAL ALI FIRST","curriculum":"UK","grades":"FS1-Y11","rating":"Very good","rating2022":"Very good","students":1173,"phone":"97145522600","website":"www.arcadia.sch.ae","email":"principal@arcadia.sch.ae","established":2016,"feeMin":66133,"feeMax":94000,"lat":25.0459641238709,"lng":55.1826276394862},{"id":32,"name":"Arcadia Global School","nameAr":"مدرسة أركاديا جلوبال","location":"Al Furjan","curriculum":"UK","grades":"FS1 - Y6","rating":"","rating2022":"NULL","students":1495,"phone":"97145522600","website":"www.arcadiaeducation.ae","email":"ahlam.ismail@arcadia.sch.ae","established":2023,"feeMin":40000,"feeMax":61000,"lat":25.0294087616371,"lng":55.1510032588762},{"id":33,"name":"Australian International School - Dubai L.L.C","nameAr":"المدرسة الاسترالية الدولية - دبي ش ذ م م","location":"AL BARSHA SECOND","curriculum":"Australian","grades":"Pre-primary-G8","rating":"Good","rating2022":"NULL","students":418,"phone":"971505550818","website":"www.aisdubai.ae","email":"info@aisdubai.ae","established":2021,"feeMin":52000,"feeMax":85000,"lat":25.061149597168,"lng":55.231258392334},{"id":34,"name":"BC Academy International School L.L.C","nameAr":"مدرسة بي سي اكاديمي الدولية ذ.م.م","location":"UMM SUQEIM SECOND","curriculum":"UK","grades":"Y1-Y7","rating":"","rating2022":"","students":15,"phone":"971528240878","website":"https://bcacademy.ae/","email":"info@bcacademy.ae","established":2024,"feeMin":null,"feeMax":null,"lat":25.1523419198539,"lng":55.2064045175741},{"id":35,"name":"Bilingual French International School L.L.C-FZ","nameAr":"المدرسة الفرنسیة الدولیة ثنائیة اللغة ش.ذ.م.م-منطقة حرة","location":"Meydan City","curriculum":"French","grades":"Pre Primary-G10","rating":"Very good","rating2022":"Good","students":558,"phone":"97143708668","website":"NULL","email":"administrator.khda@icedubai.org","established":2012,"feeMin":48459,"feeMax":94095,"lat":25.1525211334229,"lng":55.2982406616211},{"id":36,"name":"Bloom World Academy L.L.C","nameAr":"أكاديمية بلووم ورلد ش.ذ.م.م","location":"AL BARSHA SECOND","curriculum":"International Baccalaureate","grades":"Pre-primary-G10","rating":"Good","rating2022":"NULL","students":1091,"phone":"8002922","website":"www.bloomworldacademy.ae","email":"mhali@bloomeducation.ae","established":2022,"feeMin":50000,"feeMax":85000,"lat":25.0789343358748,"lng":55.234252097257},{"id":37,"name":"Bright Learners Private School L.L.C","nameAr":"مدرسة برايت ليرنرز الخاصة ش.ذ.م.م","location":"AL RASHIDIYA","curriculum":"American","grades":"Pre-primary-G6","rating":"Acceptable","rating2022":"Acceptable","students":317,"phone":"97143353203","website":"www.brightlearners.ae","email":"Info@brightlearners.ae","established":2020,"feeMin":24041,"feeMax":31968,"lat":25.2220592498779,"lng":55.3958396911621},{"id":38,"name":"Bright Riders School","nameAr":"مدرسة برايت رايدرز ش.ذ.م.م","location":"DUBAI INVESTMENT PARK FIRST","curriculum":"Indian","grades":"Pre-primary-G8","rating":"Good","rating2022":"Acceptable","students":1536,"phone":"97148237444","website":"www.brightridersdubai.com","email":"info@brightridersdubai.com","established":2018,"feeMin":19000,"feeMax":30000,"lat":24.9997501373291,"lng":55.1738891601563},{"id":39,"name":"Brighton College Dubai L.L.C","nameAr":"برايتون كوليدج دبي ش.ذ.م.م","location":"AL BARSHA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Good","students":1194,"phone":"97143871111","website":"www.brightoncollegedubai.ae","email":"headmaster@brightoncollegedubai.ae","established":2018,"feeMin":68919,"feeMax":115225,"lat":25.0791702270508,"lng":55.232780456543},{"id":40,"name":"Buds Public School","nameAr":"مدرسة البراعم العامة","location":"MUHAISNAH FIRST","curriculum":"Indian","grades":"Pre-primary-G12","rating":"Acceptable","rating2022":"Acceptable","students":1124,"phone":"97142888143","website":"www.bpsdubai.ae","email":"admin@budsdxb.ae","established":1986,"feeMin":8356,"feeMax":14920,"lat":25.240664,"lng":55.407408},{"id":41,"name":"Cambridge International School","nameAr":"مدرسة كامبردج انترناشيونال","location":"AL TWAR FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":2891,"phone":"97142824646","website":"www.gemscis-dubai.com","email":"principal_cis@gemsedu.com","established":2004,"feeMin":23249,"feeMax":35931,"lat":25.2645677,"lng":55.3751226},{"id":42,"name":"Capital School L.L.C","nameAr":"مدرسة كابيتال ش.ذ.م.م","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"FS1-Y10","rating":"Good","rating2022":"Good","students":910,"phone":"97142988776","website":"www.capitalschooluae.com","email":"info@capitalschooluae.com","established":2014,"feeMin":40000,"feeMax":66600,"lat":25.284464,"lng":55.371974},{"id":43,"name":"Cedar School L.L.C","nameAr":"مدرسة سيدار ش.ذ.م.م","location":"AL WARQA FIRST","curriculum":"UK","grades":"FS1-Y8","rating":"Acceptable","rating2022":"NULL","students":376,"phone":"97143803902","website":"www.cedarschool.ae","email":"registrar@cedarschool.ae","established":2021,"feeMin":25244,"feeMax":39669,"lat":25.1901798248291,"lng":55.3977584838867},{"id":44,"name":"Chinese School Dubai","nameAr":"المدرسة الصينية دبي","location":"MIRDIF","curriculum":"Chinese","grades":"KG1-G8","rating":"Good","rating2022":"Good","students":523,"phone":"97142202275","website":"www.csd.ae","email":"info@csd.ae","established":2020,"feeMin":27038,"feeMax":32445,"lat":25.2272300720215,"lng":55.4310913085938},{"id":45,"name":"Citizens School","nameAr":"سيتيزنز سكول ش ذ م م","location":"AL SATWA","curriculum":"UK","grades":"FS1-Y8","rating":"Good","rating2022":"NULL","students":586,"phone":"97146024000","website":"www.citizens.me","email":"aya.alkafory@citizens.me","established":2022,"feeMin":45000,"feeMax":75000,"lat":25.2094862517405,"lng":55.2666872107537},{"id":46,"name":"Clarion School L.L.C","nameAr":"مدرسة كلارين ش.ذ.م.م","location":"AL QOUZ FIRST","curriculum":"American","grades":"Pre Primary-G7","rating":"Good","rating2022":"Acceptable","students":267,"phone":"97144073000","website":"www.clarionschooldubai.com","email":"principal@clarionschool.com","established":2016,"feeMin":42080,"feeMax":94680,"lat":25.1660900115967,"lng":55.2570610046387},{"id":47,"name":"Collegiate International School","nameAr":"مدرسة كوليجيت انترناشيونال","location":"UMM SUQEIM THIRD","curriculum":"American - International Baccalaureate","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":683,"phone":"97144271400","website":"www.collegiate.sch.ae","email":"head@casdubai.com","established":2011,"feeMin":38572,"feeMax":69008,"lat":25.150553,"lng":55.207817},{"id":48,"name":"Credence High School L.L.C","nameAr":"مدرسة كريدنس الثانوية ش.ذ.م.م","location":"AL QOUZ FIRST","curriculum":"Indian","grades":"Pre-primary-G12","rating":"Very good","rating2022":"Very good","students":2304,"phone":"97143212144","website":"www.credencehighschool.com","email":"principal@credencehighschool.com","established":2014,"feeMin":16534,"feeMax":28076,"lat":25.1527156829834,"lng":55.2494049072266},{"id":49,"name":"Crescent English School","nameAr":"مدرسة الهلال الانجليزية","location":"AL QUSAIS FIRST","curriculum":"Indian","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1601,"phone":"97142988866","website":"www.crescentschooldubai.com","email":"principal@crescentschooldubai.com","established":1984,"feeMin":2793,"feeMax":10136,"lat":25.281628,"lng":55.367415},{"id":50,"name":"Dar Al Marefa Private School","nameAr":"مدرسة دار المعرفة الخاصة","location":"AL KHWANEEJ FIRST","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1270,"phone":"97142885782","website":"www.daralmarefa.ae","email":"naira.h@daralmarefa.ae","established":2008,"feeMin":64453,"feeMax":98799,"lat":25.2492872,"lng":55.4811599},{"id":51,"name":"Deira International School","nameAr":"مدرسة ديره الدوليه","location":"Dubai Festival City","curriculum":"UK - UK/IB","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Outstanding","students":2034,"phone":"97142325552","website":"www.disdubai.ae","email":"director@disdubai.ae","established":2005,"feeMin":43592,"feeMax":87825,"lat":25.2127475738525,"lng":55.3737487792969},{"id":52,"name":"Deira Private School","nameAr":"مدرسة ديرة الخاصة","location":"AL TWAR FIRST","curriculum":"UK","grades":"FS1-Y8","rating":"Acceptable","rating2022":"Acceptable","students":875,"phone":"97142641595","website":"www.deiraprivateschool.ae","email":"principal@deiraprivateschool.ae","established":2009,"feeMin":22342,"feeMax":40202,"lat":25.2425212860107,"lng":55.3983993530273},{"id":53,"name":"Delhi Private School L.L.C","nameAr":"مدرسة دلهي الخاصة","location":"JABAL ALI FIRST","curriculum":"Indian","grades":"KG1-G12","rating":"Very good","rating2022":"Very good","students":3808,"phone":"97148821848","website":"www.dpsdubai.com","email":"principal@dpsdubai.com","established":2003,"feeMin":null,"feeMax":null,"lat":25.039236,"lng":55.121742},{"id":54,"name":"DEWA Academy","nameAr":"اكاديمية هيئة كهرباء ومياه دبي","location":"AL HUDAIBA","curriculum":"Ministry of Education/BTEC","grades":"G10-G12","rating":"Good","rating2022":"Good","students":106,"phone":"97143220113","website":"https://academy.dewa.gov.ae/en/","email":"khalid.binmasood@dewa.gov.ae","established":2017,"feeMin":0,"feeMax":0,"lat":25.2437191009521,"lng":55.2808494567871},{"id":55,"name":"Dewvale School L.L.C","nameAr":"مدرسة ديوفيل ش.ذ.م.م","location":"Al Quoz 3","curriculum":"Indian","grades":"Pre KG- G5","rating":"","rating2022":"NULL","students":914,"phone":"97142230033","website":"www.dewvaleschool.ae","email":"principal@dewvaleschool.ae","established":2023,"feeMin":12000,"feeMax":19787,"lat":25.1498198535957,"lng":55.2477326595324},{"id":56,"name":"Dhruv Global school","nameAr":"دروف جلوبال سكول","location":"Al Barsha South","curriculum":"Indian","grades":"Pre KG- G5","rating":"","rating2022":"NULL","students":207,"phone":"97145703311","website":"www.highgateis.com","email":"principal@highgateis.com","established":2023,"feeMin":18000,"feeMax":24000,"lat":25.0609718948476,"lng":55.2396950164928},{"id":57,"name":"Dove Green Private School L.L.C","nameAr":"مدرسة دوف جرين الخاصة ش.ذ.م.م","location":"DUBAI INVESTMENT PARK FIRST","curriculum":"UK","grades":"FS1-Y9","rating":"Good","rating2022":"Good","students":650,"phone":"97148837474","website":"www.dovegreenschool.com","email":"minu@dovegreenschool.com","established":2014,"feeMin":42000,"feeMax":60000,"lat":24.997031,"lng":55.155937},{"id":58,"name":"Dubai British School","nameAr":"مدرسة دبي البريطانية","location":"Emirates Hills","curriculum":"UK","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Outstanding","students":1205,"phone":"97143619361","website":"www.dubaibritishschool.ae","email":"principal@dubaibritishschool.ae","established":2005,"feeMin":51809,"feeMax":77715,"lat":25.0552062988281,"lng":55.1701507568359},{"id":59,"name":"Dubai British School Jumeira","nameAr":"مدرسة دبي البريطانية جميرا","location":"Jumeira Second","curriculum":"UK","grades":"ECC (2-3) - Y7","rating":"","rating2022":"","students":531,"phone":"","website":"https://dubaibritishschooljumeira.ae/","email":"admissions@dubaibritishschooljumeira.ae","established":2024,"feeMin":51477,"feeMax":69872,"lat":25.1893476674067,"lng":55.2495541542538},{"id":60,"name":"Dubai British School Jumeirah Park","nameAr":"مدرسة دبي البريطانية جميرا بارك","location":"Jumeirah Park","curriculum":"UK","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Very good","students":2142,"phone":"97145520247","website":"www.dubaibritishschooljp.ae","email":"principal@dubaibritishschooljp.ae","established":2015,"feeMin":64210,"feeMax":109232,"lat":25.0436149,"lng":55.1582229},{"id":61,"name":"Dubai Carmel School","nameAr":"مدرسة دبي كرمل","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Acceptable","rating2022":"Acceptable","students":740,"phone":"97142675424","website":"www.dubaicarmelschool.com","email":"info@dubaicarmelschool.com","established":1982,"feeMin":8912,"feeMax":15124,"lat":25.296431,"lng":55.379344},{"id":62,"name":"Dubai College","nameAr":"كلية دبي","location":"AL SAFOUH FIRST","curriculum":"UK","grades":"Y7-Y13","rating":"Outstanding","rating2022":"Outstanding","students":1112,"phone":"97143999111","website":"www.dubaicollege.org","email":"dccommunications@dubaicollege.org","established":1978,"feeMin":93220,"feeMax":105555,"lat":25.110194,"lng":55.169042},{"id":63,"name":"Dubai English Speaking College","nameAr":"كلية دبي للتخاطب بالإنجليزية","location":"Academic City","curriculum":"UK","grades":"Y7-Y13","rating":"Outstanding","rating2022":"Outstanding","students":1863,"phone":"97143604866","website":"www.dessc.sch.ae","email":"desc_headteacher@dessc.sch.ae","established":2005,"feeMin":81082,"feeMax":87147,"lat":25.1054306939344,"lng":55.399070161006},{"id":64,"name":"Dubai English Speaking School","nameAr":"مدرسة دبي للتخاطب بالانجليزية","location":"OUD METHA","curriculum":"UK","grades":"FS1-Y6","rating":"Outstanding","rating2022":"Outstanding","students":1011,"phone":"97143371457","website":"www.dessc.sch.ae","email":"dess_headteacher@dessc.sch.ae","established":1973,"feeMin":41427,"feeMax":51269,"lat":25.238244,"lng":55.317725},{"id":65,"name":"Dubai Gem Private School","nameAr":"مدرسة جواهر دبي الخاصة","location":"OUD METHA","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":1101,"phone":"97143376661","website":"www.dubaigem.ae","email":"","established":1983,"feeMin":13209,"feeMax":27119,"lat":25.235942,"lng":55.316167},{"id":66,"name":"Dubai Heights Academy","nameAr":"دبي هيتس اكاديمي","location":"AL BARSHA SECOND","curriculum":"UK - UK/IB","grades":"FS1-Y9","rating":"Very good","rating2022":"Good","students":645,"phone":"97143563333","website":"www.dubaiheightsacademy.com","email":"registrar@dubaiheightsacademy.com","established":2017,"feeMin":47583.5,"feeMax":88658,"lat":25.078800201416,"lng":55.2250785827637},{"id":67,"name":"Dubai International Academy Albarsha","nameAr":"دبي انترناشيونال اكاديمي البرشاء","location":"AL BARSHA FIRST","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Good","students":1836,"phone":"97145244800","website":"www.innoventureseducation.com","email":"Compliance@innoventureseducation.com","established":2018,"feeMin":51892,"feeMax":94098,"lat":25.1142196655273,"lng":55.2073783874512},{"id":68,"name":"Dubai International Academy L.L.C","nameAr":"دبي انترناشيونال اكاديمي ش.ذ.م.م","location":"Emirates Hills","curriculum":"International Baccalaureate","grades":"KG1-G13","rating":"Outstanding","rating2022":"Outstanding","students":2744,"phone":"97143684111","website":"www.diadubai.com","email":"dinay@diadubai.com","established":2005,"feeMin":43946,"feeMax":77866,"lat":25.077917,"lng":55.179},{"id":69,"name":"Dubai International Private School","nameAr":"مدرسة دبي الدولية الخاصة","location":"AL GARHOUD","curriculum":"American","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":953,"phone":"97142823524","website":"www.dis.sch.ae","email":"superintendent@dischool.com","established":1985,"feeMin":14705,"feeMax":23086,"lat":25.248367,"lng":55.341864},{"id":70,"name":"Dubai International Private School - Br","nameAr":"مدرسة دبي الدولية الخاصة - فرع","location":"AL QOUZ FIRST","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Acceptable","students":1725,"phone":"97143385530","website":"www.dips-alquoz.ae","email":"email@mydischool.com","established":1999,"feeMin":15607,"feeMax":24504,"lat":25.1686916,"lng":55.264079},{"id":71,"name":"Dubai Modern Education School","nameAr":"مدرسة دبي للتربية الحديثة","location":"AL MIZHAR FIRST","curriculum":"Ministry of Education - American","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":2012,"phone":"97142885115","website":"www.dmes.ae","email":"dmes@emirates.net.ae","established":1996,"feeMin":11681,"feeMax":16167,"lat":25.238822,"lng":55.427392},{"id":73,"name":"Dubai National School AlTwar L.L.C","nameAr":"مدرسة دبي الوطنية (فرع)","location":"AL TWAR FIRST","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1080,"phone":"97142988555","website":"www.dns.sch.ae","email":"malek.daradkeh@dns.sch.ae","established":2000,"feeMin":null,"feeMax":null,"lat":25.278803,"lng":55.368489},{"id":72,"name":"Dubai National School L.L.C","nameAr":"مدرسة دبي الوطنية","location":"AL BARSHA FIRST","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":2438,"phone":"97143474555","website":"www.dnsalbarsha.com","email":"dns.barsha@dns.sch.ae","established":1988,"feeMin":null,"feeMax":null,"lat":25.1069107055664,"lng":55.192436},{"id":74,"name":"Dubai Scholars Private School","nameAr":"مدرسة تلاميذ دبي الخاصة","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":2748,"phone":"97147069000","website":"www.dubaischolars.com","email":"principal@dubaischolars.com","established":1994,"feeMin":15469,"feeMax":31820,"lat":25.280228,"lng":55.364739},{"id":75,"name":"DUBAI SCHOOLS CORPORATION AL KHAWANEEJ L.L.C","nameAr":"شركة مدارس دبي الخوانيج ش.ذ.م.م","location":"MIRDIF","curriculum":"American","grades":"KG1-G6","rating":"Acceptable","rating2022":"NULL","students":1300,"phone":"97142360103","website":"www.dubaischools-mirdif.ae","email":"principal@dubaischools-mirdif.ae","established":2021,"feeMin":29900,"feeMax":43800,"lat":25.2217928214139,"lng":55.4257634263489},{"id":76,"name":"Dubai Schools Corporation L.L.C Albarsha","nameAr":"شركة مدارس دبي ش ذ م م البرشاء","location":"AL BARSHA SOUTH FIRST","curriculum":"American","grades":"KG1-G6","rating":"Acceptable","rating2022":"NULL","students":1492,"phone":"97145840401","website":"www.dubaischools-albarsha.ae","email":"principal@dubaischools-albarsha.ae","established":2021,"feeMin":29900,"feeMax":43800,"lat":25.0822143905772,"lng":55.217592},{"id":77,"name":"Dubai Schools Corporation Nad AlShiba L.L.C.","nameAr":"شركة مدارس دبي ند الشبا ش.ذ.م.م","location":"NADD AL SHIBA FOURTH","curriculum":"American","grades":"KG1-G6","rating":"","rating2022":"NULL","students":541,"phone":"97143294610","website":"www.dubaischools-nas.ae","email":"principal@dubaischools-nas.ae","established":2022,"feeMin":29900,"feeMax":43800,"lat":25.1382999420166,"lng":55.3685989379883},{"id":78,"name":"Dunecrest American School L.L.C","nameAr":"مدرسة دونكرست الأمريكية ش.ذ.م.م","location":"Al Barari","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":773,"phone":"97145087444","website":"www.esoleducation.com","email":"babushakra@esoleducation.com","established":2018,"feeMin":48612,"feeMax":94053,"lat":25.09076,"lng":55.306367},{"id":79,"name":"Durham School L.L.C","nameAr":"مدرسة دورهام ش.ذ.م.م","location":"DUBAI INVESTMENT PARK FIRST","curriculum":"UK","grades":"FS1-Y9","rating":"","rating2022":"NULL","students":424,"phone":"800387426","website":"www.durhamdubai.com","email":"info@durhamdubai.com","established":2022,"feeMin":54000,"feeMax":99000,"lat":24.997859954834,"lng":55.1550483703613},{"id":80,"name":"Dwight School L.L.C","nameAr":"مدرسة دوايت ذ.م.م","location":"Dubai Sports City","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":658,"phone":"800394448","website":"www.dwightschooldubai.ae","email":"Info@dwight.ae","established":2018,"feeMin":63622,"feeMax":108212,"lat":25.0348098866891,"lng":55.2282295157956},{"id":81,"name":"Elite English School","nameAr":"مدرسة ايليت الانجليزية","location":"Deira","curriculum":"Indian","grades":"Pre Primary-G12","rating":"Acceptable","rating2022":"Acceptable","students":2172,"phone":"97142688244","website":"www.eliteenglishschool.com","email":"ees@eliteenglishschool.com","established":1993,"feeMin":4734,"feeMax":10451,"lat":25.288842,"lng":55.340475},{"id":83,"name":"Emirates International School L.L.C.","nameAr":"مدرسة الامارات الدولية الخاصة ش.ذ.م.م","location":"UMM SUQEIM FIRST","curriculum":"UK/IB","grades":"FS1-Y13","rating":"Very good","rating2022":"Good","students":2326,"phone":"97143489804","website":"www.eischools.ae","email":"Principaljumeirah@eischools.ae","established":1991,"feeMin":null,"feeMax":null,"lat":25.1357457,"lng":55.2100999},{"id":82,"name":"EMIRATES INTERNATIONAL SCHOOL MEADOWS","nameAr":"مدرسة الامارات الدولية الخاصة (فرع)","location":"Meadows","curriculum":"International Baccalaureate (13Y)","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":1905,"phone":"97143629009","website":"www.eischools.ae","email":"principalmeadows@eischools.ae","established":2006,"feeMin":null,"feeMax":null,"lat":25.064758,"lng":55.156161},{"id":84,"name":"Emirates National Schools - Dubai Branch","nameAr":"مدارس الامارات الوطنية - فرع دبي","location":"AL KHWANEEJ FIRST","curriculum":"International Baccalaureate","grades":"Pre-primary-G7","rating":"Acceptable","rating2022":"NULL","students":582,"phone":"8002008","website":"www.ens.sch.ae","email":"m.deeb@dxb.ens.sch.ae","established":2021,"feeMin":25000,"feeMax":45000,"lat":25.227575409811,"lng":55.5328923530834},{"id":85,"name":"English Language Private School","nameAr":"مدرسة اللغة الانجليزية الخاصة","location":"UMM HURAIR FIRST","curriculum":"UK","grades":"FS2-Y13","rating":"Acceptable","rating2022":"Acceptable","students":2005,"phone":"97143377503","website":"www.elspvtdubai.com","email":"principal@elspvtdubai.com","established":1982,"feeMin":4424,"feeMax":11615,"lat":25.2413525574838,"lng":55.3181592476905},{"id":86,"name":"Fairgreen International School L.L.C","nameAr":"مدرسة فايرجرين انترناشيونال ذ.م.م","location":"Dubai Land","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1042,"phone":"97148754999","website":"www.esoleducation.com","email":"info@fairgreen.ae","established":2018,"feeMin":52800,"feeMax":90200,"lat":25.0268001556396,"lng":55.2771186828613},{"id":87,"name":"GEMS Al Khaleej International School - Dubai Branch","nameAr":"مدرسة جيمس الخليج الدولية - فرع دبي","location":"AL WARQA FOURTH","curriculum":"American","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":3064,"phone":"97142173900","website":"www.gemsakns.net","email":"ghadeer.a_akn@gemsedu.com","established":1992,"feeMin":33153,"feeMax":56466,"lat":25.1901988983154,"lng":55.4293098449707},{"id":88,"name":"GEMS Albarsha National School - Dubai Branch","nameAr":"مدرسة جيمس البرشاء الوطنية - فرع دبي","location":"AL BARSHA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Acceptable","rating2022":"Acceptable","students":933,"phone":"97145069222","website":"www.gemsnationalschool-barsha.com","email":"principal_gns@gemsedu.com","established":2017,"feeMin":44385,"feeMax":65520,"lat":25.0794811248779,"lng":55.2303924560547},{"id":89,"name":"GEMS Dubai American Academy - Dubai Branch","nameAr":"اكاديمية جيمس دبي الامريكية - فرع دبي","location":"AL BARSHA SOUTH FIRST","curriculum":"American","grades":"KG1-G12","rating":"Outstanding","rating2022":"Outstanding","students":3320,"phone":"97147049777","website":"www.gemsaa-dubai.com","email":"principal_daa@gemsedu.com","established":1997,"feeMin":64665,"feeMax":91158,"lat":25.1045787522081,"lng":55.1810666967035},{"id":90,"name":"GEMS First Point School L.L.C","nameAr":"مدرسة جيمس فيرست بوينت ش.ذ.م.م","location":"Dubai Land","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Good","students":1954,"phone":"97142789700","website":"www.gemsfirstpointschool-dubai.com","email":"Principal_fps@gemsedu.com","established":2014,"feeMin":43271,"feeMax":74017,"lat":25.0885581970215,"lng":55.3765487670898},{"id":91,"name":"GEMS Founders School - Dubai Branch","nameAr":"مدرسة جيمس فاوندرز - فرع دبي","location":"AL BARSHA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Good","students":6231,"phone":"97145195222","website":"www.gemsfoundersschool-dubai.com","email":"h.mahmoud_gfs@gemsedu.com","established":2016,"feeMin":24181,"feeMax":36272,"lat":25.0799005,"lng":55.227909},{"id":92,"name":"GEMS Founders School DS DWC-LLC","nameAr":"مدرسة جيمس فاوندرز دي اس دي دبليو سي - ش.ذ.م.م","location":"Dubai South HQ","curriculum":"UK","grades":"FS1-Y8","rating":"","rating2022":"","students":554,"phone":"97145735246","website":"https://www.gemsfoundersschool-dubaisouth.com/en/","email":"Principal_gfd@gemsedu.com","established":2024,"feeMin":36400,"feeMax":47600,"lat":24.9458415868457,"lng":55.208323488819},{"id":93,"name":"GEMS Founders School Mizhar","nameAr":"مدرسة جيمس فاوندرز مزهر","location":"AL MIZHAR FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":4739,"phone":"97142103555","website":"www.gemsfoundersschool-mizhar.com","email":"registrar_gfm@gemsedu.com","established":2018,"feeMin":24306,"feeMax":36987,"lat":25.2433700561523,"lng":55.451229095459},{"id":94,"name":"GEMS International School Al Khail L.L.C","nameAr":"مدرسة جيمس الدولية الخيل ش.ذ.م.م","location":"Al Khail","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":2246,"phone":"97143396200","website":"www.gemsinternationalschool-alkhail.com","email":"","established":2013,"feeMin":51212,"feeMax":77663,"lat":25.122517,"lng":55.255383},{"id":95,"name":"GEMS Jumeira Primary School - Dubai Branch","nameAr":"مدرسة جيمس جميرا الابتدائية الخاصة - فرع دبي","location":"JUMEIRA THIRD","curriculum":"UK","grades":"FS1-Y6","rating":"Outstanding","rating2022":"Outstanding","students":1443,"phone":"97143943500","website":"www.jpsdubai.sch.ae","email":"principal_jps@gemsedu.com","established":1994,"feeMin":43185,"feeMax":54435,"lat":25.175947,"lng":55.238661},{"id":96,"name":"GEMS Legacy School - Dubai Branch","nameAr":"مدرسة جيمس ليجاسي - فرع دبي","location":"AL GARHOUD","curriculum":"Indian","grades":"KG1-G8","rating":"Good","rating2022":"Good","students":6746,"phone":"97142824090","website":"www.gemslegacyschool-dubai.com","email":"asha.a_gls@gemsedu.com","established":1982,"feeMin":8336,"feeMax":18468,"lat":25.2479648590088,"lng":55.3393516540527},{"id":97,"name":"GEMS Metropole School - Dubai Branch","nameAr":"مدرسة جيمس متروبول - فرع دبي","location":"Motor City","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":4066,"phone":"97145507200","website":"www.gemsmetropoleschool-dubai.com","email":"principal_mts@gemsedu.com","established":2014,"feeMin":37511,"feeMax":50015,"lat":25.042225,"lng":55.244515},{"id":98,"name":"GEMS Metropole School - Al Waha","nameAr":"مدرسة جيمس متروبول الواحة","location":"Emirates Road","curriculum":"UK","grades":"FS1 - Y8","rating":"","rating2022":"NULL","students":1505,"phone":"97145266555","website":"www.gemsmetropoleschool-alwaha.com","email":"elsa.bhat@gemseducation.com","established":2023,"feeMin":null,"feeMax":null,"lat":25.0340820961892,"lng":55.2819679170989},{"id":99,"name":"GEMS Modern Academy","nameAr":"جيمس مودرن اكاديمي","location":"NADD AL SHIBA FIRST","curriculum":"Indian/IB","grades":"Pre Primary - G12","rating":"Outstanding","rating2022":"Outstanding","students":3941,"phone":"97143263339","website":"www.gemsmodernacademy-dubai.com","email":"principal_mhs@gemsedu.com","established":1986,"feeMin":30272,"feeMax":63792,"lat":25.1536026000977,"lng":55.3761520385742},{"id":100,"name":"GEMS New Millennium School L.L.C","nameAr":"مدرسة جيمس نيو ميلينيوم ش.ذ.م.م","location":"Al Khail","curriculum":"Indian - UK","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":2654,"phone":"97144452900","website":"www.gemsnms-alkhail.com","email":"fatima.m_nms@gemsedu.com","established":2013,"feeMin":22612,"feeMax":32787,"lat":25.122056,"lng":55.253912},{"id":101,"name":"GEMS Our Own English High School","nameAr":"جيمس مدرستنا الثانوية الانجليزية","location":"AL WARQA FIRST","curriculum":"Indian","grades":"KG1-G12","rating":"Very good","rating2022":"Very good","students":10446,"phone":"97142361335","website":"www.gemsoo-dubai.com","email":"principal_ood@gemsedu.com","established":1972,"feeMin":7648,"feeMax":16187,"lat":25.193408,"lng":55.42551},{"id":102,"name":"GEMS Our Own Indian School","nameAr":"جيمس مدرستنا الهندية","location":"AL QOUZ FIRST","curriculum":"Indian","grades":"KG1-G12","rating":"Very good","rating2022":"Very good","students":3687,"phone":"97143391188","website":"www.gemsoo-alquoz.com","email":"lalitha.s_ois@gemsedu.com","established":1991,"feeMin":7043,"feeMax":14359,"lat":25.171781,"lng":55.260647},{"id":103,"name":"GEMS Royal Dubai School - Dubai Branch","nameAr":"مدرسة جيمس رويال دبي الخاصة - فرع دبي","location":"MIRDIF","curriculum":"UK","grades":"Pre Primary-Y6","rating":"Very good","rating2022":"Very good","students":801,"phone":"97142886499","website":"www.royaldubaischool.com","email":"principal_rds@gemsedu.com","established":2005,"feeMin":39328,"feeMax":75000,"lat":25.2373027801514,"lng":55.4385871887207},{"id":104,"name":"GEMS Wellington Academy Al Khail L.L.C","nameAr":"اكاديمية جيمس ويلينغتون الخيل ش.ذ.م.م","location":"Al Khail","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":2472,"phone":"97145129100","website":"www.gemswellingtonacademy-alkhail.com","email":"principal_wek@gemsedu.com","established":2013,"feeMin":60907,"feeMax":107279,"lat":25.124333,"lng":55.254867},{"id":105,"name":"GEMS Wellington Academy -Fze","nameAr":"أكاديمية جميس ولينجتون - م م ح","location":"Dubai Silicon Oasis","curriculum":"UK/IB","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":4265,"phone":"97145159000","website":"www.gemswellingtonacademy-dso.com","email":"principal_wso@gemsedu.com","established":2011,"feeMin":39414,"feeMax":89001,"lat":25.118243,"lng":55.388303},{"id":106,"name":"GEMS Wellington International School - Dubai Branch","nameAr":"مدرسة جيمس ويلينجتون انترناشيونال الخاصة - فرع دبي","location":"AL SAFOUH FIRST","curriculum":"UK/IB","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Outstanding","students":2907,"phone":"97143484999","website":"www.wellingtoninternationalschool.com","email":"principal_wis@gemsedu.com","established":2005,"feeMin":46436,"feeMax":101025,"lat":25.112042,"lng":55.183447},{"id":107,"name":"GEMS Winchester School","nameAr":"مدرسة جيمس وينشستر","location":"Dubai Land","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":4182,"phone":"97143374112","website":"www.gemswinchesterschool-dubai.com","email":"enquiries_wsd@gemsedu.com","established":2011,"feeMin":19902,"feeMax":37521,"lat":25.0804634094238,"lng":55.3315391540527},{"id":108,"name":"GEMS World Academy","nameAr":"جي اي ام اس وورلد اكاديمي","location":"AL BARSHA FIRST","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":2066,"phone":"97143736373","website":"www.gemsworldacademy-dubai.com","email":"principal_gwa@gemsedu.com","established":2008,"feeMin":69480,"feeMax":120608,"lat":25.082225,"lng":55.219567},{"id":109,"name":"German International School Dubai","nameAr":"المدرسة الالمانية الدولية بدبي","location":"Academic City","curriculum":"German","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Good","students":950,"phone":"97144562718","website":"www.germanschool.ae","email":"info@germanschool.ae","established":2004,"feeMin":38760,"feeMax":73227,"lat":25.1079,"lng":55.4014},{"id":110,"name":"Glendale International School LLC","nameAr":"مدرسة جليندال انترناشيونال ذ.م.م","location":"Oud Metha","curriculum":"UK","grades":"FS1 - Y6","rating":"","rating2022":"NULL","students":305,"phone":"056-7663210","website":"www.glendaleschool.org","email":"amol@myglobalschool.org","established":2023,"feeMin":42000,"feeMax":55200,"lat":25.234978810467,"lng":55.3159900150715},{"id":111,"name":"Global Indian International School L.L.C","nameAr":"مدرسة جلوبال انديان انترناشيونال ش.ذ.م.م","location":"AL QOUZ FIRST","curriculum":"Indian","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":837,"phone":"97142255681","website":"www.globalindianschool.org","email":"giis.dubai@globalindianschool.org","established":2017,"feeMin":22378,"feeMax":41029,"lat":25.1734841292754,"lng":55.2585414836648},{"id":112,"name":"Grammar School","nameAr":"مدرسة النحو","location":"AL GARHOUD","curriculum":"UK","grades":"FS2-Y13","rating":"Acceptable","rating2022":"Acceptable","students":1379,"phone":"97142824822","website":"www.grammarschool.ae","email":"info@grammarschool.ae","established":1974,"feeMin":5002,"feeMax":6878,"lat":25.235469,"lng":55.351983},{"id":113,"name":"Greenfield International School","nameAr":"مدرسة جرين فيلد انترناشيونال","location":"DUBAI INVESTMENT PARK FIRST","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":1774,"phone":"97148856600","website":"www.gischool.ae","email":"lgirven@gischool.ae","established":2007,"feeMin":34286,"feeMax":87144,"lat":24.9830188751221,"lng":55.183837890625},{"id":114,"name":"Greenwood International School","nameAr":"مدرسة جرين وود انترناشونال","location":"MUHAISNAH FIRST","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":1251,"phone":"97142888000","website":"www.greenwood.sch.ae","email":"rbadri40@emirates.net.ae","established":1992,"feeMin":19662,"feeMax":30151,"lat":25.244239,"lng":55.4183},{"id":115,"name":"Gulf Indian High School","nameAr":"مدرسة الخليج الهندية الثانوية","location":"AL GARHOUD","curriculum":"Indian","grades":"KG1-G12","rating":"Good","rating2022":"Acceptable","students":2554,"phone":"97142824455","website":"www.gihsdubai.com","email":"gihs@gihsdubai.com","established":1979,"feeMin":4874,"feeMax":9217,"lat":25.2370567321777,"lng":55.3497657775879},{"id":116,"name":"Gulf Model School","nameAr":"مدرسة الخليج النموذجية","location":"MUHAISNAH FIRST","curriculum":"Indian","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":4737,"phone":"97142544222","website":"www.gulf model school.com","email":"principal@gmsdubai.ae","established":1982,"feeMin":3875,"feeMax":7046,"lat":25.27805519104,"lng":55.407039642334},{"id":117,"name":"H.H.Shaikh Rashid Al Maktoum Pakistani School","nameAr":"مدرسة صاحب السمو الشيخ راشد آل مكتوم الباكستانية دبي","location":"AL QUSAIS FIRST","curriculum":"Pakistani","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1404,"phone":"97142988303","website":"www.sramps.sch.ae","email":"principal@sramps.sch.ae","established":1995,"feeMin":4400,"feeMax":8250,"lat":25.2851276397705,"lng":55.3699340820313},{"id":118,"name":"Hampton Heights International School","nameAr":"مدرسة هامبتون هايتس انترناشيونال","location":"AL TWAR THIRD","curriculum":"UK","grades":"FS1 - Y6","rating":"","rating2022":"","students":255,"phone":"971564179999","website":"https://www.hamptonheights.ae/","email":"principal@hamptonheights.ae","established":2024,"feeMin":19500,"feeMax":26000,"lat":25.2452829811107,"lng":55.394351852919},{"id":119,"name":"Hartland International School - FZ","nameAr":"مدرسة هارتلاند انترناشيونال - منطقة حرة","location":"Meydan City","curriculum":"UK/IB","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":1998,"phone":"97144079444","website":"hartlandinternational.com","email":"fcottam@hartlandinternational.com","established":2015,"feeMin":43328,"feeMax":82429,"lat":25.177339553833,"lng":55.3052406311035},{"id":120,"name":"Himayah Kindergarten For Education- Karama","nameAr":"روضة حماية للتربية و التعليم – الكرامة","location":"AL KARAMA","curriculum":"Ministry of Education","grades":"KG1-KG2","rating":"Good","rating2022":"Good","students":199,"phone":"97145070444","website":"","email":"","established":2000,"feeMin":null,"feeMax":null,"lat":25.2514255891525,"lng":55.3051509654655},{"id":121,"name":"Himayah School For Education Boys - Diera (Abu Hail)","nameAr":"مدارس حماية للتربية والتعليم بنين - ديرة (أبوهيل)","location":"ABU HAIL","curriculum":"Ministry of Education","grades":"G1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1016,"phone":"97143482255","website":"NULL","email":"college@dubaipolice.gov.ae","established":2018,"feeMin":0,"feeMax":0,"lat":25.2834482817089,"lng":55.3435198445644},{"id":122,"name":"Himayah School For Education Girls - Al Karama","nameAr":"مدارس حماية للتربية والتعليم بنات - الكرامة","location":"AL KARAMA","curriculum":"Ministry of Education","grades":"G1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1047,"phone":"97143482255","website":"www.dubaipolice.gov.ae","email":"college@dubaipolice.gov.ae","established":2018,"feeMin":0,"feeMax":0,"lat":25.2481738535334,"lng":55.3064191307325},{"id":123,"name":"Horizon International School L.L.C","nameAr":"مدرسة هورايزن انترناشيونال ش.ذ.م.م","location":"UMM AL SHEIF","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Good","students":1545,"phone":"97143483314","website":"www.horizonintlschool.com","email":"info@horizonintlschool.com","established":2008,"feeMin":37940,"feeMax":71445,"lat":25.1328258514404,"lng":55.2048797607422},{"id":124,"name":"Horizons English School L.L.C","nameAr":"مدرسة الآفاق الانجليزية ش.ذ.م.م","location":"AL WASL","curriculum":"UK","grades":"FS1-Y6","rating":"Outstanding","rating2022":"Outstanding","students":1379,"phone":"97143422891","website":"www.horizonschooldubai.com","email":"arabicsec@horizonschooldubai.com","established":1989,"feeMin":30780,"feeMax":43108,"lat":25.189889,"lng":55.250028},{"id":125,"name":"Icademy Middle East Fz.Llc","nameAr":"اي كادمي ميدل ايست منطقة حرة ذ.م.م","location":"Dubai Knowledge Park","curriculum":"American","grades":"KG2-G12","rating":"","rating2022":"NULL","students":909,"phone":"971971444012","website":"icademymiddleeast.com/","email":"ealfarra@icademydubai.com","established":2008,"feeMin":19373,"feeMax":27129,"lat":25.101772,"lng":55.160615},{"id":126,"name":"Ignite School L.L.C","nameAr":"مدرسة اجنايت ش.ذ.م.م","location":"AL WARQA THIRD","curriculum":"American","grades":"Pre Primary-G9","rating":"Acceptable","rating2022":"Acceptable","students":1152,"phone":"97142110777","website":"www.igniteschool.ae","email":"director@igniteschool.ae","established":2018,"feeMin":28000,"feeMax":43000,"lat":25.1905708312988,"lng":55.4107284545898},{"id":127,"name":"International Academic School","nameAr":"المدرسة الاكاديمية الدولية","location":"AL WARQA FIRST","curriculum":"American","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1506,"phone":"97142800993","website":"www.iasdubai.com","email":"principal@ias-dubai.ae","established":2006,"feeMin":14648,"feeMax":27467,"lat":25.186381,"lng":55.403486},{"id":128,"name":"International School of Creative Science Nad Alshiba L.L.C","nameAr":"مدرسة الإبداع العلمي الدولية ند الشبا ش.ذ.م.م","location":"NADD AL SHIBA THIRD","curriculum":"UK","grades":"FS1-Y12","rating":"Good","rating2022":"Good","students":1655,"phone":"97145107000","website":"http://www.iscs.sch.ae/en/nad-al-sheba/","email":"Linaa@nas.iscs.sch.ae","established":2016,"feeMin":33500,"feeMax":64000,"lat":25.0799999237061,"lng":55.2246017456055},{"id":129,"name":"Iranian Khadije Kobra School","nameAr":"مدرسة خديجة الكبرى الايرانية للبنات الخاصة","location":"AL KARAMA","curriculum":"Iranian","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":328,"phone":"97143961236","website":"NA","email":"nezamdoost_na@yahoo.com","established":2000,"feeMin":3595,"feeMax":7926,"lat":25.252825,"lng":55.307217},{"id":130,"name":"Iranian Salman Farsi Boys School","nameAr":"مدرسة سلمان الفارسي للبنين الخاصة","location":"AL QUSAIS FIRST","curriculum":"Iranian","grades":"G1-G12","rating":"Acceptable","rating2022":"Acceptable","students":479,"phone":"97142988116","website":"www.irs-uae.com/salman/home.asp","email":"salmanbo@eim.ae","established":2000,"feeMin":2612,"feeMax":3945,"lat":25.280592,"lng":55.370039},{"id":131,"name":"Iranian Towheed Boys School","nameAr":"مدرسة التوحيد الايرانية للبنين الخاصة","location":"AL QOUZ FIRST","curriculum":"Iranian - International Baccalaureate","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":796,"phone":"97143389953","website":"www.bi-st.com","email":"pro@towheedschool.com","established":2000,"feeMin":12043.5,"feeMax":15185,"lat":25.1741104125977,"lng":55.2569923400879},{"id":132,"name":"Iranian Towheed Girls School","nameAr":"مدرسة التوحيد الايرانية للبنات الخاصة","location":"AL KARAMA","curriculum":"Iranian","grades":"KG2-G12","rating":"Acceptable","rating2022":"Acceptable","students":158,"phone":"97143961234","website":"www.gi_st.com","email":"dbrtohidd@yahoo.com","established":2000,"feeMin":8948,"feeMax":14877,"lat":25.2529830932617,"lng":55.3068428039551},{"id":133,"name":"Islamic School for Training & Education","nameAr":"المدرسة الاسلامية للتربية والتعليم","location":"MUHAISNAH FIRST","curriculum":"Ministry of Education","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":734,"phone":"97142646001","website":"www.lootah.com/eng/school/schlfrmset.htm","email":"school@sslootah.com","established":1982,"feeMin":8983,"feeMax":13210,"lat":25.252208,"lng":55.416992},{"id":134,"name":"Japanese School","nameAr":"المدرسة اليابانية","location":"AL WASL","curriculum":"Japanese","grades":"Pre-primary-G9","rating":"Good","rating2022":"Good","students":173,"phone":"97143449119","website":"www.japanese.sch.ae","email":"djs_koch@emirates.net.ae","established":1980,"feeMin":32400,"feeMax":38400,"lat":25.192697,"lng":55.254131},{"id":135,"name":"Jebel Ali School (Br of Taaleem Management (L L C))","nameAr":"(مدرسة جبل علي )فرع من تعليم للادارة ش.ذ.م.م","location":"JABAL ALI FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":2027,"phone":"97148846485","website":"jebelalischool.org/","email":"arabicao@jebelalischool.org","established":1978,"feeMin":null,"feeMax":null,"lat":25.209117,"lng":55.282415},{"id":136,"name":"JSS International School L.L.C","nameAr":"مدرسة جيه اس اس العالمية ش.ذ.م.م","location":"Jumeirah Village Circle (South)","curriculum":"Indian","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":3131,"phone":"97142406353","website":"www.jssisdubai.com","email":"info@jssisdubai.com","established":2010,"feeMin":16362,"feeMax":42695,"lat":25.0661563873291,"lng":55.2026901245117},{"id":137,"name":"JSS Private School L.L.C","nameAr":"مدرسة جيه اس اس الخاصة ش.ذ.م.م","location":"AL WASL","curriculum":"Indian","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":2091,"phone":"97143446419","website":"www.jsspsdubai.com","email":"principal@jsspsdubai.com","established":2011,"feeMin":11866,"feeMax":25769,"lat":25.191845,"lng":55.252894},{"id":138,"name":"Jumeira Baccalaureate School","nameAr":"مدرسة جميرا للبكالوريا","location":"JUMEIRA FIRST","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":1614,"phone":"97143446931","website":"www.jbschool.ae","email":"principal@jbschool.ae","established":2010,"feeMin":62727,"feeMax":94089,"lat":25.218637,"lng":55.259723},{"id":139,"name":"Jumeirah College","nameAr":"كلية جميرا - فرع دبي","location":"AL SAFA FIRST","curriculum":"UK","grades":"Y7-Y13","rating":"Outstanding","rating2022":"Outstanding","students":1463,"phone":"97143955524","website":"www.gemsjc.com","email":"principal_jcd@gemsedu.com","established":2000,"feeMin":77133,"feeMax":96415,"lat":25.176394,"lng":55.235789},{"id":140,"name":"Jumeirah English Speaking School","nameAr":"مدرسة جميرا للتخاطب بالانجليزية","location":"AL SAFA FIRST","curriculum":"UK","grades":"FS1-Y6","rating":"Outstanding","rating2022":"Outstanding","students":755,"phone":"97143945515","website":"www.jess.sch.ae","email":"Headteacherjumeirah@jess.sch.ae","established":1976,"feeMin":48331,"feeMax":59728,"lat":25.179742,"lng":55.243147},{"id":141,"name":"Jumeirah English Speaking School (Br)","nameAr":"مدرسة جميرا للتخاطب بالانجليزية (فرع)","location":"Arabian Ranches","curriculum":"UK - International Baccalaureate","grades":"FS1-G13","rating":"Outstanding","rating2022":"Outstanding","students":1814,"phone":"97143619019","website":"www.jess.sch.ae","email":"director@jess.sch.ae","established":2005,"feeMin":48330,"feeMax":100578,"lat":25.056689,"lng":55.272661},{"id":142,"name":"Kent College L.L.C - FZ","nameAr":"كنت كوليج ش.ذ.م.م - منطقة حرة","location":"NADD AL SHIBA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Good","students":1399,"phone":"97143180700","website":"www.kentcollege.ae","email":"principal@kentcollege.ae","established":2016,"feeMin":58151,"feeMax":105533,"lat":25.0718593597412,"lng":55.2125396728516},{"id":143,"name":"Kings School Al Barsha L.L.C","nameAr":"مدرسة كينجز البرشاء ش.ذ.م.م","location":"AL BARSHA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Outstanding","students":3053,"phone":"97143566900","website":"www.kingsdubai.com/Kings-School-Al-Barsha","email":"govtrelations@kingsdubai.com","established":2014,"feeMin":56667,"feeMax":112446,"lat":25.100523,"lng":55.253677},{"id":144,"name":"Kings School Dubai L.L.C","nameAr":"مدرسة كينجز دبي ش.ذ.م.م","location":"UMM SUQEIM THIRD","curriculum":"UK","grades":"FS1-Y6","rating":"Outstanding","rating2022":"Outstanding","students":1157,"phone":"97143483939","website":"http://kings-edu.com/dubai/","email":"principal@kingsdubai.com","established":2004,"feeMin":46096,"feeMax":70152,"lat":25.135958,"lng":55.196242},{"id":145,"name":"Kings School Nad Al Sheba L.L.C","nameAr":"مدرسة كينجز ند الشبا ش.ذ.م.م","location":"NADD AL SHIBA FIRST","curriculum":"UK","grades":"FS1-Y10","rating":"Very good","rating2022":"Very good","students":1160,"phone":"97142375555","website":"http://kings-edu.com/nadalsheba/","email":"","established":2014,"feeMin":56951,"feeMax":94400,"lat":25.152161,"lng":55.379977},{"id":146,"name":"Little Flower English School","nameAr":"مدرسة الورود الصغيرة الانجليزية","location":"HOR AL ANZ","curriculum":"Indian","grades":"KG1-G6","rating":"Acceptable","rating2022":"Acceptable","students":962,"phone":"97142667620","website":"www.littlefllowerdubai.com","email":"info@littleflowerdubai.com","established":1984,"feeMin":3749,"feeMax":4040,"lat":25.282439,"lng":55.336397},{"id":147,"name":"Lycee Francais International","nameAr":"المدرسة الفرنسية الدولية الخاصة","location":"OUD METHA","curriculum":"French","grades":"Pre Primary-G12","rating":"Outstanding","rating2022":"Very good","students":3131,"phone":"97143368552","website":"lfidubai.aflec-fr.org/","email":"proviseur.lfi@aflec-fr.org","established":2005,"feeMin":28811,"feeMax":60931,"lat":25.241403,"lng":55.312731},{"id":148,"name":"Lycee Francais International Georges Pompidou School (Dubai Branch)","nameAr":"المدرسة الفرنسية الدولية جورج بومبيدو (فرع دبى)","location":"AL ROWAIYAH FIRST","curriculum":"French","grades":"G1-G12","rating":"Very good","rating2022":"Very good","students":2045,"phone":"97143260026","website":"","email":"proviseur@lgp.ae","established":1998,"feeMin":36072,"feeMax":49536,"lat":25.104978,"lng":55.395858},{"id":149,"name":"Lycee Francais International Georges Pompidou School Oud Metha","nameAr":"المدرسة الفرنسية الدولية جورج بومبيدو عود ميثاء","location":"OUD METHA","curriculum":"French","grades":"Pre Primary-KG2","rating":"Outstanding","rating2022":"Outstanding","students":399,"phone":"97143374161","website":"www.lgp.ae","email":"dirprimaire-om@lgp.ae","established":1998,"feeMin":30558,"feeMax":30558,"lat":25.233711,"lng":55.316025},{"id":150,"name":"Lycee Francais Jean Mermoz L.L.C","nameAr":"مدرسة ليسيه فرانسيه جان مرموز ش.ذ.م.م","location":"AL QOUZ FIRST","curriculum":"French","grades":"Pre Primary-G10","rating":"Very good","rating2022":"Very good","students":1494,"phone":"97143344111","website":"lfjm.education","email":"principal@lfjm.education","established":2017,"feeMin":38875,"feeMax":63150,"lat":25.1749992370605,"lng":55.2516708374023},{"id":151,"name":"Lycee Francais Jean Mermoz South L.L.C","nameAr":"مدرسة ليسيه فرانسيه جان مرموز جنوب ذ.م.م","location":"Meadows","curriculum":"French","grades":"Pre Primary-G12","rating":"","rating2022":"","students":134,"phone":"","website":"","email":"thomas.dentinger@gmail.com","established":2024,"feeMin":45000,"feeMax":74000,"lat":0,"lng":0},{"id":152,"name":"Lycee Libanais Francophone Prive Meydan L.L.C - FZ","nameAr":"المدرسة اللبنانية الفرنكوفونية الخاصة ميدان ش.ذ.م.م - منطقة حرة","location":"Meydan City","curriculum":"French","grades":"Pre-primary-G12","rating":"Very good","rating2022":"NULL","students":1295,"phone":"97145607800","website":"www.llfpm.com","email":"direction@llfpm.com","established":2021,"feeMin":38988,"feeMax":67716,"lat":25.1278991699219,"lng":55.3521499633789},{"id":153,"name":"M S B Private School","nameAr":"مدرسة ام اس بي الخاصة","location":"AL NAHDA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Very good","students":1463,"phone":"97142677100","website":"www.msbdubai.com","email":"msbdubai@eim.ae","established":1992,"feeMin":11545,"feeMax":27045,"lat":25.290983,"lng":55.378581},{"id":154,"name":"Mirdif American School","nameAr":"مدرسة مردف الأمريكية","location":"AL MIZHAR FIRST","curriculum":"American","grades":"Pre-primary-G8","rating":"Good","rating2022":"Good","students":774,"phone":"97142883303","website":"www.mirdifprivateschool.ae","email":"mirdif98@emirates.net.ae","established":1995,"feeMin":25348,"feeMax":44000,"lat":25.237383,"lng":55.437061},{"id":155,"name":"SCHOOL OF MODERN SKILLS","nameAr":"مدرسة المهارات الحديثه ش.ذ.م.م","location":"MUHAISNAH FIRST","curriculum":"American","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1875,"phone":"97142887765","website":"www.dubai-sms.com","email":"principal@dubai-sms.com","established":2006,"feeMin":null,"feeMax":null,"lat":25.244356,"lng":55.4160308837891},{"id":156,"name":"National Charity School Primary (Br of The National Charity School for Boys L.L.C)","nameAr":"المدرسة الاهلية الخيرية التأسيسية","location":"ABU HAIL","curriculum":"Ministry of Education","grades":"G1-G4","rating":"Acceptable","rating2022":"Acceptable","students":715,"phone":"97143897600","website":"www.charityschools.com","email":"reem.hesein@charityschools.com","established":2021,"feeMin":null,"feeMax":null,"lat":55.3418197631836,"lng":25.2738800048828},{"id":157,"name":"New Academy School","nameAr":"المدرسة الاكاديمية الجديدة","location":"AL RAFFA","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":1370,"phone":"97143988873","website":"","email":"nasch@emirates.net.ae","established":1990,"feeMin":9026,"feeMax":24060,"lat":25.250636,"lng":55.284283},{"id":158,"name":"New Dawn Private School","nameAr":"مدرسة نيو دون الخاصة ذ.م.م","location":"MUHAISNAH FOURTH","curriculum":"UK","grades":"FS1 - Y6","rating":"","rating2022":"","students":293,"phone":"971543040417","website":"https://www.newdawnadmissions.ae/","email":"info.newdawn24@gmail.com","established":2024,"feeMin":null,"feeMax":null,"lat":25.2757178643199,"lng":55.4106232672816},{"id":159,"name":"New Indian Model School","nameAr":"المدرسة الهندية النموذجية الجديدة","location":"AL GARHOUD","curriculum":"Indian","grades":"KG1-G12","rating":"Good","rating2022":"Acceptable","students":7449,"phone":"97142824313","website":"www.nimsdxb.com","email":"principal@nimsdxb.com","established":1980,"feeMin":4363,"feeMax":7591,"lat":25.237008,"lng":55.347017},{"id":160,"name":"Newlands School","nameAr":"مدرسة نيولاندز","location":"AL WARQA FIRST","curriculum":"UK","grades":"FS1-Y11","rating":"Good","rating2022":"Good","students":1042,"phone":"97142821200","website":"www.newlandsschool.ae","email":"registrar@newlandsschool.ae","established":2017,"feeMin":20881,"feeMax":36936,"lat":25.1799793243408,"lng":55.399040222168},{"id":161,"name":"Next Generation School L.L.C","nameAr":"مدرسة نكست جينيريشن ش.ذ.م.م","location":"AL BARSHA FIRST","curriculum":"American","grades":"Pre Primary-G10","rating":"Good","rating2022":"Acceptable","students":1480,"phone":"97148517700","website":"www.ngsdubai.ae","email":"principal@nextgenerationschool.ae","established":2016,"feeMin":24500,"feeMax":46051,"lat":25.0982894897461,"lng":55.1896705627441},{"id":162,"name":"Nord Anglia International School L.L.C","nameAr":"مدرسة نورد انجليا انترناشيونال ش.ذ.م.م","location":"AL BARSHA SECOND","curriculum":"UK - UK/IB","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Outstanding","students":2944,"phone":"97142199999","website":"www.nasdubai.ae","email":"Matthew.Farthing@nasdubai.ae","established":2014,"feeMin":68026,"feeMax":102871,"lat":25.061521,"lng":55.227338},{"id":163,"name":"North American International School L.L.C","nameAr":"مدرسة نورث أميريكان انترناشونال ش.ذ.م.م","location":"AL MIZHAR FIRST","curriculum":"American","grades":"KG1-G12","rating":"Acceptable","rating2022":"Good","students":909,"phone":"97142884844","website":"www.naischool.ae","email":"principal@naischool.ae","established":2007,"feeMin":29960,"feeMax":47935,"lat":25.236083,"lng":55.432139},{"id":164,"name":"North London Collegiate School Middle East L.L.C - FZ","nameAr":"نورث لندن كوليجيات سكول ميدل إيست ش.ذ.م.م - منطقة حرة","location":"Meydan City","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":1782,"phone":"97143190888","website":"www.nlcsdubai.ae","email":"principal@nlcsdubai.ae","established":2017,"feeMin":89629,"feeMax":140382,"lat":25.178560256958,"lng":55.3066787719727},{"id":165,"name":"Oak Tree Primary School","nameAr":"مدرسة اوك تري الابتدائية ش.ذ.م.م","location":"AL QOUZ FOURTH","curriculum":"UK","grades":"FS1-Y6","rating":"Acceptable","rating2022":"Acceptable","students":556,"phone":"97143333911","website":"www.oaktreeprimary.com","email":"governmentrelations@oaktreeprimary.com","established":2016,"feeMin":15852,"feeMax":26420,"lat":25.1492004394531,"lng":55.2476387023926},{"id":166,"name":"Our Own High School - Dubai Branch","nameAr":"مدرستنا العليا الخاصة - فرع دبي","location":"AL WARQA FIRST","curriculum":"Indian","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":4663,"phone":"97142800077","website":"www.gemsoo-alwarqa.com","email":"sanjeev.j_oow@gemsedu.com","established":2005,"feeMin":7648,"feeMax":15006,"lat":25.190892,"lng":55.400567},{"id":167,"name":"Oxford School","nameAr":"مدرسة اكسفورد","location":"MUHAISANAH FOURTH","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Acceptable","students":2316,"phone":"97142543666","website":"www.oxford.sch.ae","email":"oxfordsc@emirates.net.ae","established":1988,"feeMin":12404,"feeMax":19666,"lat":25.2812271118164,"lng":55.4021911621094},{"id":168,"name":"Pace Modern British School L.L.C","nameAr":"مدرسة بيس الحديثة البريطانية ش.ذ.م.م","location":"AL RASHIDIYA","curriculum":"UK","grades":"FS1-Y8","rating":"Acceptable","rating2022":"NULL","students":1055,"phone":"97142853333","website":"www.pacembs.com","email":"info@pacembs.com","established":2021,"feeMin":19802,"feeMax":26800,"lat":25.2297309,"lng":55.3831988},{"id":169,"name":"Pakistan Education Academy","nameAr":"اكاديمية باكستان التعليمية","location":"UMM HURAIR FIRST","curriculum":"Pakistani","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1748,"phone":"97143370126","website":"NA","email":"principal@pea.ae","established":1983,"feeMin":null,"feeMax":null,"lat":25.241917,"lng":55.316989},{"id":170,"name":"Pearl Wisdom School L.L.C","nameAr":"مدرسة بيرل ويسدوم ش.ذ.م.م","location":"HOR AL ANZ","curriculum":"Indian","grades":"KG1-G8","rating":"Good","rating2022":"Acceptable","students":1078,"phone":"97148843884","website":"http://www.pearlwisdomschool.com","email":"info@pearlwisdomschool.com","established":2020,"feeMin":15712,"feeMax":19570,"lat":25.2781505584717,"lng":55.3445587158203},{"id":171,"name":"Philadelphia Private School","nameAr":"مدرسة فيلادلفيا الخاصة","location":"MUHAISNAH FOURTH","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Acceptable","students":1000,"phone":"97142646202","website":"www.ppsdubai.org","email":"pps.principal@ppsdubai.org","established":2006,"feeMin":19069,"feeMax":38176.5,"lat":25.278906,"lng":55.402194},{"id":172,"name":"Primus Private School L.L.C","nameAr":"مدرسه برايموس الخاصه ش.ذ.م.م","location":"AL WARQA FIRST","curriculum":"Indian","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1553,"phone":"97142800691","website":"www.primusschool.sch.ae","email":"principal@primusschool.sch.ae","established":2008,"feeMin":11983,"feeMax":24022,"lat":25.186925,"lng":55.402725},{"id":173,"name":"Pristine Private School","nameAr":"مدرسة برستين الخاصة","location":"AL NAHDA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":2057,"phone":"97142674299","website":"www.pristineschool.com","email":"pristine@emirates.net.ae","established":1992,"feeMin":12018,"feeMax":28533,"lat":25.293458,"lng":55.375039},{"id":174,"name":"Queen International School","nameAr":"كوين انترناشيونال سكول","location":"Deira","curriculum":"UK (12 Y - Grades)","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":633,"phone":"97142652600","website":"www.queen-schools.com","email":"queenint@emirates.net.ae","established":1998,"feeMin":15197,"feeMax":28500,"lat":25.283108,"lng":55.348792},{"id":175,"name":"Raffles International School L.L.C (Umm Suqeim South Br)","nameAr":"مدرسة رافلز الدولية (ش ذ م م) - ام سقيم جنوب فرع","location":"UMM SUQEIM THIRD","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":1308,"phone":"97144271200","website":"www.rafflesis.com","email":"rishead@rafflesis.com","established":2008,"feeMin":33273,"feeMax":85861,"lat":25.136467,"lng":55.194503},{"id":176,"name":"Raffles World Academy","nameAr":"مدرسة رافلز وورلد أكاديمي","location":"UMM SUQEIM THIRD","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":1926,"phone":"97144271300","website":"","email":"","established":2008,"feeMin":32774,"feeMax":91766,"lat":25.1402128602974,"lng":55.1964965741376},{"id":177,"name":"Ranches Primary School","nameAr":"مدرسة رانشز برايمرى","location":"Arabian Ranches","curriculum":"UK","grades":"FS1-Y6","rating":"Very good","rating2022":"Very good","students":1089,"phone":"97144429765","website":"www.rpsdubai.com","email":"principal@rpsdubai.com","established":2015,"feeMin":49278,"feeMax":60228,"lat":25.0296497344971,"lng":55.2708511352539},{"id":178,"name":"Rashid and Latifa School","nameAr":"مدارس راشد ولطيفة","location":"NADD AL SHIBA FIRST","curriculum":"UK","grades":"FS1-Y6","rating":"","rating2022":"","students":97,"phone":"97143361300","website":"","email":"","established":2024,"feeMin":null,"feeMax":null,"lat":25.1511946057019,"lng":55.3134265952429},{"id":179,"name":"Regent International Private School L.L.C","nameAr":"مدرسة ريجنت انترناشيونال الخاصة (ش.ذ.م.م)","location":"The greens","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":1591,"phone":"97143608830","website":"www.risdubai.com","email":"principal.ris@forteseducation.com","established":1992,"feeMin":47949,"feeMax":101251,"lat":25.088125,"lng":55.173753},{"id":180,"name":"Renaissance School L.L.C","nameAr":"مدرسة رينايسنس ش.ذ.م.م","location":"Dubai Sports City","curriculum":"American","grades":"Pre Primary-G7","rating":"Acceptable","rating2022":"Acceptable","students":449,"phone":"97145897717","website":"www.renaissanceschool.ae","email":"principal@renaissanceschool.ae","established":2018,"feeMin":36050,"feeMax":56650,"lat":25.0402507781982,"lng":55.2246208190918},{"id":181,"name":"Repton Al Barsha Fz-Llc","nameAr":"ريبتون البرشاء منظقة حرة - ذ.م.م","location":"Al Barsha South","curriculum":"UK","grades":"FS1-Y11","rating":"Very good","rating2022":"Very good","students":1489,"phone":"97148188600","website":"www.reptonalbarsha.org","email":"info@reptonalbarsha.org","established":2013,"feeMin":52311,"feeMax":87713,"lat":25.079647064209,"lng":55.2426605224609},{"id":182,"name":"Repton School","nameAr":"مدرسة ريبتون","location":"NADD AL SHIBA THIRD","curriculum":"UK/IB","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Outstanding","students":2621,"phone":"800737866","website":"www.reptondubai.org","email":"principal@reptondubai.org","established":2007,"feeMin":55865,"feeMax":100394,"lat":25.145306,"lng":55.378833},{"id":183,"name":"Royal Grammar School Guildford L.L.C","nameAr":"مدرسة رويال غرامر غلدفورد ذ.م.م","location":"Dubai Sports City","curriculum":"UK","grades":"FS1-Y8","rating":"Very good","rating2022":"NULL","students":1662,"phone":"97144464333","website":"www.rgsgd.com","email":"Principal@rgsgd.com","established":2021,"feeMin":76950,"feeMax":116964,"lat":25.0336399078369,"lng":55.2314682006836},{"id":184,"name":"Russian International School","nameAr":"المدرسة الدولية الروسية","location":"MUHAISANAH FOURTH","curriculum":"Russian","grades":"KG1-G11","rating":"Good","rating2022":"Good","students":449,"phone":"97142641515","website":"www.dubairuschool.com","email":"info@dubairuschool.com","established":2006,"feeMin":15361,"feeMax":24602,"lat":25.282619,"lng":55.404694},{"id":185,"name":"Sabari Indian School L.L.C","nameAr":"مدرسة سبري الهنديه ش.ذ.م.م","location":"Deira","curriculum":"Indian","grades":"Pre Primary-G10","rating":"Good","rating2022":"Good","students":749,"phone":"97142505806","website":"www.sisdubai.com","email":"principal@sisdubai.com","established":2013,"feeMin":15730,"feeMax":19141,"lat":25.29003,"lng":55.341101},{"id":186,"name":"Safa British School","nameAr":"مدرسة الصفا البريطانية","location":"AL SAFA FIRST","curriculum":"UK","grades":"FS1-Y10","rating":"Very good","rating2022":"Very good","students":1669,"phone":"97143884300","website":"www.safabritishschool.com","email":"principal@safabritishschool.com","established":2005,"feeMin":44385,"feeMax":71861,"lat":25.17795386,"lng":55.24101601},{"id":187,"name":"Safa Community School","nameAr":"مدرسة صفا كوميونيتي","location":"AL BARSHA SOUTH FIRST","curriculum":"UK/IB","grades":"FS1-Y13","rating":"Outstanding","rating2022":"Very good","students":2560,"phone":"97143851810","website":"www.safacommunityschool.com","email":"sdaya@safacommunityschool.com","established":2014,"feeMin":53187,"feeMax":87386,"lat":25.0610885620117,"lng":55.2480812072754},{"id":188,"name":"Sharjah American International Private school","nameAr":"مدرسة الشارقة الأمريكية الدولية الخاصة","location":"AL WARQA FIRST","curriculum":"American","grades":"KG1-G12","rating":"Good","rating2022":"Good","students":2009,"phone":"97142801111","website":"www.saisdubai.com","email":"principal@saisdubai.com","established":2005,"feeMin":17563,"feeMax":43906,"lat":25.185614,"lng":55.403222},{"id":189,"name":"Sheikh Rashid Bin Saeed Islamic Institute","nameAr":"معهد الشيخ راشد بن سعيد الإسلامي","location":"AL ROWAIYAH FIRST","curriculum":"Ministry of Education","grades":"G5-G12","rating":"Good","rating2022":"Good","students":211,"phone":"97143688532","website":"www.rid.ae","email":"g_director@rid.ae","established":2003,"feeMin":0,"feeMax":0,"lat":25.103064,"lng":55.410163},{"id":190,"name":"Smart Vision School","nameAr":"مدرسة سمارت فيجن","location":"AL BARSHA SECOND","curriculum":"UK","grades":"FS1-Y7","rating":"Good","rating2022":"Good","students":387,"phone":"97142880965","website":"https://www.svschool.ae","email":"Info@svschool.ae","established":2014,"feeMin":32518,"feeMax":76020,"lat":25.1082069,"lng":55.2118224},{"id":191,"name":"South View School L.L.C","nameAr":"مدرسة ساوث فيو ذ.م.م","location":"Dubai Land","curriculum":"UK","grades":"FS1-Y12","rating":"Good","rating2022":"Good","students":1315,"phone":"97145897904","website":"southviewschool.com/","email":"operations@southview.ae","established":2018,"feeMin":45442,"feeMax":64992,"lat":25.0049705505371,"lng":55.2443313598633},{"id":192,"name":"Springdales School L.L.C","nameAr":"مدرسة سبرينجديلز ش.ذ.م.م","location":"AL QOUZ FOURTH","curriculum":"Indian - UK","grades":"Pre Primary-G12","rating":"Good","rating2022":"Good","students":1527,"phone":"97143381311","website":"www.springdalesdubai.com","email":"admin@springdalesdubai.com","established":2011,"feeMin":19378,"feeMax":46350,"lat":25.1500091552734,"lng":55.2533988952637},{"id":193,"name":"Pace Springfield International School","nameAr":"مدرسة سبرينق فييلد انترناشونال","location":"Al Awir First","curriculum":"UK","grades":"FS1-Y6","rating":"","rating2022":"","students":62,"phone":"97142710000","website":"https://springfieldschool.ae/","email":"info@springfieldschool.ae","established":2024,"feeMin":null,"feeMax":null,"lat":25.1741803996909,"lng":55.5373659827175},{"id":195,"name":"ST MARY HIGH SCHOOL MUHAISNAH L.L.C","nameAr":"مدرسة القديسة مريم الكاثوليكية الثانوية - دبي محيصنة (فرع)","location":"MUHAISANAH FOURTH","curriculum":"UK","grades":"FS1-Y11","rating":"Good","rating2022":"Good","students":1265,"phone":"97142614014","website":"www.stmarysmuhaisnah.com","email":"principal@stmarysmuhaisnah.com","established":2015,"feeMin":null,"feeMax":null,"lat":25.2803802490234,"lng":55.4082489013672},{"id":194,"name":"ST. Mary Catholic High School - Dubai","nameAr":"مدرسة القديسة مريم الكاثوليكية الثانوية - دبي","location":"UMM HURAIR FIRST","curriculum":"UK","grades":"Y1-Y13","rating":"Good","rating2022":"Good","students":1967,"phone":"97143370252","website":"www.stmarysdubai.com","email":"maryscol@emirates.net.ae","established":1968,"feeMin":6944,"feeMax":14917,"lat":25.2403697967529,"lng":55.317626953125},{"id":196,"name":"Star International School","nameAr":"مدرسة ستار الدولية","location":"AL TWAR SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":625,"phone":"97142638999","website":"www.starintlschoolaltwar.com","email":"principal.altwar@starintlschools.com","established":2000,"feeMin":21521,"feeMax":69769,"lat":25.259086,"lng":55.385236},{"id":197,"name":"Star International School (Branch)","nameAr":"مدرسة ستار الدولية (فرع)","location":"MIRDIF","curriculum":"UK","grades":"FS1-Y12","rating":"Good","rating2022":"Good","students":1250,"phone":"97142884644","website":"www.starmirdifschool.com/","email":"principal@starmirdif.com","established":2008,"feeMin":33394,"feeMax":71820,"lat":25.223019,"lng":55.417214},{"id":198,"name":"Sunmarke School L.L.C","nameAr":"مدرسة سنمارك ش.ذ.م.م","location":"Jumeirah Village Triangle","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":2085,"phone":"97144238900","website":"www.sunmarkedubai.com","email":"govtaffairs.sms@forteseducation.com","established":2016,"feeMin":60228,"feeMax":104030,"lat":25.0475406646729,"lng":55.1937217712402},{"id":199,"name":"Swiss International Scientific School FZ-LLC","nameAr":"سويس إنترناشيونال منطقة حرة-ذ.م.م","location":"Dubai Healthcare City","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Good","students":2610,"phone":"97143750600","website":"www.sisd.ae","email":"info@sisd.ae","established":2015,"feeMin":null,"feeMax":null,"lat":25.2085494995117,"lng":55.331629},{"id":200,"name":"The Apple International Community School","nameAr":"مدرسة ذا أبل انترناشيونال كوميونيتي","location":"AL KARAMA","curriculum":"UK","grades":"FS1-Y9","rating":"Acceptable","rating2022":"NULL","students":1123,"phone":"97143797732","website":"www.applecommunityschool.ae","email":"info@applecommunityschool.ae","established":2021,"feeMin":18981,"feeMax":23500,"lat":25.2444705963135,"lng":55.301139831543},{"id":201,"name":"The Aquila School","nameAr":"مدرسة ذا أكويلا ش.ذ.م.م","location":"Dubai Land","curriculum":"UK","grades":"FS1-Y11","rating":"Good","rating2022":"Good","students":1281,"phone":"97145862700","website":"www.theaquilaschool.com","email":"principal@theaquilaschool.com","established":2018,"feeMin":47555,"feeMax":76088,"lat":25.086540222168,"lng":55.3862800598145},{"id":202,"name":"The Arbor School L.L.C","nameAr":"مدرسة ذي اربور ش.ذ.م.م","location":"Al Furjan","curriculum":"UK","grades":"FS1-Y11","rating":"Good","rating2022":"Good","students":1391,"phone":"97145814100","website":"www.thearborschool.ae","email":"principal@thearborschool.ae","established":2018,"feeMin":57456,"feeMax":95000,"lat":25.0236396789551,"lng":55.1375007629395},{"id":203,"name":"The Central School","nameAr":"المدرسة المركزية","location":"AL NAHDA SECOND","curriculum":"Indian","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":3978,"phone":"97142674433","website":"www.centraldxb.com","email":"principal@centralschool.net","established":1981,"feeMin":4081,"feeMax":7183,"lat":25.292537689209,"lng":55.3753967285156},{"id":204,"name":"The City School International Private","nameAr":"ذي سيتي سكول انترناشيونال الخاصه","location":"NADD AL HAMAR","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":1017,"phone":"97142899722","website":"thecityschool.sch.ae/","email":"info@tcsidxb.ae","established":1989,"feeMin":14442,"feeMax":34874,"lat":25.193606,"lng":55.388731},{"id":205,"name":"The English College Dubai L.L.C","nameAr":"الكلية الانجليزية دبي ش.ذ.م.م","location":"UMM SUQEIM FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":1498,"phone":"97143943465","website":"www.englishcollege.ac.ae","email":"mford@englishcollege.ac.ae","established":1992,"feeMin":50915,"feeMax":66698,"lat":25.16905,"lng":55.237469},{"id":206,"name":"The Indian Academy","nameAr":"الأكاديمية الهندية","location":"MUHAISANAH FOURTH","curriculum":"Indian","grades":"Pre Primary -G12","rating":"Good","rating2022":"Good","students":1721,"phone":"97142646746","website":"NULL","email":"Principal@Indianacademydubai.com","established":2012,"feeMin":11732,"feeMax":23249,"lat":25.2575340270996,"lng":55.386360168457},{"id":207,"name":"The Indian High School","nameAr":"المدرسة الهندية الثانوية","location":"OUD METHA","curriculum":"Indian","grades":"G5-G12","rating":"Very good","rating2022":"Very good","students":5500,"phone":"97143358851","website":"https://ihsom.ihsdubai.org/","email":"indiansc@emirates.net.ae","established":1972,"feeMin":5525,"feeMax":10465,"lat":25.240542,"lng":55.315133},{"id":208,"name":"The Indian High School-Branch","nameAr":"المدرسة الهندية الثانوية (فرع)","location":"AL GARHOUD","curriculum":"Indian","grades":"KG1-G4","rating":"Good","rating2022":"Good","students":4209,"phone":"97142823555","website":"https://ihsag.ihsdubai.org","email":"headmistress.ihsjr@ihsdubai.org","established":1988,"feeMin":5276,"feeMax":21000,"lat":25.2484359741211,"lng":55.3405799865723},{"id":209,"name":"The Indian International School (Dso Branch)","nameAr":"المدرسة الهندية الدولية (فرع واحة دبي للسيليكون)","location":"Dubai Silicon Oasis","curriculum":"Indian","grades":"Pre-primary-G10","rating":"Good","rating2022":"Good","students":3417,"phone":"97143423909","website":"https://iisdso.ihsdubai.org/","email":"ict@ihsdubai.org","established":2011,"feeMin":9679,"feeMax":21000,"lat":25.115873336792,"lng":55.3759651184082},{"id":210,"name":"The International School of Choueifat","nameAr":"مدرسة الشويفات الدولية","location":"AL SAFOUH FIRST","curriculum":"SABIS (UK/US)","grades":"Pre Primary-G12","rating":"Acceptable","rating2022":"Acceptable","students":3900,"phone":"97143999444","website":"www.iscdxb-sabis.net","email":"iscdxb@sabis.net","established":1994,"feeMin":21393,"feeMax":40944,"lat":25.1071815490723,"lng":55.1716232299805},{"id":211,"name":"The International School of Choueifat (Branch)","nameAr":"مدرسة الشويفات الدولية (فرع)","location":"DUBAI INVESTMENT PARK FIRST","curriculum":"SABIS (UK/US)","grades":"Pre Primary-G12","rating":"Acceptable","rating2022":"Acceptable","students":2797,"phone":"97148847884","website":"https://iscdip.sabis.net/","email":"sghandour@iscdip.sabis.net","established":2012,"feeMin":25694,"feeMax":48927,"lat":24.983802,"lng":55.15553},{"id":212,"name":"The Millenium School","nameAr":"مدرسة الالفية - فرع دبي","location":"AL QUSAIS FIRST","curriculum":"Indian","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":2777,"phone":"97142988567","website":"www.gemsmillenniumschool.com","email":"ambika.g_tms@gemsedu.com","established":2000,"feeMin":17858,"feeMax":26259,"lat":25.286631,"lng":55.367103},{"id":213,"name":"The National Charity School for Boys L.L.C","nameAr":"المدرسة الاهلية الخيرية للبنين","location":"AL GARHOUD","curriculum":"Ministry of Education","grades":"G5-G12","rating":"Acceptable","rating2022":"Acceptable","students":1379,"phone":"97142824499","website":"www.charityschools.com","email":"hassan.sawalmeh@charityschools.com","established":2021,"feeMin":null,"feeMax":null,"lat":55.3462905883789,"lng":25.2385292053223},{"id":214,"name":"The National Charity School for Girls (Br of The National Charity School for Boys L.L.C)","nameAr":"المدرسة الاهلية الخيرية للبنات","location":"AL GARHOUD","curriculum":"Ministry of Education","grades":"G5-G12","rating":"Acceptable","rating2022":"Acceptable","students":1381,"phone":"97142824499","website":"www.charityschools.com","email":"ncharity@emirates.net.ae","established":1984,"feeMin":null,"feeMax":null,"lat":25.2385215759277,"lng":55.345832824707},{"id":215,"name":"The Philippine School","nameAr":"المدرسة الفلبينية","location":"MUHAISANAH SECOND","curriculum":"Philippine","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":2581,"phone":"97142844465","website":"www.tpsdxb.com","email":"principal@tpsdxb.com","established":2008,"feeMin":6295,"feeMax":15920,"lat":25.2616385154826,"lng":55.4183029779873},{"id":217,"name":"The School of Research Science L.L.C","nameAr":"مدرسة البحث العلمي ش.ذ.م.م","location":"AL WARQA FOURTH","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":3519,"phone":"97146011011","website":"www.srsdubai.ae","email":"ismaeel.e@srs.ae","established":2003,"feeMin":36310,"feeMax":77958,"lat":25.2010821755023,"lng":55.4392889832144},{"id":216,"name":"The School of Research Science US High School L.L.C","nameAr":"مدرسة البحث العلمي الثانوية الامريكية ش.ذ.م.م","location":"AL WARQA FOURTH","curriculum":"American","grades":"G9-G12","rating":"Acceptable","rating2022":"Acceptable","students":720,"phone":"97146011011","website":"https://www.srsdubai.ae/","email":"Ismaeel.E@srs.ae","established":2020,"feeMin":null,"feeMax":null,"lat":25.2003002166748,"lng":55.4393997192383},{"id":218,"name":"The Sheffield Private School L.L.C","nameAr":"مدرسة شفيلد الخاصة ش.ذ.م.م","location":"AL NAHDA SECOND","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":1211,"phone":"97142678444","website":"www.sheffield-school.com","email":"principal@sheffield-school.com","established":2004,"feeMin":23088,"feeMax":43540,"lat":25.293372,"lng":55.385719},{"id":219,"name":"The Westminster School - DUBAI BRANCH","nameAr":"مدرسة وستمينستر - فرع دبي","location":"AL QUSAIS FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Good","rating2022":"Good","students":5271,"phone":"97142988333","website":"www.gemsws-ghusais.com","email":"westmnst@emirates.net.ae","established":1988,"feeMin":8899,"feeMax":17302,"lat":25.283053,"lng":55.370633},{"id":220,"name":"The Winchester School - DUBAI BRANCH","nameAr":"مدرسة وينشستر - فرع دبي","location":"JABAL ALI FIRST","curriculum":"UK","grades":"FS1-Y13","rating":"Very good","rating2022":"Very good","students":4270,"phone":"97148820444","website":"www.winchester.sch.ae","email":"meenakshi.d_win@gemsedu.com","established":2003,"feeMin":14607,"feeMax":32586,"lat":25.040094,"lng":55.120922},{"id":221,"name":"United International Private School L.L.C","nameAr":"مدرسة يونايتد انترناشيونال الخاصة ش.ذ.م.م","location":"MUHAISNAH FIRST","curriculum":"Philippine","grades":"KG1-G12","rating":"Acceptable","rating2022":"Acceptable","students":1902,"phone":"97142543888","website":"www.uips.ae","email":"uipsprincipal@uips.ae","established":1992,"feeMin":5457,"feeMax":11990,"lat":25.2773971557617,"lng":55.4087295532227},{"id":222,"name":"Universal American School - Branch","nameAr":"المدرسه العالميه الامريكيه","location":"RAS AL KHOR","curriculum":"US/IB","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":1356,"phone":"97145240444","website":"www.uasdubai.ae","email":"uasdirector@uasdubai.ae","established":2005,"feeMin":39450,"feeMax":79955,"lat":25.2214221954346,"lng":55.3654899597168},{"id":223,"name":"Uptown International School (Br. of Taaleem Management LLC)","nameAr":"مدرسة ابتاون انترناشيونال","location":"MIRDIF","curriculum":"International Baccalaureate","grades":"Pre Primary-G12","rating":"Very good","rating2022":"Very good","students":1385,"phone":"97142515001","website":"www.uptownschool.ae","email":"Principal@uptownschool.ae","established":2012,"feeMin":null,"feeMax":null,"lat":25.217987,"lng":55.423622},{"id":224,"name":"Vernus International Primary School - FZCO","nameAr":"مدرسة فيرنوس الابتدائية الدولية - ش م ح","location":"Dubai Silicon Oasis","curriculum":"American","grades":"Pre Primary -G5","rating":"Acceptable","rating2022":"Acceptable","students":282,"phone":"97143208000","website":"www.visdubai.com","email":"info@vis-dubai.ae","established":2020,"feeMin":34884,"feeMax":41445,"lat":25.1236305236816,"lng":55.4024696350098},{"id":225,"name":"Victory Heights Primary School L.L.C","nameAr":"مدرسة فيكتوري هايتس الابتدائية ش.ذ.م.م","location":"Dubai Sports City","curriculum":"UK","grades":"FS1-Y6","rating":"Outstanding","rating2022":"Outstanding","students":1040,"phone":"97144231100","website":"vhprimary.com","email":"info@vhprimary.com","established":2012,"feeMin":39216,"feeMax":53476,"lat":25.035175,"lng":55.222477},{"id":226,"name":"Woodlem Park School L.L.C","nameAr":"مدرسة وودلم بارك ش.ذ.م.م","location":"AL QUSAIS FIRST","curriculum":"Indian","grades":"Pre-primary-G10","rating":"Acceptable","rating2022":"Acceptable","students":2665,"phone":"97142040900","website":"www.bisedu.ae","email":"principal@bisedu.ae","established":2014,"feeMin":12312,"feeMax":23598,"lat":25.282245,"lng":55.370429}]};
     const FAQ = {"source":"KHDA Common Questions for Parents","sourceUrl":"https://web.khda.gov.ae/en/Guides/Parents/Common-Question-For-Parents/Common-Questions-for-Parents","lastUpdated":"2021-12-20","items":[{"id":"academic-year","qZh":"学年什么时候开始？","aZh":"印度、巴基斯坦、日本课程体系的学校：学年为 4 月至次年 3 月。其余课程体系：一般为 9 月开学，至次年 6 月或 7 月结束。"},{"id":"certificates-language","qZh":"入学时，证明文件可以用什么语言提交？","aZh":"就读迪拜私立学校且高于一年级的入学，需提供孩子此前就读证明。所有证书（含境外证书）须为阿拉伯语或英语；若为其他语言，须由合法翻译员翻译并完成认证。"},{"id":"12-to-13-curriculum","qZh":"从 12 年制转到 13 年制，孩子应读几年级？","aZh":"通常取决于转校时孩子的年龄及此前就读情况，应由接收学校给出具体年级建议。"},{"id":"quranic-school","qZh":"古兰经学校就读能否等同于正规学校年级？","aZh":"不能。古兰经中心不被视为同等学历，其证书不能作为完成某一年级的证明。"},{"id":"fees-regulation","qZh":"迪拜教育局是否监管学费？学校最多可预收多少？","aZh":"迪拜教育局（KHDA）依据年度教育成本指数及学校检查评级监管学费。关于定金与退款的细则见官方《学费框架》文件。","links":[{"label":"学费框架（PDF）","url":"https://web.khda.gov.ae/getattachment/Resources/Forms/FeeFramework-English.pdf.aspx?lang=en-GB"},{"label":"学费说明与家长答疑","url":"https://web.khda.gov.ae/en/Guides/Parents/Schools-Fees-Fact-Sheet-FAQs"}]},{"id":"expulsion-fees","qZh":"学校能否因欠费等原因在学年中开除或停学？","aZh":"迪拜教育局协助学校与家长解决争议，不支持在学年中中断孩子学习。未经迪拜教育局授权，学校不得停学或开除学生。"},{"id":"bullying","qZh":"孩子在学校被欺凌，该怎么办？","aZh":"迪拜教育局鼓励各校制定儿童保护政策。请先向学校反映；若无法解决，请联系迪拜教育局。","links":[{"label":"联系迪拜教育局","url":"https://web.khda.gov.ae/en/Contact-Us"}]},{"id":"transfer","qZh":"需要给孩子转校，要办什么手续？","aZh":"在迪拜市内转校：需转学证明。离开迪拜：可能需要离校证明，以证明在迪拜就读年限。两种情况下，均由现就读学校出具并由迪拜教育局核验。"},{"id":"absence","qZh":"允许多少缺课？哪些属于合理缺勤？","aZh":"迪拜教育局要求学校上报学生出勤。具体缺勤政策请向就读学校查询。"},{"id":"corporal-punishment","qZh":"学校可以使用体罚吗？","aZh":"不可以。阿联酋法律禁止任何形式的体罚。"},{"id":"good-conduct","qZh":"什么是良好品行证明？","aZh":"阿联酋部分高校会要求提供该证明，由学校开具后提交迪拜教育局认证。"},{"id":"student-continuity","qZh":"什么是在读连续性证明？","aZh":"部分阿联酋机构需证明孩子持续在读。由学校出具在读连续性证明，并经迪拜教育局认证；具体请联系学校行政。"},{"id":"lost-certificate","qZh":"学年证书丢失了怎么办？","aZh":"可向迪拜教育局申请认证补办：填写申请表并联系官方。","links":[{"label":"补办申请表","url":"http://www.khda.gov.ae/CMS/WebParts/TextEditor/Documents/Replacement%20of%20Educational%20Certificate.docx"},{"label":"联系迪拜教育局","url":"https://web.khda.gov.ae/en/Contact-Us"}]},{"id":"high-school-equivalency","qZh":"如何申请高中同等学历认证？","aZh":"具体要求以阿联酋教育部规定为准，详见迪拜教育局提供的说明文件。","links":[{"label":"高中同等学历要求说明（PDF）","url":"http://www.khda.gov.ae/CMS/WebParts/TextEditor/Documents/High_School_Equivalency_Requirement.pdf"}]}]};
+    const FAQ_EN_BY_INDEX = window.PAGE_FAQ_EN_BY_INDEX || [];
     const { meta, filters, schools } = DATA;
+    const t = (key, vars, fallback) => (window.SiteI18n ? window.SiteI18n.t(key, vars, fallback) : (fallback ?? key));
+    const isEn = () => window.SiteI18n && window.SiteI18n.getLang() === 'en';
 
     const RATING_ORDER = {
       'Outstanding': 5,
@@ -526,13 +554,14 @@
     function getCurriculumFilterOptions() {
       const options = filters.curricula.filter((c) => !isUkIbCurriculum(c));
       if (filters.curricula.some(isUkIbCurriculum)) options.push(UK_IB_FILTER_KEY);
+      const locale = isEn() ? 'en' : 'zh';
       return options.sort((a, b) =>
-        curriculumFilterLabel(a).localeCompare(curriculumFilterLabel(b), 'zh')
+        curriculumFilterLabel(a).localeCompare(curriculumFilterLabel(b), locale)
       );
     }
 
     function curriculumFilterLabel(key) {
-      if (key === UK_IB_FILTER_KEY) return '英国课程 + 国际文凭（IB）';
+      if (key === UK_IB_FILTER_KEY) return t('filters.ukIb', null, 'UK + International Baccalaureate (IB)');
       return translateCurriculum(key);
     }
 
@@ -542,13 +571,14 @@
 
     function translateCurriculum(name) {
       if (!name) return '—';
+      if (isEn()) return name;
       return CURRICULUM_ZH[name] || name;
     }
 
     function curriculumDisplayHtml(name) {
-      const zh = translateCurriculum(name);
-      if (!name || zh === '—') return '—';
-      return `<div class="curriculum-zh">${zh}</div>`;
+      const text = translateCurriculum(name);
+      if (!name || text === '—') return '—';
+      return `<div class="curriculum-zh">${text}</div>`;
     }
 
     const GRADE_ALIASES = {
@@ -578,27 +608,27 @@
     }
 
     function translateGradeToken(raw) {
-      const t = String(raw || '').trim().toLowerCase().replace(/\s+/g, ' ');
-      if (!t) return '';
-      if (/^ecc/.test(t)) return '幼儿阶段（2-3岁）';
-      if (/pre\s*primary|preprimary|pre\s*kg|pre-kg/.test(t)) return '学前（约3-4岁）';
-      if (/^fs\s*1|^fs1/.test(t)) return '幼儿园小班（约3-4岁）';
-      if (/^fs\s*2|^fs2/.test(t)) return '幼儿园中班（约4-5岁）';
-      if (/^kg\s*1|^kg1/.test(t)) return '幼儿园大班（约4-5岁）';
-      if (/^kg\s*2|^kg2/.test(t)) return '学前班（约5-6岁）';
-      const ym = t.match(/^(?:year|y)\s*(\d+)$/);
+      const x = String(raw || '').trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!x) return '';
+      if (/^ecc/.test(x)) return '幼儿阶段（2-3岁）';
+      if (/pre\s*primary|preprimary|pre\s*kg|pre-kg/.test(x)) return '学前（约3-4岁）';
+      if (/^fs\s*1|^fs1/.test(x)) return '幼儿园小班（约3-4岁）';
+      if (/^fs\s*2|^fs2/.test(x)) return '幼儿园中班（约4-5岁）';
+      if (/^kg\s*1|^kg1/.test(x)) return '幼儿园大班（约4-5岁）';
+      if (/^kg\s*2|^kg2/.test(x)) return '学前班（约5-6岁）';
+      const ym = x.match(/^(?:year|y)\s*(\d+)$/);
       if (ym) {
         const n = Number(ym[1]);
         if (n === 13) return '十三年级（约17-18岁）';
         if (n <= 6) return '小学' + cnGrade(n) + '（约' + (n + 4) + '-' + (n + 5) + '岁）';
         return cnGrade(n) + '（约' + (n + 4) + '-' + (n + 5) + '岁）';
       }
-      const gm = t.match(/^g\s*(\d+)$/);
+      const gm = x.match(/^g\s*(\d+)$/);
       if (gm) {
         const n = Number(gm[1]);
         return cnGrade(n) + '（约' + (n + 5) + '-' + (n + 6) + '岁）';
       }
-      const grm = t.match(/^grade\s*(\d+)$/);
+      const grm = x.match(/^grade\s*(\d+)$/);
       if (grm) {
         const n = Number(grm[1]);
         if (n === 13) return '十三年级（约17-18岁）';
@@ -610,6 +640,7 @@
     function translateGrades(gradesStr) {
       const raw = String(gradesStr || '').trim();
       if (!raw) return { zh: '—', raw: '' };
+      if (isEn()) return { zh: raw, raw: '' };
       const parts = raw.split(/\s*[-–—]\s*/);
       if (parts.length >= 2) {
         const from = translateGradeToken(parts[0]);
@@ -622,7 +653,7 @@
     function gradesCellHtml(gradesStr) {
       const g = translateGrades(gradesStr);
       if (g.zh === '—') return '—';
-      if (g.raw && g.zh !== g.raw) {
+      if (!isEn() && g.raw && g.zh !== g.raw) {
         return `<div class="grades-zh">${g.zh}<small>${g.raw}</small></div>`;
       }
       return `<div class="grades-zh">${g.zh}</div>`;
@@ -631,20 +662,19 @@
     function parseGradeRange(gradesStr) {
       const g = String(gradesStr || '').toLowerCase().replace(/\s+/g, ' ').trim();
       if (!g) return { min: 0, max: 99 };
-      const tokens = [];
       const parts = g.split('-');
-      const mapToken = (t) => {
-        t = t.trim();
-        if (/pre\s*primary|fs\s*1/.test(t)) return 0;
-        if (/kg\s*1|fs\s*2/.test(t)) return 1;
-        if (/kg\s*2|year\s*1(?!\d)/.test(t)) return 2;
-        const ym = t.match(/year\s*(\d+)/);
+      const mapToken = (x) => {
+        x = x.trim();
+        if (/pre\s*primary|fs\s*1/.test(x)) return 0;
+        if (/kg\s*1|fs\s*2/.test(x)) return 1;
+        if (/kg\s*2|year\s*1(?!\d)/.test(x)) return 2;
+        const ym = x.match(/year\s*(\d+)/);
         if (ym) return Number(ym[1]) + 1;
-        const gm = t.match(/g\s*(\d+)/);
+        const gm = x.match(/g\s*(\d+)/);
         if (gm) return Number(gm[1]) + 2;
-        const grm = t.match(/grade\s*(\d+)/);
+        const grm = x.match(/grade\s*(\d+)/);
         if (grm) return Number(grm[1]) + 2;
-        if (/y\s*13/.test(t)) return 15;
+        if (/y\s*13/.test(x)) return 15;
         return null;
       };
       if (parts.length >= 2) {
@@ -685,12 +715,14 @@
     }
 
     function ratingLabel(r) {
-      if (!r) return '暂无';
+      if (!r) return t('rating.none', null, 'Unrated');
       const map = {
-        'Outstanding': 'Outstanding 卓越',
-        'Very good': 'Very good 很好',
-        'Good': 'Good 良好',
-        'Acceptable': 'Acceptable 可接受',
+        'Outstanding': t('rating.outstanding', null, 'Outstanding'),
+        'Very good': t('rating.veryGood', null, 'Very Good'),
+        'Good': t('rating.good', null, 'Good'),
+        'Acceptable': t('rating.acceptable', null, 'Acceptable'),
+        'Weak': t('rating.weak', null, 'Weak'),
+        'Very weak': t('rating.veryWeak', null, 'Very Weak'),
       };
       return map[r] || r;
     }
@@ -705,8 +737,8 @@
       const sel = getSelectedCurricula();
       const el = document.getElementById('curriculumHint');
       el.textContent = sel.length
-        ? `已选 ${sel.length} 种体系`
-        : '未选择 = 全部体系';
+        ? t('filters.curriculumHintSelected', { count: sel.length }, `${sel.length} selected`)
+        : t('filters.curriculumHintAll', null, 'No selection = all curricula');
     }
 
     function escapeAttr(s) {
@@ -731,7 +763,8 @@
     function locationLinkHtml(name) {
       if (!name) return '—';
       const url = areaMapUrl(name);
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="loc-link" title="在 Google 地图中查看 ${escapeAttr(name)}">${escapeAttr(name)}</a>`;
+      const title = t('map.viewInGoogle', { name }, `View ${name} on Google Maps`);
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="loc-link" title="${escapeAttr(title)}">${escapeAttr(name)}</a>`;
     }
 
     function renderTopAreas(sourceList) {
@@ -745,18 +778,20 @@
       const activeLoc = document.getElementById('location').value;
       const el = document.getElementById('topAreas');
       if (!topAreas.length) {
-        el.innerHTML = '<div class="stat"><b>0</b><span>当前筛选下无学校</span></div>';
+        el.innerHTML = `<div class="stat"><b>0</b><span>${t('stats.noSchools', null, 'No schools under current filters')}</span></div>`;
         return;
       }
       el.innerHTML = topAreas.map(([name, count], i) => {
         const active = activeLoc === name ? ' active' : '';
         const mapUrl = areaMapUrl(name);
-        return `<div class="stat stat-area${active}" data-location="${escapeAttr(name)}" title="点击筛选该区域">
-          <span class="stat-rank">第 ${i + 1} 名</span>
+        const rankText = t('area.rank', { rank: i + 1 }, `Rank #${i + 1}`);
+        const mapTitle = t('map.googleTitle', { name }, `Google Maps: ${name}`);
+        return `<div class="stat stat-area${active}" data-location="${escapeAttr(name)}" title="${escapeAttr(t('filters.location', null, 'Area'))}">
+          <span class="stat-rank">${rankText}</span>
           <b>${count}</b>
           <div class="stat-area-name">
-            <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="loc-link" title="Google 地图：${escapeAttr(name)}" onclick="event.stopPropagation()">${escapeAttr(name)}</a>
-            <button type="button" class="map-btn" data-map-location="${escapeAttr(name)}" title="Google 地图">地图</button>
+            <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="loc-link" title="${escapeAttr(mapTitle)}" onclick="event.stopPropagation()">${escapeAttr(name)}</a>
+            <button type="button" class="map-btn" data-map-location="${escapeAttr(name)}" title="${escapeAttr(mapTitle)}">${t('map.button', null, 'Map')}</button>
           </div>
         </div>`;
       }).join('');
@@ -775,24 +810,48 @@
       });
     }
 
-    function initMeta() {
-      document.getElementById('metaYear').textContent = meta.academicYear;
-      document.getElementById('metaTotal').textContent = meta.totalSchools;
-      document.getElementById('metaDate').textContent = meta.extractedAt;
-      document.getElementById('sourceNote').textContent = meta.note + ' 官方目录：' + meta.sourceUrl;
+    function updateHeaderMetaText() {
+      document.getElementById('metaTotalText').innerHTML = t(
+        'header.totalSchools',
+        { count: `<span id="metaTotal">${meta.totalSchools}</span>` },
+        `Total <span id="metaTotal">${meta.totalSchools}</span> schools`
+      );
+      document.getElementById('metaDateText').innerHTML = t(
+        'header.updatedAt',
+        { date: `<span id="metaDate">${meta.extractedAt}</span>` },
+        `Updated: <span id="metaDate">${meta.extractedAt}</span>`
+      );
+    }
 
+    function renderCurriculumOptions() {
+      const selected = new Set(getSelectedCurricula());
       const box = document.getElementById('curriculumBox');
+      box.innerHTML = '';
       getCurriculumFilterOptions().forEach((c) => {
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'checkbox';
         input.value = c;
+        input.checked = selected.has(c);
         label.appendChild(input);
         const text = document.createElement('span');
         text.innerHTML = `<div class="curriculum-zh">${curriculumFilterLabel(c)}</div>`;
         label.appendChild(text);
         box.appendChild(label);
       });
+    }
+
+    function initMeta() {
+      document.getElementById('metaYear').textContent = meta.academicYear;
+      updateHeaderMetaText();
+      document.getElementById('sourceNote').textContent = t(
+        'meta.sourceNote',
+        { note: meta.note, url: meta.sourceUrl },
+        `${meta.note} Official directory: ${meta.sourceUrl}`
+      );
+
+      const box = document.getElementById('curriculumBox');
+      renderCurriculumOptions();
       box.addEventListener('change', () => {
         updateCurriculumHint();
         renderTable();
@@ -886,16 +945,17 @@
     function renderStats(list) {
       const byRating = {};
       list.forEach((s) => {
-        const k = s.rating || '暂无';
+        const k = s.rating || '__none__';
         byRating[k] = (byRating[k] || 0) + 1;
       });
       const el = document.getElementById('stats');
       el.innerHTML = `
-        <div class="stat"><b>${list.length}</b><span>符合筛选</span></div>
-        <div class="stat"><b>${byRating['Outstanding'] || 0}</b><span>Outstanding</span></div>
-        <div class="stat"><b>${byRating['Very good'] || 0}</b><span>Very good</span></div>
-        <div class="stat"><b>${byRating['Good'] || 0}</b><span>Good</span></div>
-        <div class="stat"><b>${byRating['Acceptable'] || 0}</b><span>Acceptable</span></div>
+        <div class="stat"><b>${list.length}</b><span>${t('stats.matching', null, 'Matching schools')}</span></div>
+        <div class="stat"><b>${byRating['Outstanding'] || 0}</b><span>${ratingLabel('Outstanding')}</span></div>
+        <div class="stat"><b>${byRating['Very good'] || 0}</b><span>${ratingLabel('Very good')}</span></div>
+        <div class="stat"><b>${byRating['Good'] || 0}</b><span>${ratingLabel('Good')}</span></div>
+        <div class="stat"><b>${byRating['Acceptable'] || 0}</b><span>${ratingLabel('Acceptable')}</span></div>
+        <div class="stat"><b>${byRating['__none__'] || 0}</b><span>${ratingLabel('')}</span></div>
       `;
     }
 
@@ -912,7 +972,7 @@
         compareIds.splice(idx, 1);
       } else {
         if (compareIds.length >= 4) {
-          alert('最多对比 4 所学校（与 KHDA 官网规则一致）');
+          alert(t('compare.maxAlert', null, 'You can compare up to 4 schools.'));
           return;
         }
         compareIds.push(id);
@@ -932,7 +992,7 @@
       bar.classList.add('visible');
       items.innerHTML = compareIds.map((id) => {
         const s = schools.find((x) => x.id === id);
-        return `<span class="chip">${s.name}<button type="button" data-rm="${id}" title="移除">×</button></span>`;
+        return `<span class="chip">${s.name}<button type="button" data-rm="${id}" title="${escapeAttr(t('compare.remove', null, 'Remove'))}">×</button></span>`;
       }).join('');
       items.querySelectorAll('button[data-rm]').forEach((btn) => {
         btn.onclick = () => toggleCompare(Number(btn.dataset.rm));
@@ -943,16 +1003,16 @@
       const selected = compareIds.map((id) => schools.find((s) => s.id === id)).filter(Boolean);
       if (!selected.length) return;
       const rows = [
-        ['学校', ...selected.map((s) => s.name)],
-        ['区域', ...selected.map((s) => s.location)],
-        ['课程体系', ...selected.map((s) => translateCurriculum(s.curriculum))],
-        ['年级', ...selected.map((s) => translateGrades(s.grades).zh)],
-        ['DSIB 评级', ...selected.map((s) => ratingLabel(s.rating))],
-        ['学费 AED', ...selected.map((s) => formatFeeRange(s))],
-        ['在校生', ...selected.map((s) => s.students ?? '—')],
-        ['建校', ...selected.map((s) => s.established ?? '—')],
-        ['电话', ...selected.map((s) => s.phone || '—')],
-        ['网站', ...selected.map((s) => s.website ? `<a href="${websiteHref(s.website)}" target="_blank" rel="noopener">${s.website}</a>` : '—')],
+        [t('compare.row.school', null, 'School'), ...selected.map((s) => s.name)],
+        [t('compare.row.area', null, 'Area'), ...selected.map((s) => s.location)],
+        [t('compare.row.curriculum', null, 'Curriculum'), ...selected.map((s) => translateCurriculum(s.curriculum))],
+        [t('compare.row.grade', null, 'Grades'), ...selected.map((s) => translateGrades(s.grades).zh)],
+        [t('compare.row.rating', null, 'DSIB rating'), ...selected.map((s) => ratingLabel(s.rating))],
+        [t('compare.row.fee', null, 'Tuition AED'), ...selected.map((s) => formatFeeRange(s))],
+        [t('compare.row.students', null, 'Students'), ...selected.map((s) => s.students ?? '—')],
+        [t('compare.row.established', null, 'Established'), ...selected.map((s) => s.established ?? '—')],
+        [t('compare.row.phone', null, 'Phone'), ...selected.map((s) => s.phone || '—')],
+        [t('compare.row.website', null, 'Website'), ...selected.map((s) => s.website ? `<a href="${websiteHref(s.website)}" target="_blank" rel="noopener">${s.website}</a>` : '—')],
       ];
       document.getElementById('compareTable').innerHTML = `
         <table><tbody>
@@ -964,17 +1024,17 @@
       renderTopAreas(filterSchools({ skipLocation: true }));
       const list = filterSchools();
       renderStats(list);
-      document.getElementById('resultCount').textContent = `显示 ${list.length} 所`;
+      document.getElementById('resultCount').textContent = t('result.count', { count: list.length }, `Showing ${list.length}`);
       const tbody = document.getElementById('tbody');
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty">没有符合条件的学校，请放宽筛选</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="8" class="empty">${t('empty.noSchools', null, 'No schools match your filters.')}</td></tr>`;
         return;
       }
       tbody.innerHTML = list.map((s) => {
         const inCompare = compareIds.includes(s.id);
         const star = inCompare ? '★' : '☆';
         return `<tr>
-          <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="加入对比">${star}</button></td>
+          <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="${escapeAttr(t('compare.add', null, 'Add to compare'))}">${star}</button></td>
           <td><div class="school-name">${s.name}${s.nameAr ? `<small>${s.nameAr}</small>` : ''}</div></td>
           <td>${locationLinkHtml(s.location)}</td>
           <td>${curriculumDisplayHtml(s.curriculum)}</td>
@@ -987,6 +1047,17 @@
       tbody.querySelectorAll('button[data-cmp]').forEach((btn) => {
         btn.onclick = () => toggleCompare(Number(btn.dataset.cmp));
       });
+    }
+
+    function getFaqLocalized(item, index) {
+      if (isEn()) {
+        const mapped = FAQ_EN_BY_INDEX[index] || {};
+        return {
+          q: item.qEn || mapped.qEn || item.qZh,
+          a: item.aEn || mapped.aEn || item.aZh,
+        };
+      }
+      return { q: item.qZh, a: item.aZh };
     }
 
     function bindEvents() {
@@ -1023,23 +1094,26 @@
     function renderFaq(filterText) {
       const q = (filterText || '').trim().toLowerCase();
       const list = document.getElementById('faqList');
-      const items = FAQ.items.filter((item) => {
+      const items = FAQ.items.filter((item, index) => {
         if (!q) return true;
-        const hay = (item.qZh + ' ' + item.aZh).toLowerCase();
+        const localized = getFaqLocalized(item, index);
+        const hay = `${item.qZh || ''} ${item.aZh || ''} ${localized.q || ''} ${localized.a || ''}`.toLowerCase();
         return hay.includes(q);
       });
       if (!items.length) {
-        list.innerHTML = '<div class="faq-empty">没有匹配的问题</div>';
+        list.innerHTML = `<div class="faq-empty">${t('faq.empty', null, 'No matching questions')}</div>`;
         return;
       }
       list.innerHTML = items.map((item) => {
+        const originalIndex = FAQ.items.indexOf(item);
+        const localized = getFaqLocalized(item, originalIndex);
         const links = (item.links || []).map((l) =>
           `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
         ).join('');
         return `<div class="faq-item" data-id="${item.id}">
-          <button type="button" class="faq-q" aria-expanded="false">${item.qZh}</button>
+          <button type="button" class="faq-q" aria-expanded="false">${localized.q}</button>
           <div class="faq-a">
-            <p>${item.aZh}</p>
+            <p>${localized.a}</p>
             ${links ? `<div class="faq-links">${links}</div>` : ''}
           </div>
         </div>`;
@@ -1075,6 +1149,20 @@
       };
     }
 
+    window.addEventListener('site-lang-change', () => {
+      updateHeaderMetaText();
+      document.getElementById('sourceNote').textContent = t(
+        'meta.sourceNote',
+        { note: meta.note, url: meta.sourceUrl },
+        `${meta.note} Official directory: ${meta.sourceUrl}`
+      );
+      renderCurriculumOptions();
+      updateCurriculumHint();
+      renderCompareBar();
+      renderTable();
+      renderFaq(document.getElementById('faqSearch').value);
+    });
+
     try {
       initMeta();
       initFaq();
@@ -1083,7 +1171,7 @@
     } catch (err) {
       console.error(err);
       document.getElementById('tbody').innerHTML =
-        '<tr><td colspan="8" class="empty">页面加载出错，请刷新或重新生成 HTML 文件</td></tr>';
+        `<tr><td colspan="8" class="empty">${t('empty.loadError', null, 'Page failed to load. Please refresh or rebuild the HTML file.')}</td></tr>`;
     }
   </script>
 </body>

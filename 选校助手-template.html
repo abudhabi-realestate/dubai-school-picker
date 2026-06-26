@@ -315,117 +315,140 @@
       font-variant-numeric: tabular-nums;
     }
     .site-phone:hover { color: #fff; text-decoration: underline; }
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid rgba(232, 213, 163, .5);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-left: .35rem;
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: #e8d5a3;
+      font-size: .74rem;
+      padding: .15rem .55rem;
+      border-radius: 0;
+    }
+    .lang-btn.active {
+      background: #e8d5a3;
+      color: #0a0a0a;
+    }
   </style>
 </head>
-<body>
+<body data-i18n-title="page.title">
   <div class="site-brand-bar">
     <div class="site-brand-inner">
       <img src="Logo.png" alt="Logo" class="site-logo" />
       <div class="site-brand-meta">
-        <span class="site-team">昝颜团队</span>
+        <span class="site-team" data-i18n="brand.team">昝颜团队</span>
         <a href="tel:+971565473192" class="site-phone">0565473192</a>
+        <div class="lang-switch" role="group" aria-label="language">
+          <button type="button" class="lang-btn" data-lang="zh" data-i18n="lang.zh">中文</button>
+          <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+        </div>
       </div>
     </div>
   </div>
   <header>
-    <h1>迪拜私立学校选校助手</h1>
+    <h1 data-i18n="header.title">迪拜私立学校选校助手</h1>
     <p>
-      数据来源：<a href="https://web.khda.gov.ae/en/Education-Directory/schools" target="_blank" rel="noopener">KHDA 教育目录</a>
-      · <button type="button" class="header-link-btn" id="btnScrollFaq">家长常见问题</button>
-      · 开放数据（<span id="metaYear"></span>）· 共 <span id="metaTotal"></span> 所运营中私立学校
-      · 更新于 <span id="metaDate"></span>
+      <span data-i18n="header.sourceLabel">数据来源：</span><a href="https://web.khda.gov.ae/en/Education-Directory/schools" target="_blank" rel="noopener" data-i18n="header.sourceLink">KHDA 教育目录</a>
+      · <button type="button" class="header-link-btn" id="btnScrollFaq" data-i18n="header.faqBtn">家长常见问题</button>
+      · <span data-i18n="header.openData">开放数据</span>（<span id="metaYear"></span>）· <span id="metaTotalText">共 <span id="metaTotal"></span> 所运营中私立学校</span>
+      · <span id="metaDateText">更新于 <span id="metaDate"></span></span>
     </p>
   </header>
 
   <div class="wrap">
     <div class="stats-block">
-      <p class="stats-label">学校数量前五区域（点击框筛选 · 点击区域名或「地图」打开 Google 地图）</p>
+      <p class="stats-label" data-i18n="stats.topAreasLabel">学校数量前五区域（点击框筛选 · 点击区域名或「地图」打开 Google 地图）</p>
       <div class="stats" id="topAreas"></div>
     </div>
     <div class="stats-block">
-      <p class="stats-label">当前筛选结果 · 评级分布</p>
+      <p class="stats-label" data-i18n="stats.ratingDistribution">当前筛选结果 · 评级分布</p>
       <div class="stats" id="stats"></div>
     </div>
 
     <div class="compare-bar" id="compareBar">
-      <h3>对比清单（最多 4 所，与 KHDA 官网一致）</h3>
+      <h3 data-i18n="compare.title">对比清单（最多 4 所，与 KHDA 官网一致）</h3>
       <div class="compare-items" id="compareItems"></div>
-      <button type="button" class="primary" id="btnShowCompare">查看对比表</button>
-      <button type="button" id="btnClearCompare">清空</button>
+      <button type="button" class="primary" id="btnShowCompare" data-i18n="compare.show">查看对比表</button>
+      <button type="button" id="btnClearCompare" data-i18n="compare.clear">清空</button>
       <div id="compareTable"></div>
     </div>
 
     <div class="layout">
       <aside class="panel" id="filters">
-        <h2>筛选条件</h2>
-        <label for="q">学校名称</label>
-        <input type="text" id="q" placeholder="英文或阿拉伯文校名…" />
+        <h2 data-i18n="filters.title">筛选条件</h2>
+        <label for="q" data-i18n="filters.schoolName">学校名称</label>
+        <input type="text" id="q" placeholder="英文或阿拉伯文校名…" data-i18n-placeholder="filters.schoolNamePlaceholder" />
 
-        <label for="childGrade">孩子目标年级</label>
+        <label for="childGrade" data-i18n="filters.childGrade">孩子目标年级</label>
         <select id="childGrade">
-          <option value="">不限</option>
-          <option value="Pre primary">幼儿园小班（约3-4岁）</option>
-          <option value="KG 1">幼儿园中班（约4-5岁）</option>
-          <option value="KG 2">学前班（约5-6岁）</option>
-          <option value="GRADE 1">一年级（约6-7岁）</option>
-          <option value="GRADE 2">二年级（约7-8岁）</option>
-          <option value="GRADE 3">三年级（约8-9岁）</option>
-          <option value="GRADE 4">四年级（约9-10岁）</option>
-          <option value="GRADE 5">五年级（约10-11岁）</option>
-          <option value="GRADE 6">六年级（约11-12岁）</option>
-          <option value="GRADE 7">七年级 / 初一（约12-13岁）</option>
-          <option value="GRADE 8">八年级 / 初二（约13-14岁）</option>
-          <option value="GRADE 9">九年级 / 初三（约14-15岁）</option>
-          <option value="GRADE 10">十年级 / 高一（约15-16岁）</option>
-          <option value="GRADE 11">十一年级 / 高二（约16-17岁）</option>
-          <option value="GRADE 12">十二年级 / 高三（约17-18岁）</option>
-          <option value="GRADE 13">十三年级（约17-18岁，A-Level 等）</option>
+          <option value="" data-i18n="filters.all">不限</option>
+          <option value="Pre primary" data-i18n="filters.grade.pre">幼儿园小班（约3-4岁）</option>
+          <option value="KG 1" data-i18n="filters.grade.kg1">幼儿园中班（约4-5岁）</option>
+          <option value="KG 2" data-i18n="filters.grade.kg2">学前班（约5-6岁）</option>
+          <option value="GRADE 1" data-i18n="filters.grade.g1">一年级（约6-7岁）</option>
+          <option value="GRADE 2" data-i18n="filters.grade.g2">二年级（约7-8岁）</option>
+          <option value="GRADE 3" data-i18n="filters.grade.g3">三年级（约8-9岁）</option>
+          <option value="GRADE 4" data-i18n="filters.grade.g4">四年级（约9-10岁）</option>
+          <option value="GRADE 5" data-i18n="filters.grade.g5">五年级（约10-11岁）</option>
+          <option value="GRADE 6" data-i18n="filters.grade.g6">六年级（约11-12岁）</option>
+          <option value="GRADE 7" data-i18n="filters.grade.g7">七年级 / 初一（约12-13岁）</option>
+          <option value="GRADE 8" data-i18n="filters.grade.g8">八年级 / 初二（约13-14岁）</option>
+          <option value="GRADE 9" data-i18n="filters.grade.g9">九年级 / 初三（约14-15岁）</option>
+          <option value="GRADE 10" data-i18n="filters.grade.g10">十年级 / 高一（约15-16岁）</option>
+          <option value="GRADE 11" data-i18n="filters.grade.g11">十一年级 / 高二（约16-17岁）</option>
+          <option value="GRADE 12" data-i18n="filters.grade.g12">十二年级 / 高三（约17-18岁）</option>
+          <option value="GRADE 13" data-i18n="filters.grade.g13">十三年级（约17-18岁，A-Level 等）</option>
         </select>
 
-        <label>课程体系（可多选）</label>
+        <label data-i18n="filters.curriculum">课程体系（可多选）</label>
         <div class="curriculum-box" id="curriculumBox"></div>
         <div class="curriculum-actions">
-          <button type="button" id="curriculumSelectAll">全选</button>
-          <button type="button" id="curriculumClearAll">清空</button>
+          <button type="button" id="curriculumSelectAll" data-i18n="filters.curriculumSelectAll">全选</button>
+          <button type="button" id="curriculumClearAll" data-i18n="filters.curriculumClearAll">清空</button>
         </div>
-        <p class="curriculum-hint" id="curriculumHint">未选择 = 全部体系</p>
+        <p class="curriculum-hint" id="curriculumHint" data-i18n="filters.curriculumHintAll">未选择 = 全部体系</p>
 
-        <label for="location">区域</label>
-        <select id="location"><option value="">全部</option></select>
+        <label for="location" data-i18n="filters.location">区域</label>
+        <select id="location"><option value="" data-i18n="filters.all">全部</option></select>
 
-        <label for="rating">最新 DSIB 评级</label>
+        <label for="rating" data-i18n="filters.rating">最新 DSIB 评级</label>
         <select id="rating">
-          <option value="">全部</option>
-          <option value="Outstanding">Outstanding 卓越</option>
-          <option value="Very good">Very good 很好</option>
-          <option value="Good">Good 良好</option>
-          <option value="Acceptable">Acceptable 可接受</option>
-          <option value="__none__">暂无评级（新校等）</option>
+          <option value="" data-i18n="filters.all">全部</option>
+          <option value="Outstanding" data-i18n="rating.outstanding">Outstanding 卓越</option>
+          <option value="Very good" data-i18n="rating.veryGood">Very good 很好</option>
+          <option value="Good" data-i18n="rating.good">Good 良好</option>
+          <option value="Acceptable" data-i18n="rating.acceptable">Acceptable 可接受</option>
+          <option value="__none__" data-i18n="rating.noneOption">暂无评级（新校等）</option>
         </select>
 
-        <label>学费预算上限（AED/年，按该校任一年级最高值估算）</label>
+        <label data-i18n="filters.feeMax">学费预算上限（AED/年，按该校任一年级最高值估算）</label>
         <input type="range" id="feeMax" min="0" max="150000" step="1000" value="150000" />
         <div class="row2">
           <input type="number" id="feeMaxNum" min="0" max="200000" step="1000" value="150000" />
-          <span style="font-size:.78rem;color:var(--muted);align-self:center">AED</span>
+          <span style="font-size:.78rem;color:var(--muted);align-self:center" data-i18n="currency.aed">AED</span>
         </div>
 
-        <label for="minStudents">最少在校生（2024/25）</label>
-        <input type="number" id="minStudents" min="0" step="50" placeholder="不限" />
+        <label for="minStudents" data-i18n="filters.minStudents">最少在校生（2024/25）</label>
+        <input type="number" id="minStudents" min="0" step="50" placeholder="不限" data-i18n-placeholder="filters.minStudentsPlaceholder" />
 
-        <button type="button" id="btnReset" style="margin-top:1rem;width:100%">重置筛选</button>
+        <button type="button" id="btnReset" style="margin-top:1rem;width:100%" data-i18n="filters.reset">重置筛选</button>
       </aside>
 
       <main>
         <div class="toolbar">
-          <label style="margin:0">排序</label>
+          <label style="margin:0" data-i18n="toolbar.sort">排序</label>
           <select id="sort">
-            <option value="rating-desc">评级（高→低）</option>
-            <option value="students-desc">在校生数量（多→少）</option>
-            <option value="students-asc">在校生数量（少→多）</option>
-            <option value="fee-asc">学费（低→高）</option>
-            <option value="fee-desc">学费（高→低）</option>
-            <option value="name-asc">校名 A→Z</option>
+            <option value="rating-desc" data-i18n="sort.rating-desc">评级（高→低）</option>
+            <option value="students-desc" data-i18n="sort.students-desc">在校生数量（多→少）</option>
+            <option value="students-asc" data-i18n="sort.students-asc">在校生数量（少→多）</option>
+            <option value="fee-asc" data-i18n="sort.fee-asc">学费（低→高）</option>
+            <option value="fee-desc" data-i18n="sort.fee-desc">学费（高→低）</option>
+            <option value="name-asc" data-i18n="sort.name-asc">校名 A→Z</option>
           </select>
           <span id="resultCount" style="font-size:.82rem;color:var(--muted)"></span>
         </div>
@@ -434,13 +457,13 @@
             <thead>
               <tr>
                 <th></th>
-                <th>学校</th>
-                <th>区域</th>
-                <th>课程体系</th>
-                <th>年级范围</th>
-                <th>DSIB 评级</th>
-                <th>学费区间 AED</th>
-                <th>在校生</th>
+                <th data-i18n="table.school">学校</th>
+                <th data-i18n="table.area">区域</th>
+                <th data-i18n="table.curriculum">课程体系</th>
+                <th data-i18n="table.gradeRange">年级范围</th>
+                <th data-i18n="table.rating">DSIB 评级</th>
+                <th data-i18n="table.fee">学费区间 AED</th>
+                <th data-i18n="table.students">在校生</th>
               </tr>
             </thead>
             <tbody id="tbody"></tbody>
@@ -452,26 +475,31 @@
 
     <section class="faq-section" id="faqSection">
       <div class="faq-header">
-        <h2>家长常见问题</h2>
+        <h2 data-i18n="faq.title">家长常见问题</h2>
         <p class="faq-meta">
-          来源：迪拜教育局（KHDA）
-          · <a id="faqSourceLink" href="#" target="_blank" rel="noopener">官网原文</a>
-          · 更新 <span id="faqUpdated"></span>
+          <span data-i18n="faq.sourcePrefix">来源：迪拜教育局（KHDA）</span>
+          · <a id="faqSourceLink" href="#" target="_blank" rel="noopener" data-i18n="faq.sourceLink">官网原文</a>
+          · <span data-i18n="faq.updatedPrefix">更新</span> <span id="faqUpdated"></span>
         </p>
       </div>
       <div class="faq-toolbar">
-        <input type="search" class="faq-search" id="faqSearch" placeholder="搜索：学费、转校、欺凌…" />
-        <button type="button" id="faqExpandAll">全部展开</button>
-        <button type="button" id="faqCollapseAll">全部收起</button>
+        <input type="search" class="faq-search" id="faqSearch" placeholder="搜索：学费、转校、欺凌…" data-i18n-placeholder="faq.searchPlaceholder" />
+        <button type="button" id="faqExpandAll" data-i18n="faq.expandAll">全部展开</button>
+        <button type="button" id="faqCollapseAll" data-i18n="faq.collapseAll">全部收起</button>
       </div>
       <div class="faq-list" id="faqList"></div>
     </section>
   </div>
 
+  <script src="scripts/site-i18n-core.js"></script>
+  <script src="scripts/i18n-page.js"></script>
   <script>
     const DATA = __SCHOOL_DATA__;
     const FAQ = __FAQ_DATA__;
+    const FAQ_EN_BY_INDEX = window.PAGE_FAQ_EN_BY_INDEX || [];
     const { meta, filters, schools } = DATA;
+    const t = (key, vars, fallback) => (window.SiteI18n ? window.SiteI18n.t(key, vars, fallback) : (fallback ?? key));
+    const isEn = () => window.SiteI18n && window.SiteI18n.getLang() === 'en';
 
     const RATING_ORDER = {
       'Outstanding': 5,
@@ -526,13 +554,14 @@
     function getCurriculumFilterOptions() {
       const options = filters.curricula.filter((c) => !isUkIbCurriculum(c));
       if (filters.curricula.some(isUkIbCurriculum)) options.push(UK_IB_FILTER_KEY);
+      const locale = isEn() ? 'en' : 'zh';
       return options.sort((a, b) =>
-        curriculumFilterLabel(a).localeCompare(curriculumFilterLabel(b), 'zh')
+        curriculumFilterLabel(a).localeCompare(curriculumFilterLabel(b), locale)
       );
     }
 
     function curriculumFilterLabel(key) {
-      if (key === UK_IB_FILTER_KEY) return '英国课程 + 国际文凭（IB）';
+      if (key === UK_IB_FILTER_KEY) return t('filters.ukIb', null, 'UK + International Baccalaureate (IB)');
       return translateCurriculum(key);
     }
 
@@ -542,13 +571,14 @@
 
     function translateCurriculum(name) {
       if (!name) return '—';
+      if (isEn()) return name;
       return CURRICULUM_ZH[name] || name;
     }
 
     function curriculumDisplayHtml(name) {
-      const zh = translateCurriculum(name);
-      if (!name || zh === '—') return '—';
-      return `<div class="curriculum-zh">${zh}</div>`;
+      const text = translateCurriculum(name);
+      if (!name || text === '—') return '—';
+      return `<div class="curriculum-zh">${text}</div>`;
     }
 
     const GRADE_ALIASES = {
@@ -578,27 +608,27 @@
     }
 
     function translateGradeToken(raw) {
-      const t = String(raw || '').trim().toLowerCase().replace(/\s+/g, ' ');
-      if (!t) return '';
-      if (/^ecc/.test(t)) return '幼儿阶段（2-3岁）';
-      if (/pre\s*primary|preprimary|pre\s*kg|pre-kg/.test(t)) return '学前（约3-4岁）';
-      if (/^fs\s*1|^fs1/.test(t)) return '幼儿园小班（约3-4岁）';
-      if (/^fs\s*2|^fs2/.test(t)) return '幼儿园中班（约4-5岁）';
-      if (/^kg\s*1|^kg1/.test(t)) return '幼儿园大班（约4-5岁）';
-      if (/^kg\s*2|^kg2/.test(t)) return '学前班（约5-6岁）';
-      const ym = t.match(/^(?:year|y)\s*(\d+)$/);
+      const x = String(raw || '').trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!x) return '';
+      if (/^ecc/.test(x)) return '幼儿阶段（2-3岁）';
+      if (/pre\s*primary|preprimary|pre\s*kg|pre-kg/.test(x)) return '学前（约3-4岁）';
+      if (/^fs\s*1|^fs1/.test(x)) return '幼儿园小班（约3-4岁）';
+      if (/^fs\s*2|^fs2/.test(x)) return '幼儿园中班（约4-5岁）';
+      if (/^kg\s*1|^kg1/.test(x)) return '幼儿园大班（约4-5岁）';
+      if (/^kg\s*2|^kg2/.test(x)) return '学前班（约5-6岁）';
+      const ym = x.match(/^(?:year|y)\s*(\d+)$/);
       if (ym) {
         const n = Number(ym[1]);
         if (n === 13) return '十三年级（约17-18岁）';
         if (n <= 6) return '小学' + cnGrade(n) + '（约' + (n + 4) + '-' + (n + 5) + '岁）';
         return cnGrade(n) + '（约' + (n + 4) + '-' + (n + 5) + '岁）';
       }
-      const gm = t.match(/^g\s*(\d+)$/);
+      const gm = x.match(/^g\s*(\d+)$/);
       if (gm) {
         const n = Number(gm[1]);
         return cnGrade(n) + '（约' + (n + 5) + '-' + (n + 6) + '岁）';
       }
-      const grm = t.match(/^grade\s*(\d+)$/);
+      const grm = x.match(/^grade\s*(\d+)$/);
       if (grm) {
         const n = Number(grm[1]);
         if (n === 13) return '十三年级（约17-18岁）';
@@ -610,6 +640,7 @@
     function translateGrades(gradesStr) {
       const raw = String(gradesStr || '').trim();
       if (!raw) return { zh: '—', raw: '' };
+      if (isEn()) return { zh: raw, raw: '' };
       const parts = raw.split(/\s*[-–—]\s*/);
       if (parts.length >= 2) {
         const from = translateGradeToken(parts[0]);
@@ -622,7 +653,7 @@
     function gradesCellHtml(gradesStr) {
       const g = translateGrades(gradesStr);
       if (g.zh === '—') return '—';
-      if (g.raw && g.zh !== g.raw) {
+      if (!isEn() && g.raw && g.zh !== g.raw) {
         return `<div class="grades-zh">${g.zh}<small>${g.raw}</small></div>`;
       }
       return `<div class="grades-zh">${g.zh}</div>`;
@@ -631,20 +662,19 @@
     function parseGradeRange(gradesStr) {
       const g = String(gradesStr || '').toLowerCase().replace(/\s+/g, ' ').trim();
       if (!g) return { min: 0, max: 99 };
-      const tokens = [];
       const parts = g.split('-');
-      const mapToken = (t) => {
-        t = t.trim();
-        if (/pre\s*primary|fs\s*1/.test(t)) return 0;
-        if (/kg\s*1|fs\s*2/.test(t)) return 1;
-        if (/kg\s*2|year\s*1(?!\d)/.test(t)) return 2;
-        const ym = t.match(/year\s*(\d+)/);
+      const mapToken = (x) => {
+        x = x.trim();
+        if (/pre\s*primary|fs\s*1/.test(x)) return 0;
+        if (/kg\s*1|fs\s*2/.test(x)) return 1;
+        if (/kg\s*2|year\s*1(?!\d)/.test(x)) return 2;
+        const ym = x.match(/year\s*(\d+)/);
         if (ym) return Number(ym[1]) + 1;
-        const gm = t.match(/g\s*(\d+)/);
+        const gm = x.match(/g\s*(\d+)/);
         if (gm) return Number(gm[1]) + 2;
-        const grm = t.match(/grade\s*(\d+)/);
+        const grm = x.match(/grade\s*(\d+)/);
         if (grm) return Number(grm[1]) + 2;
-        if (/y\s*13/.test(t)) return 15;
+        if (/y\s*13/.test(x)) return 15;
         return null;
       };
       if (parts.length >= 2) {
@@ -685,12 +715,14 @@
     }
 
     function ratingLabel(r) {
-      if (!r) return '暂无';
+      if (!r) return t('rating.none', null, 'Unrated');
       const map = {
-        'Outstanding': 'Outstanding 卓越',
-        'Very good': 'Very good 很好',
-        'Good': 'Good 良好',
-        'Acceptable': 'Acceptable 可接受',
+        'Outstanding': t('rating.outstanding', null, 'Outstanding'),
+        'Very good': t('rating.veryGood', null, 'Very Good'),
+        'Good': t('rating.good', null, 'Good'),
+        'Acceptable': t('rating.acceptable', null, 'Acceptable'),
+        'Weak': t('rating.weak', null, 'Weak'),
+        'Very weak': t('rating.veryWeak', null, 'Very Weak'),
       };
       return map[r] || r;
     }
@@ -705,8 +737,8 @@
       const sel = getSelectedCurricula();
       const el = document.getElementById('curriculumHint');
       el.textContent = sel.length
-        ? `已选 ${sel.length} 种体系`
-        : '未选择 = 全部体系';
+        ? t('filters.curriculumHintSelected', { count: sel.length }, `${sel.length} selected`)
+        : t('filters.curriculumHintAll', null, 'No selection = all curricula');
     }
 
     function escapeAttr(s) {
@@ -731,7 +763,8 @@
     function locationLinkHtml(name) {
       if (!name) return '—';
       const url = areaMapUrl(name);
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="loc-link" title="在 Google 地图中查看 ${escapeAttr(name)}">${escapeAttr(name)}</a>`;
+      const title = t('map.viewInGoogle', { name }, `View ${name} on Google Maps`);
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="loc-link" title="${escapeAttr(title)}">${escapeAttr(name)}</a>`;
     }
 
     function renderTopAreas(sourceList) {
@@ -745,18 +778,20 @@
       const activeLoc = document.getElementById('location').value;
       const el = document.getElementById('topAreas');
       if (!topAreas.length) {
-        el.innerHTML = '<div class="stat"><b>0</b><span>当前筛选下无学校</span></div>';
+        el.innerHTML = `<div class="stat"><b>0</b><span>${t('stats.noSchools', null, 'No schools under current filters')}</span></div>`;
         return;
       }
       el.innerHTML = topAreas.map(([name, count], i) => {
         const active = activeLoc === name ? ' active' : '';
         const mapUrl = areaMapUrl(name);
-        return `<div class="stat stat-area${active}" data-location="${escapeAttr(name)}" title="点击筛选该区域">
-          <span class="stat-rank">第 ${i + 1} 名</span>
+        const rankText = t('area.rank', { rank: i + 1 }, `Rank #${i + 1}`);
+        const mapTitle = t('map.googleTitle', { name }, `Google Maps: ${name}`);
+        return `<div class="stat stat-area${active}" data-location="${escapeAttr(name)}" title="${escapeAttr(t('filters.location', null, 'Area'))}">
+          <span class="stat-rank">${rankText}</span>
           <b>${count}</b>
           <div class="stat-area-name">
-            <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="loc-link" title="Google 地图：${escapeAttr(name)}" onclick="event.stopPropagation()">${escapeAttr(name)}</a>
-            <button type="button" class="map-btn" data-map-location="${escapeAttr(name)}" title="Google 地图">地图</button>
+            <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="loc-link" title="${escapeAttr(mapTitle)}" onclick="event.stopPropagation()">${escapeAttr(name)}</a>
+            <button type="button" class="map-btn" data-map-location="${escapeAttr(name)}" title="${escapeAttr(mapTitle)}">${t('map.button', null, 'Map')}</button>
           </div>
         </div>`;
       }).join('');
@@ -775,24 +810,48 @@
       });
     }
 
-    function initMeta() {
-      document.getElementById('metaYear').textContent = meta.academicYear;
-      document.getElementById('metaTotal').textContent = meta.totalSchools;
-      document.getElementById('metaDate').textContent = meta.extractedAt;
-      document.getElementById('sourceNote').textContent = meta.note + ' 官方目录：' + meta.sourceUrl;
+    function updateHeaderMetaText() {
+      document.getElementById('metaTotalText').innerHTML = t(
+        'header.totalSchools',
+        { count: `<span id="metaTotal">${meta.totalSchools}</span>` },
+        `Total <span id="metaTotal">${meta.totalSchools}</span> schools`
+      );
+      document.getElementById('metaDateText').innerHTML = t(
+        'header.updatedAt',
+        { date: `<span id="metaDate">${meta.extractedAt}</span>` },
+        `Updated: <span id="metaDate">${meta.extractedAt}</span>`
+      );
+    }
 
+    function renderCurriculumOptions() {
+      const selected = new Set(getSelectedCurricula());
       const box = document.getElementById('curriculumBox');
+      box.innerHTML = '';
       getCurriculumFilterOptions().forEach((c) => {
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'checkbox';
         input.value = c;
+        input.checked = selected.has(c);
         label.appendChild(input);
         const text = document.createElement('span');
         text.innerHTML = `<div class="curriculum-zh">${curriculumFilterLabel(c)}</div>`;
         label.appendChild(text);
         box.appendChild(label);
       });
+    }
+
+    function initMeta() {
+      document.getElementById('metaYear').textContent = meta.academicYear;
+      updateHeaderMetaText();
+      document.getElementById('sourceNote').textContent = t(
+        'meta.sourceNote',
+        { note: meta.note, url: meta.sourceUrl },
+        `${meta.note} Official directory: ${meta.sourceUrl}`
+      );
+
+      const box = document.getElementById('curriculumBox');
+      renderCurriculumOptions();
       box.addEventListener('change', () => {
         updateCurriculumHint();
         renderTable();
@@ -886,16 +945,17 @@
     function renderStats(list) {
       const byRating = {};
       list.forEach((s) => {
-        const k = s.rating || '暂无';
+        const k = s.rating || '__none__';
         byRating[k] = (byRating[k] || 0) + 1;
       });
       const el = document.getElementById('stats');
       el.innerHTML = `
-        <div class="stat"><b>${list.length}</b><span>符合筛选</span></div>
-        <div class="stat"><b>${byRating['Outstanding'] || 0}</b><span>Outstanding</span></div>
-        <div class="stat"><b>${byRating['Very good'] || 0}</b><span>Very good</span></div>
-        <div class="stat"><b>${byRating['Good'] || 0}</b><span>Good</span></div>
-        <div class="stat"><b>${byRating['Acceptable'] || 0}</b><span>Acceptable</span></div>
+        <div class="stat"><b>${list.length}</b><span>${t('stats.matching', null, 'Matching schools')}</span></div>
+        <div class="stat"><b>${byRating['Outstanding'] || 0}</b><span>${ratingLabel('Outstanding')}</span></div>
+        <div class="stat"><b>${byRating['Very good'] || 0}</b><span>${ratingLabel('Very good')}</span></div>
+        <div class="stat"><b>${byRating['Good'] || 0}</b><span>${ratingLabel('Good')}</span></div>
+        <div class="stat"><b>${byRating['Acceptable'] || 0}</b><span>${ratingLabel('Acceptable')}</span></div>
+        <div class="stat"><b>${byRating['__none__'] || 0}</b><span>${ratingLabel('')}</span></div>
       `;
     }
 
@@ -912,7 +972,7 @@
         compareIds.splice(idx, 1);
       } else {
         if (compareIds.length >= 4) {
-          alert('最多对比 4 所学校（与 KHDA 官网规则一致）');
+          alert(t('compare.maxAlert', null, 'You can compare up to 4 schools.'));
           return;
         }
         compareIds.push(id);
@@ -932,7 +992,7 @@
       bar.classList.add('visible');
       items.innerHTML = compareIds.map((id) => {
         const s = schools.find((x) => x.id === id);
-        return `<span class="chip">${s.name}<button type="button" data-rm="${id}" title="移除">×</button></span>`;
+        return `<span class="chip">${s.name}<button type="button" data-rm="${id}" title="${escapeAttr(t('compare.remove', null, 'Remove'))}">×</button></span>`;
       }).join('');
       items.querySelectorAll('button[data-rm]').forEach((btn) => {
         btn.onclick = () => toggleCompare(Number(btn.dataset.rm));
@@ -943,16 +1003,16 @@
       const selected = compareIds.map((id) => schools.find((s) => s.id === id)).filter(Boolean);
       if (!selected.length) return;
       const rows = [
-        ['学校', ...selected.map((s) => s.name)],
-        ['区域', ...selected.map((s) => s.location)],
-        ['课程体系', ...selected.map((s) => translateCurriculum(s.curriculum))],
-        ['年级', ...selected.map((s) => translateGrades(s.grades).zh)],
-        ['DSIB 评级', ...selected.map((s) => ratingLabel(s.rating))],
-        ['学费 AED', ...selected.map((s) => formatFeeRange(s))],
-        ['在校生', ...selected.map((s) => s.students ?? '—')],
-        ['建校', ...selected.map((s) => s.established ?? '—')],
-        ['电话', ...selected.map((s) => s.phone || '—')],
-        ['网站', ...selected.map((s) => s.website ? `<a href="${websiteHref(s.website)}" target="_blank" rel="noopener">${s.website}</a>` : '—')],
+        [t('compare.row.school', null, 'School'), ...selected.map((s) => s.name)],
+        [t('compare.row.area', null, 'Area'), ...selected.map((s) => s.location)],
+        [t('compare.row.curriculum', null, 'Curriculum'), ...selected.map((s) => translateCurriculum(s.curriculum))],
+        [t('compare.row.grade', null, 'Grades'), ...selected.map((s) => translateGrades(s.grades).zh)],
+        [t('compare.row.rating', null, 'DSIB rating'), ...selected.map((s) => ratingLabel(s.rating))],
+        [t('compare.row.fee', null, 'Tuition AED'), ...selected.map((s) => formatFeeRange(s))],
+        [t('compare.row.students', null, 'Students'), ...selected.map((s) => s.students ?? '—')],
+        [t('compare.row.established', null, 'Established'), ...selected.map((s) => s.established ?? '—')],
+        [t('compare.row.phone', null, 'Phone'), ...selected.map((s) => s.phone || '—')],
+        [t('compare.row.website', null, 'Website'), ...selected.map((s) => s.website ? `<a href="${websiteHref(s.website)}" target="_blank" rel="noopener">${s.website}</a>` : '—')],
       ];
       document.getElementById('compareTable').innerHTML = `
         <table><tbody>
@@ -964,17 +1024,17 @@
       renderTopAreas(filterSchools({ skipLocation: true }));
       const list = filterSchools();
       renderStats(list);
-      document.getElementById('resultCount').textContent = `显示 ${list.length} 所`;
+      document.getElementById('resultCount').textContent = t('result.count', { count: list.length }, `Showing ${list.length}`);
       const tbody = document.getElementById('tbody');
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty">没有符合条件的学校，请放宽筛选</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="8" class="empty">${t('empty.noSchools', null, 'No schools match your filters.')}</td></tr>`;
         return;
       }
       tbody.innerHTML = list.map((s) => {
         const inCompare = compareIds.includes(s.id);
         const star = inCompare ? '★' : '☆';
         return `<tr>
-          <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="加入对比">${star}</button></td>
+          <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="${escapeAttr(t('compare.add', null, 'Add to compare'))}">${star}</button></td>
           <td><div class="school-name">${s.name}${s.nameAr ? `<small>${s.nameAr}</small>` : ''}</div></td>
           <td>${locationLinkHtml(s.location)}</td>
           <td>${curriculumDisplayHtml(s.curriculum)}</td>
@@ -987,6 +1047,17 @@
       tbody.querySelectorAll('button[data-cmp]').forEach((btn) => {
         btn.onclick = () => toggleCompare(Number(btn.dataset.cmp));
       });
+    }
+
+    function getFaqLocalized(item, index) {
+      if (isEn()) {
+        const mapped = FAQ_EN_BY_INDEX[index] || {};
+        return {
+          q: item.qEn || mapped.qEn || item.qZh,
+          a: item.aEn || mapped.aEn || item.aZh,
+        };
+      }
+      return { q: item.qZh, a: item.aZh };
     }
 
     function bindEvents() {
@@ -1023,23 +1094,26 @@
     function renderFaq(filterText) {
       const q = (filterText || '').trim().toLowerCase();
       const list = document.getElementById('faqList');
-      const items = FAQ.items.filter((item) => {
+      const items = FAQ.items.filter((item, index) => {
         if (!q) return true;
-        const hay = (item.qZh + ' ' + item.aZh).toLowerCase();
+        const localized = getFaqLocalized(item, index);
+        const hay = `${item.qZh || ''} ${item.aZh || ''} ${localized.q || ''} ${localized.a || ''}`.toLowerCase();
         return hay.includes(q);
       });
       if (!items.length) {
-        list.innerHTML = '<div class="faq-empty">没有匹配的问题</div>';
+        list.innerHTML = `<div class="faq-empty">${t('faq.empty', null, 'No matching questions')}</div>`;
         return;
       }
       list.innerHTML = items.map((item) => {
+        const originalIndex = FAQ.items.indexOf(item);
+        const localized = getFaqLocalized(item, originalIndex);
         const links = (item.links || []).map((l) =>
           `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
         ).join('');
         return `<div class="faq-item" data-id="${item.id}">
-          <button type="button" class="faq-q" aria-expanded="false">${item.qZh}</button>
+          <button type="button" class="faq-q" aria-expanded="false">${localized.q}</button>
           <div class="faq-a">
-            <p>${item.aZh}</p>
+            <p>${localized.a}</p>
             ${links ? `<div class="faq-links">${links}</div>` : ''}
           </div>
         </div>`;
@@ -1075,6 +1149,20 @@
       };
     }
 
+    window.addEventListener('site-lang-change', () => {
+      updateHeaderMetaText();
+      document.getElementById('sourceNote').textContent = t(
+        'meta.sourceNote',
+        { note: meta.note, url: meta.sourceUrl },
+        `${meta.note} Official directory: ${meta.sourceUrl}`
+      );
+      renderCurriculumOptions();
+      updateCurriculumHint();
+      renderCompareBar();
+      renderTable();
+      renderFaq(document.getElementById('faqSearch').value);
+    });
+
     try {
       initMeta();
       initFaq();
@@ -1083,7 +1171,7 @@
     } catch (err) {
       console.error(err);
       document.getElementById('tbody').innerHTML =
-        '<tr><td colspan="8" class="empty">页面加载出错，请刷新或重新生成 HTML 文件</td></tr>';
+        `<tr><td colspan="8" class="empty">${t('empty.loadError', null, 'Page failed to load. Please refresh or rebuild the HTML file.')}</td></tr>`;
     }
   </script>
 </body>
