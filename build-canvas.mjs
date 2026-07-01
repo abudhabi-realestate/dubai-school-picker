@@ -244,7 +244,7 @@ export default function DubaiSchoolPicker() {
           />
           {list.length > 80 && (
             <Text tone="muted" size="sm" style={{ padding: 12 }}>
-              显示前 80 条。完整功能请打开 0625/迪拜教育/迪拜选校助手.html
+              显示前 80 条。完整功能请打开 dubai-school-picker/index.html
             </Text>
           )}
         </CardBody>
