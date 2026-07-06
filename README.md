@@ -2,7 +2,7 @@
 
 基于 [KHDA 官方开放数据](https://web.khda.gov.ae/en/Education-Directory/schools)（2024-25 学年）的离线选校工具，支持筛选、排序、对比与家长 FAQ。
 
-**在线访问：** https://SobhaZanYan.github.io/dubai-school-picker/
+**在线访问：** https://abudhabi-realestate.github.io/dubai-school-picker/
 
 ## 本地使用
 
@@ -11,6 +11,7 @@
 ## 更新数据后重新生成
 
 ```bash
+npm install                # 首次运行，安装 xlsx 依赖
 node extract-schools.mjs   # 从 KHDA xlsx 提取 schools-data.json
 node build-html.mjs        # 生成 迪拜选校助手.html 与 index.html
 ```
@@ -22,7 +23,7 @@ node build-html.mjs        # 生成 迪拜选校助手.html 与 index.html
 3. 仓库 **Settings → Pages → Build and deployment**
    - Source：**Deploy from a branch**
    - Branch：`main`，文件夹 **`/ (root)`**
-4. 保存后等待 1～2 分钟，访问 `https://SobhaZanYan.github.io/<仓库名>/`
+4. 保存后等待 1～2 分钟，访问 `https://abudhabi-realestate.github.io/<仓库名>/`
 
 ## 数据来源
 
