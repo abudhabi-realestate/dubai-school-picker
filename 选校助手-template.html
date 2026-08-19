@@ -199,7 +199,28 @@
     .rating-Weak, .rating-Very-weak { background: #fbe9e7; color: var(--weak); }
     .rating-none { background: #f5f5f5; color: var(--none); }
     .school-name { font-weight: 600; }
+    .school-name a.school-khda-name {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(13, 92, 99, .35);
+    }
+    .school-name a.school-khda-name:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    .school-name .khda-link {
+      display: inline-block;
+      margin-left: .35rem;
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(13, 92, 99, .35);
+      border-radius: 4px;
+      padding: 0 .32rem;
+      line-height: 1.4;
+      vertical-align: middle;
+    }
+    .school-name .khda-link:hover { background: var(--accent); color: #fff; }
     .school-name small { display: block; font-weight: 400; color: var(--muted); font-size: .72rem; }
+    .rating-year { display: block; font-size: .65rem; color: var(--muted); margin-top: .15rem; font-weight: 400; }
     .fee { font-variant-numeric: tabular-nums; }
     .grades-zh { line-height: 1.45; }
     .grades-zh small { display: block; color: var(--muted); font-size: .68rem; margin-top: .1rem; }
@@ -522,28 +543,38 @@
       'Indian/IB': '印度课程 + 国际文凭（IB）',
       'International Baccalaureate': '国际文凭（IB）',
       'International Baccalaureate (13Y)': '国际文凭（IB，13年制）',
+      'IB (13 Y)': '国际文凭（IB，13年制）',
       'Iranian': '伊朗课程',
       'Iranian - International Baccalaureate': '伊朗课程 + 国际文凭（IB）',
       'Japanese': '日本课程',
       'Ministry of Education': '阿联酋教育部课程',
       'Ministry of Education - American': '阿联酋教育部 + 美国课程',
       'Ministry of Education/BTEC': '阿联酋教育部 + BTEC',
+      'Ministry of Education / BTEC': '阿联酋教育部 + BTEC',
       'Pakistani': '巴基斯坦课程',
       'Philippine': '菲律宾课程',
       'Russian': '俄罗斯课程',
       'SABIS (UK/US)': 'SABIS 课程（英/美）',
       'UK': '英国课程',
+      'UK*': '英国课程',
       'UK (12 Y - Grades)': '英国课程（12年制）',
+      'UK (13 Y)': '英国课程（13年制）',
       'UK - International Baccalaureate': '英国课程 + 国际文凭（IB）',
       'UK - UK/IB': '英国课程 + 国际文凭（IB）',
       'UK/IB': '英国课程 + 国际文凭（IB）',
+      'UK/IB (12 Y)': '英国课程 + 国际文凭（IB，12年制）',
+      'UK/IB (13 Y)': '英国课程 + 国际文凭（IB，13年制）',
+      'UK/BTEC': '英国课程 + BTEC',
       'US/IB': '美国课程 + 国际文凭（IB）',
+      'Other': '其他',
     };
 
     const UK_IB_CURRICULA = [
       'UK - International Baccalaureate',
       'UK - UK/IB',
       'UK/IB',
+      'UK/IB (12 Y)',
+      'UK/IB (13 Y)',
     ];
     const UK_IB_FILTER_KEY = '__UK_IB__';
 
@@ -569,6 +600,10 @@
       return selected.flatMap((v) => (v === UK_IB_FILTER_KEY ? UK_IB_CURRICULA : [v]));
     }
 
+    function splitCurriculum(name) {
+      return String(name || '').split(',').map((x) => x.trim()).filter(Boolean);
+    }
+
     function translateCurriculum(name) {
       if (!name) return '—';
       if (isEn()) return name;
@@ -576,9 +611,9 @@
     }
 
     function curriculumDisplayHtml(name) {
-      const text = translateCurriculum(name);
-      if (!name || text === '—') return '—';
-      return `<div class="curriculum-zh">${text}</div>`;
+      const parts = splitCurriculum(name);
+      if (!parts.length) return '—';
+      return `<div class="curriculum-zh">${parts.map((p) => translateCurriculum(p)).join(' · ')}</div>`;
     }
 
     const GRADE_ALIASES = {
@@ -641,13 +676,15 @@
       const raw = String(gradesStr || '').trim();
       if (!raw) return { zh: '—', raw: '' };
       if (isEn()) return { zh: raw, raw: '' };
-      const parts = raw.split(/\s*[-–—]\s*/);
-      if (parts.length >= 2) {
-        const from = translateGradeToken(parts[0]);
-        const to = translateGradeToken(parts[parts.length - 1]);
-        return { zh: from + ' 至 ' + to, raw };
-      }
-      return { zh: translateGradeToken(raw), raw };
+      const ranges = raw.split(',').map((x) => x.trim()).filter(Boolean);
+      const zh = ranges.map((range) => {
+        const parts = range.split(/\s+[–—-]\s+/);
+        if (parts.length >= 2) {
+          return translateGradeToken(parts[0]) + ' 至 ' + translateGradeToken(parts[parts.length - 1]);
+        }
+        return translateGradeToken(range);
+      }).join(' · ');
+      return { zh, raw };
     }
 
     function gradesCellHtml(gradesStr) {
@@ -659,13 +696,13 @@
       return `<div class="grades-zh">${g.zh}</div>`;
     }
 
-    function parseGradeRange(gradesStr) {
+    function parseOneGradeRange(gradesStr) {
       const g = String(gradesStr || '').toLowerCase().replace(/\s+/g, ' ').trim();
       if (!g) return { min: 0, max: 99 };
-      const parts = g.split('-');
+      const parts = g.split(/\s+[-–—]\s+/);
       const mapToken = (x) => {
         x = x.trim();
-        if (/pre\s*primary|fs\s*1/.test(x)) return 0;
+        if (/ecc/.test(x) || /pre\s*primary|fs\s*1/.test(x)) return 0;
         if (/kg\s*1|fs\s*2/.test(x)) return 1;
         if (/kg\s*2|year\s*1(?!\d)/.test(x)) return 2;
         const ym = x.match(/year\s*(\d+)/);
@@ -683,6 +720,15 @@
         if (a != null && b != null) return { min: Math.min(a, b), max: Math.max(a, b) };
       }
       return { min: 0, max: 99 };
+    }
+
+    function parseGradeRange(gradesStr) {
+      const ranges = String(gradesStr || '').split(',').map((x) => parseOneGradeRange(x)).filter(Boolean);
+      if (!ranges.length) return { min: 0, max: 99 };
+      return {
+        min: Math.min(...ranges.map((r) => r.min)),
+        max: Math.max(...ranges.map((r) => r.max)),
+      };
     }
 
     function targetGradeIndex(gradeKey) {
@@ -715,7 +761,7 @@
     }
 
     function ratingLabel(r) {
-      if (!r) return t('rating.none', null, 'Unrated');
+      if (!r || /not inspected/i.test(r)) return t('rating.none', null, 'Unrated');
       const map = {
         'Outstanding': t('rating.outstanding', null, 'Outstanding'),
         'Very good': t('rating.veryGood', null, 'Very Good'),
@@ -741,12 +787,37 @@
         : t('filters.curriculumHintAll', null, 'No selection = all curricula');
     }
 
+    function escapeHtml(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
     function escapeAttr(s) {
       return String(s ?? '')
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
         .replace(/</g, '&lt;');
+    }
+
+    function khdaHref(s) {
+      if (s.khdaUrl) return s.khdaUrl;
+      if (s.centerId && s.id) {
+        return `https://web.khda.gov.ae/en/Education-Directory/Schools/School-Details?Id=${s.id}&CenterID=${s.centerId}`;
+      }
+      return meta.sourceUrl || 'https://web.khda.gov.ae/en/Education-Directory/schools';
+    }
+
+    function schoolNameHtml(s) {
+      const url = khdaHref(s);
+      const khdaLabel = t('table.khda', null, 'KHDA');
+      return `<div class="school-name">
+        <a class="school-khda-name" href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.name)}</a>
+        <a class="khda-link" href="${url}" target="_blank" rel="noopener noreferrer" title="${escapeAttr(t('table.khdaTitle', { name: s.name }, `Open ${s.name} on KHDA`))}">${khdaLabel}</a>
+        ${s.nameAr ? `<small>${escapeHtml(s.nameAr)}</small>` : ''}
+      </div>`;
     }
 
     function areaMapUrl(locationName) {
@@ -908,13 +979,17 @@
       const f = getFilters();
       let list = schools.filter((s) => {
         if (f.q) {
-          const hay = (s.name + ' ' + s.nameAr + ' ' + s.location + ' ' + translateCurriculum(s.curriculum)).toLowerCase();
+          const hay = (s.name + ' ' + s.nameAr + ' ' + s.location + ' ' + splitCurriculum(s.curriculum).map(translateCurriculum).join(' ')).toLowerCase();
           if (!hay.includes(f.q)) return false;
         }
-        if (f.curricula.length && !expandCurriculumFilter(f.curricula).includes(s.curriculum)) return false;
+        if (f.curricula.length) {
+          const wanted = expandCurriculumFilter(f.curricula);
+          const have = splitCurriculum(s.curriculum);
+          if (!have.some((c) => wanted.includes(c))) return false;
+        }
         if (!skipLocation && f.location && s.location !== f.location) return false;
         if (f.rating === '__none__') {
-          if (s.rating) return false;
+          if (s.rating && !/not inspected/i.test(s.rating)) return false;
         } else if (f.rating && s.rating !== f.rating) return false;
         if (!schoolCoversGrade(s, f.childGrade)) return false;
         if (s.feeMax != null && s.feeMax > f.feeMax) return false;
@@ -945,7 +1020,7 @@
     function renderStats(list) {
       const byRating = {};
       list.forEach((s) => {
-        const k = s.rating || '__none__';
+        const k = (!s.rating || /not inspected/i.test(s.rating)) ? '__none__' : s.rating;
         byRating[k] = (byRating[k] || 0) + 1;
       });
       const el = document.getElementById('stats');
@@ -1003,16 +1078,17 @@
       const selected = compareIds.map((id) => schools.find((s) => s.id === id)).filter(Boolean);
       if (!selected.length) return;
       const rows = [
-        [t('compare.row.school', null, 'School'), ...selected.map((s) => s.name)],
+        [t('compare.row.school', null, 'School'), ...selected.map((s) => `<a href="${khdaHref(s)}" target="_blank" rel="noopener">${escapeHtml(s.name)}</a>`)],
         [t('compare.row.area', null, 'Area'), ...selected.map((s) => s.location)],
-        [t('compare.row.curriculum', null, 'Curriculum'), ...selected.map((s) => translateCurriculum(s.curriculum))],
+        [t('compare.row.curriculum', null, 'Curriculum'), ...selected.map((s) => splitCurriculum(s.curriculum).map(translateCurriculum).join(' · '))],
         [t('compare.row.grade', null, 'Grades'), ...selected.map((s) => translateGrades(s.grades).zh)],
-        [t('compare.row.rating', null, 'DSIB rating'), ...selected.map((s) => ratingLabel(s.rating))],
+        [t('compare.row.rating', null, 'DSIB rating'), ...selected.map((s) => `${ratingLabel(s.rating)}${s.ratingYear ? ` (${s.ratingYear})` : ''}`)],
         [t('compare.row.fee', null, 'Tuition AED'), ...selected.map((s) => formatFeeRange(s))],
         [t('compare.row.students', null, 'Students'), ...selected.map((s) => s.students ?? '—')],
         [t('compare.row.established', null, 'Established'), ...selected.map((s) => s.established ?? '—')],
         [t('compare.row.phone', null, 'Phone'), ...selected.map((s) => s.phone || '—')],
         [t('compare.row.website', null, 'Website'), ...selected.map((s) => s.website ? `<a href="${websiteHref(s.website)}" target="_blank" rel="noopener">${s.website}</a>` : '—')],
+        [t('compare.row.khda', null, 'KHDA'), ...selected.map((s) => `<a href="${khdaHref(s)}" target="_blank" rel="noopener">${t('table.khda', null, 'KHDA')}</a>`)],
       ];
       document.getElementById('compareTable').innerHTML = `
         <table><tbody>
@@ -1035,11 +1111,11 @@
         const star = inCompare ? '★' : '☆';
         return `<tr>
           <td><button type="button" class="star ${inCompare ? '' : 'off'}" data-cmp="${s.id}" title="${escapeAttr(t('compare.add', null, 'Add to compare'))}">${star}</button></td>
-          <td><div class="school-name">${s.name}${s.nameAr ? `<small>${s.nameAr}</small>` : ''}</div></td>
+          <td>${schoolNameHtml(s)}</td>
           <td>${locationLinkHtml(s.location)}</td>
           <td>${curriculumDisplayHtml(s.curriculum)}</td>
           <td>${gradesCellHtml(s.grades)}</td>
-          <td><span class="rating ${ratingClass(s.rating)}">${ratingLabel(s.rating)}</span></td>
+          <td><span class="rating ${ratingClass(s.rating)}">${ratingLabel(s.rating)}</span>${s.ratingYear ? `<span class="rating-year">${s.ratingYear}</span>` : ''}</td>
           <td class="fee">${formatFeeRange(s)}</td>
           <td>${s.students != null ? s.students.toLocaleString() : '—'}</td>
         </tr>`;

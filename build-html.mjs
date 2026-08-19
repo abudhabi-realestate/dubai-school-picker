@@ -16,6 +16,7 @@ const slim = {
     curriculum: s.curriculum,
     grades: s.grades,
     rating: s.rating,
+    ratingYear: s.ratingYear,
     rating2022: s.rating2022,
     students: s.students,
     phone: s.phone,
@@ -26,6 +27,8 @@ const slim = {
     feeMax: s.feeMax,
     lat: s.lat,
     lng: s.lng,
+    khdaUrl: s.khdaUrl,
+    centerId: s.centerId,
   })),
 };
 
